@@ -23,6 +23,8 @@ namespace Test
             var households = await client.GetHouseholds();
 
             var tonies = await client.GetCreativeTonies(households[0].Id);
+
+            var boxes = await client.GetTonieboxes(households[0].Id);
         }
     }
 }
