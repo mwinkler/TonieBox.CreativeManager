@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.IO;
 using System.Threading.Tasks;
 using ToniBox.Client;
 
@@ -25,6 +26,12 @@ namespace Test
             var tonies = await client.GetCreativeTonies(households[0].Id);
 
             var boxes = await client.GetTonieboxes(households[0].Id);
+        }
+
+        [Test]
+        public async Task UploadFile()
+        {
+            await client.UploadFile(File.OpenRead("TestData/1.m4a"));
         }
     }
 }

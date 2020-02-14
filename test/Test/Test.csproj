@@ -17,4 +17,10 @@
     <ProjectReference Include="..\..\src\TonieBox.Client\TonieBox.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Testdata\1.m4a">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -1,16 +1,21 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using TonieBox.Client;
 
 namespace ToniBox.Client
 {
     public class TonieboxClient
     {
+        private const string TONIE_API_URL = "https://api.tonie.cloud";
+        private const string AMAZON_UPLOAD_URL = "https://bxn-toniecloud-prod-upload.s3.amazonaws.com";
         private readonly Login login;
         private readonly HttpClient client;
         private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
@@ -21,7 +26,7 @@ namespace ToniBox.Client
 
             client = new HttpClient
             {
-                BaseAddress = new Uri("https://api.tonie.cloud"),
+                BaseAddress = new Uri(TONIE_API_URL),
             };
         }
 
@@ -30,6 +35,32 @@ namespace ToniBox.Client
         public Task<CreativeTonie[]> GetCreativeTonies(string householdId) => Get<CreativeTonie[]>($"/v2/households/{householdId}/creativetonies");
 
         public Task<Toniebox[]> GetTonieboxes(string householdId) => Get<Toniebox[]>($"/v2/households/{householdId}/tonieboxes");
+
+        public async Task<AmazonToken> UploadFile(Stream file)
+        {
+            // get upload token
+            var amazonFile = await Post<AmazonToken>("/v2/file", new ByteArrayContent(new byte[] { }));
+
+            // create payload
+            var payload = new MultipartContent("form-data");
+            payload.AddFormContent("key", amazonFile.Request.Fields.Key);
+            payload.AddFormContent("x-amz-algorithm", amazonFile.Request.Fields.AmazonAlgorithm);
+            payload.AddFormContent("x-amz-credential", amazonFile.Request.Fields.AmazonCredential);
+            payload.AddFormContent("x-amz-date", amazonFile.Request.Fields.AmazonDate);
+            payload.AddFormContent("policy", amazonFile.Request.Fields.Policy);
+            payload.AddFormContent("x-amz-signature", amazonFile.Request.Fields.AmazonSignature);
+            payload.AddStreamContent("file", amazonFile.FileId, file, "application/octet-stream");
+
+            // upload to S3
+            var response = await new HttpClient().PostAsync(AMAZON_UPLOAD_URL, payload);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Error while upload to Amazon S3");
+            }
+
+            return amazonFile;
+        }
 
         private async Task UpdateJwtToken()
         {
@@ -40,26 +71,30 @@ namespace ToniBox.Client
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Jwt);
         }
 
-        private async Task<T> Get<T>(string path)
+        private Task<T> Get<T>(string path) => ExecuteRequest<T>(() => client.GetAsync(path));
+        
+        private Task<T> Post<T>(string path, HttpContent content) => ExecuteRequest<T>(() => client.PostAsync(path, content));
+
+        private async Task<T> ExecuteRequest<T>(Func<Task<HttpResponseMessage>> action)
         {
             if (client.DefaultRequestHeaders.Authorization == null)
             {
                 await UpdateJwtToken();
             }
 
-            var response = await client.GetAsync(path);
+            var response = await action.Invoke();
 
-            // try refresh jwt token
+            // refresh jwt token in case of 401
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 await UpdateJwtToken();
 
-                response = await client.GetAsync(path);
+                response = await action.Invoke();
             }
 
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"GET request '{path}' failed with {response.StatusCode}");
+                throw new Exception($"Request failed with {response.StatusCode}");
             }
 
             return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
