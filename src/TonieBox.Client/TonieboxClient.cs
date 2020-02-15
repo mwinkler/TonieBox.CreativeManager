@@ -62,6 +62,17 @@ namespace ToniBox.Client
             return amazonFile;
         }
 
+        public Task PatchCreativeTonie(string householdId, string creativeTonieId, string name, IEnumerable<Chapter> chapters)
+        {
+            var payload = new 
+            { 
+                chapters = chapters,
+                name = name
+            };
+
+            return Patch($"/v2/households/{householdId}/creativetonies/{creativeTonieId}", payload);
+        }
+
         private async Task UpdateJwtToken()
         {
             var response = await client.PostAsync("/v2/sessions", new StringContent(JsonConvert.SerializeObject(login, jsonSettings) , Encoding.UTF8, "application/json"));
@@ -74,6 +85,13 @@ namespace ToniBox.Client
         private Task<T> Get<T>(string path) => ExecuteRequest<T>(() => client.GetAsync(path));
         
         private Task<T> Post<T>(string path, HttpContent content) => ExecuteRequest<T>(() => client.PostAsync(path, content));
+
+        private Task Patch(string path, object content)
+        {
+            var payload = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+
+            return ExecuteRequest<object>(() => client.PatchAsync(path, payload));
+        }
 
         private async Task<T> ExecuteRequest<T>(Func<Task<HttpResponseMessage>> action)
         {
