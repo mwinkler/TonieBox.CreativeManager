@@ -18,7 +18,13 @@ namespace TonieBox.Client
 
         public async Task UploadFilesToCreateiveTonie(CreativeTonieUploadRequest request)
         {
+            // upload files
+            async Task uploadFile(CreativeTonieUploadRequest.Entry entry)
+            {
+                var fileToken = await client.UploadFile(entry.File);
+            }
 
+            //Parallel.ForEach(request.Entries
         }
     }
 }
