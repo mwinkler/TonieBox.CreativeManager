@@ -30,7 +30,6 @@ namespace TonieBox.Ui
 
             services.AddSingleton(new Login { Email = Configuration["MYTONIE_LOGIN"], Password = Configuration["MYTONIE_PASSWORD"] });
             services.AddSingleton<TonieboxClient>();
-            services.AddSingleton<TonieboxService>();
             services.AddSingleton<FileService>();
         }
 

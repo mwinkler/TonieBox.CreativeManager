@@ -6,13 +6,24 @@
 }
 else
 {
-    @if (Selected != null)
+    @if (Tonies == null)
     {
-        <button @onclick="ParentClick">Back</button>
+        @if (Selected != null)
+        {
+            <button @onclick="ParentClick">Back</button>
+        }
+
+        foreach (var directory in Directories)
+        {
+            <Folder Data="directory" OnClick="() => FolderClick(directory)" />
+        }
+    }
+    else
+    {
+        @foreach (var tonie in Tonies)
+        {
+            <img src="@tonie.ImageUrl" />
+        }
     }
 
-    foreach (var directory in Directories)
-    {
-        <Folder Data="directory" OnClick="() => FolderClick(directory)" />
-    }
 }
