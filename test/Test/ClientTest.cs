@@ -1,7 +1,10 @@
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ToniBox.Client;
+using TonieBox.Client;
 
 namespace Test
 {
@@ -20,7 +23,6 @@ namespace Test
         [Test]
         public async Task GetCreativeTonies()
         {
-
             var households = await client.GetHouseholds();
 
             var tonies = await client.GetCreativeTonies(households[0].Id);
@@ -31,7 +33,27 @@ namespace Test
         [Test]
         public async Task UploadFile()
         {
-            await client.UploadFile(File.OpenRead("TestData/1.m4a"));
+            var households = await client.GetHouseholds();
+            var tonies = await client.GetCreativeTonies(households[0].Id);
+
+            var tonie = tonies.First(t => t.Name == "Test");
+
+            var uploadRequest = new UploadFilesToCreateiveTonieRequest
+            {
+                CreativeTonieId = tonie.Id,
+                HouseholdId = households[0].Id,
+                TonieName = "Test 2",
+                Entries = new[]
+                {
+                    new UploadFilesToCreateiveTonieRequest.Entry
+                    {
+                        File = File.OpenRead("TestData/1.m4a"),
+                        Name = "Kapitel 1"
+                    }
+                }
+            };
+            
+            var response =  await client.UploadFilesToCreateiveTonie(uploadRequest);
         }
     }
 }

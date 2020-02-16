@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TonieBox.Client\TonieBox.Client.csproj" />
+    <ProjectReference Include="..\..\src\TonieBox.Service\TonieBox.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -62,7 +63,7 @@ namespace ToniBox.Client
             return amazonFile;
         }
 
-        public Task PatchCreativeTonie(string householdId, string creativeTonieId, string name, IEnumerable<Chapter> chapters)
+        public Task<CreativeTonie> PatchCreativeTonie(string householdId, string creativeTonieId, string name, IEnumerable<Chapter> chapters)
         {
             var payload = new 
             { 
@@ -70,7 +71,33 @@ namespace ToniBox.Client
                 name = name
             };
 
-            return Patch($"/v2/households/{householdId}/creativetonies/{creativeTonieId}", payload);
+            return Patch<CreativeTonie>($"/v2/households/{householdId}/creativetonies/{creativeTonieId}", payload);
+        }
+
+        public async Task<CreativeTonie> UploadFilesToCreateiveTonie(UploadFilesToCreateiveTonieRequest request)
+        {
+            // upload files
+            async Task uploadFile(UploadFilesToCreateiveTonieRequest.Entry entry)
+            {
+                var fileToken = await UploadFile(entry.File);
+
+                entry.FileId = fileToken.FileId;
+            }
+
+            // execute uploads
+            await Task.WhenAll(request.Entries.Select(uploadFile).ToArray());
+
+            var chapters = request.Entries
+                .Select(entry => new Chapter
+                {
+                    File = entry.FileId,
+                    Id = entry.FileId,
+                    Title = entry.Name
+                })
+                .ToArray();
+
+            // patch creative tonies
+            return await PatchCreativeTonie(request.HouseholdId, request.CreativeTonieId, request.TonieName, chapters);
         }
 
         private async Task UpdateJwtToken()
@@ -86,11 +113,11 @@ namespace ToniBox.Client
         
         private Task<T> Post<T>(string path, HttpContent content) => ExecuteRequest<T>(() => client.PostAsync(path, content));
 
-        private Task Patch(string path, object content)
+        private Task<T> Patch<T>(string path, object content)
         {
-            var payload = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+            var payload = new StringContent(JsonConvert.SerializeObject(content, jsonSettings), Encoding.UTF8, "application/json");
 
-            return ExecuteRequest<object>(() => client.PatchAsync(path, payload));
+            return ExecuteRequest<T>(() => client.PatchAsync(path, payload));
         }
 
         private async Task<T> ExecuteRequest<T>(Func<Task<HttpResponseMessage>> action)
