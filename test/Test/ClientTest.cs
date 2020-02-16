@@ -3,7 +3,7 @@ using NUnit.Framework.Constraints;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ToniBox.Client;
+using TonieBox.Client;
 using TonieBox.Client;
 
 namespace Test

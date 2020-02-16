@@ -17,13 +17,15 @@ namespace TonieBox.Service
 
         public async Task<IEnumerable<Directory>> GetDirectory(string path)
         {
-            var fullPath = Path.Combine(LibraryRoot, path);
+            var fullPath = LibraryRoot + path;
 
-            var directory = System.IO.Directory.EnumerateDirectories(fullPath)
+            var directory = System.IO.Directory.GetDirectories(fullPath)
                 .Select(p => new Directory
                 {
                     Path = path + Path.DirectorySeparatorChar + Path.GetFileName(p),
-                    Name = Path.GetFileName(p)
+                    Name = Path.GetFileName(p),
+                    ParentPath = Path.GetDirectoryName(path),
+                    HasSubfolders = System.IO.Directory.GetDirectories(p).Any()
                 })
                 .ToArray();
 

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TonieBox.Client;
 
-namespace ToniBox.Client
+namespace TonieBox.Client
 {
     public class TonieboxClient
     {

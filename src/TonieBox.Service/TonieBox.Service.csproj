@@ -8,4 +8,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="3.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TonieBox.Client\TonieBox.Client.csproj" />
+  </ItemGroup>
+
 </Project>

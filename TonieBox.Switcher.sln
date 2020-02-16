@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieBox.Client", "src\Toni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TonieBox.Service", "src\TonieBox.Service\TonieBox.Service.csproj", "{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TonieBox.Ui", "src\TonieBox.Ui\TonieBox.Ui.csproj", "{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,5 @@
 ﻿
-namespace ToniBox.Client
+namespace TonieBox.Client
 {
     public class Toniebox
     {

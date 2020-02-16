@@ -1,0 +1,18 @@
+﻿@page "/"
+
+@if (Directories == null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    @if (Selected != null)
+    {
+        <button @onclick="ParentClick">Back</button>
+    }
+
+    foreach (var directory in Directories)
+    {
+        <Folder Data="directory" OnClick="() => FolderClick(directory)" />
+    }
+}
