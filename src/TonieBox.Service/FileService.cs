@@ -8,6 +8,7 @@ namespace TonieBox.Service
 {
     public class FileService
     {
+        private readonly IEnumerable<string> SupportedExtensions = new[] { "" };
         private readonly string LibraryRoot;
 
         public FileService(IConfiguration config)

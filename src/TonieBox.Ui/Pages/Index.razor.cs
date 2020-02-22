@@ -12,17 +12,18 @@ namespace TonieBox.Ui.Pages
     public partial class Index
     {
         [Inject] private FileService FileService { get; set; }
-        [Inject] private TonieboxClient TonieboxClient { get; set; }
+        [Inject] private TonieboxService TonieboxService { get; set; }
 
         private IEnumerable<Directory> Directories;
         private Directory Selected;
         private IEnumerable<CreativeTonie> Tonies;
         private Household Household;
+        private bool Uploading;
 
         protected override async Task OnInitializedAsync()
         {
             Directories = await FileService.GetDirectory(null);
-            Household = (await TonieboxClient.GetHouseholds()).First();
+            Household = (await TonieboxService.GetHouseholds()).First();
         }
 
         async Task FolderClick(Directory directory)
@@ -36,15 +37,25 @@ namespace TonieBox.Ui.Pages
             }
             else
             {
-                
-                Tonies = await TonieboxClient.GetCreativeTonies(Household.Id);
+                Tonies = await TonieboxService.GetCreativeTonies(Household.Id);
             }
-
         }
 
         async Task ParentClick()
         {
             Directories = await FileService.GetDirectory(Selected.ParentPath);
+        }
+
+        void Back()
+        {
+            Tonies = null;
+        }
+
+        async Task Upload(CreativeTonie tonie)
+        {
+            Uploading = true;
+            StateHasChanged();
+
         }
     }
 }

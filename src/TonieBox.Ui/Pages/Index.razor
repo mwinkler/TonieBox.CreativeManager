@@ -20,10 +20,16 @@ else
     }
     else
     {
-        @foreach (var tonie in Tonies)
-        {
-            <img src="@tonie.ImageUrl" />
-        }
+        <button @onclick="Back">Back</button>
+
+        <div class="grid">
+            @foreach (var tonie in Tonies)
+            {
+                <div class="cover" style="background-image:url('@tonie.ImageUrl')">
+
+                </div>
+            }
+        </div>
     }
 
 }

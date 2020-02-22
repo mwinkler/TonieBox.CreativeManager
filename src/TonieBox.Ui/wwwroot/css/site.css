@@ -78,3 +78,7 @@ app { position: relative; display: flex; flex-direction: column; }
 .folder { display:inline-block; cursor:pointer;padding:1rem; }
 .folder .cover { border:1px solid black; width:10rem; height:10rem; }
 .folder:hover { background-color: #eee }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+.grid > div { border: 1px solid #eee; padding: 1rem; text-align: center; }
+.grid .cover { border: 1px solid #ddd; padding-bottom: 100%; margin-bottom: 0.5rem; background-size:contain; background-repeat:no-repeat; background-position: center center; }
