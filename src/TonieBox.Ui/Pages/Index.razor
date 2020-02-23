@@ -21,11 +21,10 @@ else
             @foreach (var directory in Directories)
             {
                 <div class="item" @onclick="() => FolderClick(directory)">
-                    <div class="cover"></div>
+                    <div class="cover" style="background-image:url('/cover?path=@System.Web.HttpUtility.UrlEncode(directory.Path)')"></div>
                     <span>@directory.Name</span>
 
                 </div>
-                @*<Folder Data="directory" OnClick="() => FolderClick(directory)" />*@
             }
         </div>
     }

@@ -1,8 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TonieBox.Service;
 
@@ -19,11 +15,13 @@ namespace TonieBox.Ui.Delegates
 
         public async Task InvokeAsync(HttpContext context)
         {
-            context.Response.ContentType = "image/png";
+            var path = context.Request.Query["path"];
 
-            var img = await fileService.GetDirectoryCover(context.Request.Query["path"]);
+            var cover = await fileService.GetDirectoryCover(path);
+            
+            context.Response.ContentType = cover.MimeType;
 
-            context.Response.BodyWriter.WriteAsync(img)
+            await cover.Data.CopyToAsync(context.Response.Body);
         }
     }
 }
