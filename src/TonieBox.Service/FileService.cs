@@ -8,17 +8,16 @@ namespace TonieBox.Service
 {
     public class FileService
     {
-        private readonly IEnumerable<string> SupportedExtensions = new[] { "" };
-        private readonly string LibraryRoot;
+        private readonly Settings settings;
 
-        public FileService(IConfiguration config)
+        public FileService(Settings settings)
         {
-            LibraryRoot = config["LibraryRoot"];
+            this.settings = settings;
         }
 
         public async Task<IEnumerable<Directory>> GetDirectory(string path)
         {
-            var fullPath = LibraryRoot + path;
+            var fullPath = settings.LibraryRoot + path;
 
             var directory = System.IO.Directory.GetDirectories(fullPath)
                 .Select(p => new Directory

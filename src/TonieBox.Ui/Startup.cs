@@ -28,6 +28,7 @@ namespace TonieBox.Ui
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddSingleton(sp => Configuration.GetSection("TonieBoxCreativeManager").Get<Settings>());
             services.AddSingleton(new Login { Email = Configuration["MYTONIE_LOGIN"], Password = Configuration["MYTONIE_PASSWORD"] });
             services.AddSingleton<TonieboxClient>();
             services.AddSingleton<TonieboxService>();

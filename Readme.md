@@ -1,7 +1,7 @@
-# TonieBox Switcher
+# TonieBox Creative Manager
 
 - C# Api to access tonie cloud
-- Web frontend to switch content of your creative tonies
+- Web frontend to manage content of your creative tonies
 
 ## Local setup
 
