@@ -33,7 +33,6 @@ namespace TonieBox.Ui.Pages
             if (directory.HasSubfolders)
             {
                 Directories = await FileService.GetDirectory(directory.Path);
-
             }
             else
             {
@@ -56,6 +55,11 @@ namespace TonieBox.Ui.Pages
             Uploading = true;
             StateHasChanged();
 
+            await TonieboxService.Upload(Selected.Path, Household.Id, tonie.Id);
+
+            Selected = null;
+            Tonies = null;
+            Uploading = false;
         }
     }
 }

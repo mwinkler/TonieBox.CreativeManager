@@ -1,6 +1,10 @@
 ﻿@page "/"
 
-@if (Directories == null)
+@if (Uploading)
+{
+    <span>Uploading...</span>
+}
+else if (Directories == null)
 {
     <span>Loading...</span>
 }
@@ -13,10 +17,17 @@ else
             <button @onclick="ParentClick">Back</button>
         }
 
-        foreach (var directory in Directories)
-        {
-            <Folder Data="directory" OnClick="() => FolderClick(directory)" />
-        }
+        <div class="grid">
+            @foreach (var directory in Directories)
+            {
+                <div class="item" @onclick="() => FolderClick(directory)">
+                    <div class="cover"></div>
+                    <span>@directory.Name</span>
+
+                </div>
+                @*<Folder Data="directory" OnClick="() => FolderClick(directory)" />*@
+            }
+        </div>
     }
     else
     {
@@ -25,8 +36,9 @@ else
         <div class="grid">
             @foreach (var tonie in Tonies)
             {
-                <div class="cover" style="background-image:url('@tonie.ImageUrl')">
-
+                <div class="item" @onclick="() => Upload(tonie)">
+                    <div class="cover" style="background-image:url('@tonie.ImageUrl')"></div>
+                    <span>@tonie.Name</span>
                 </div>
             }
         </div>

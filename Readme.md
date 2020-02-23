@@ -5,7 +5,7 @@
 
 ## Local setup
 
-Create `.env` files
+Create `.env` file
 
 ```
 MYTONIE_LOGIN=

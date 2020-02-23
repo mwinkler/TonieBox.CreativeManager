@@ -26,9 +26,7 @@ namespace TonieBox.Service
 
         public async Task Upload(string path, string householdId, string creativeTonieId)
         {
-            var folderName = Path.GetDirectoryName(path);
-
-            var files = System.IO.Directory.GetFiles(path)
+            var files = System.IO.Directory.GetFiles(settings.LibraryRoot + path)
                 .Where(p => settings.SupportedFileExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase))
                 .Select(p => new UploadFilesToCreateiveTonieRequest.Entry
                 {
@@ -41,7 +39,7 @@ namespace TonieBox.Service
             {
                 CreativeTonieId = creativeTonieId,
                 HouseholdId = householdId,
-                TonieName = folderName,
+                TonieName = Path.GetFileName(path),
                 Entries = files
             };
 
