@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TonieBox.Client;
 using TonieBox.Service;
+using TonieBox.Ui.Delegates;
 
 namespace TonieBox.Ui
 {
@@ -33,6 +34,7 @@ namespace TonieBox.Ui
             services.AddSingleton<TonieboxClient>();
             services.AddSingleton<TonieboxService>();
             services.AddSingleton<FileService>();
+            services.AddScoped<CoverHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -54,6 +56,7 @@ namespace TonieBox.Ui
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet("/cover", ctx => ctx.RequestServices.GetRequiredService<CoverHandler>().InvokeAsync(ctx));
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

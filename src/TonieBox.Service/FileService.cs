@@ -31,5 +31,10 @@ namespace TonieBox.Service
 
             return directory;
         }
+
+        public async Task GetDirectoryCover(string path)
+        {
+
+        }
     }
 }
