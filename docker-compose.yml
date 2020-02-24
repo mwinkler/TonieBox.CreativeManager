@@ -1,0 +1,13 @@
+version: "3.7"
+
+services: 
+  app:
+    build: 
+      dockerfile: ./src/TonieBox.Ui/Dockerfile
+      context: ./
+      args:
+        HTTPS_PROXY: $HTTPS_PROXY
+    ports: 
+      - "5995:80"
+    volumes:
+      - $MEDIA_LIBRARY:/var/media

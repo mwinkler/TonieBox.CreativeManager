@@ -26,15 +26,18 @@ namespace TonieBox.Ui
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-
-            services.AddSingleton(sp => Configuration.GetSection("TonieBoxCreativeManager").Get<Settings>());
+            var config = Configuration.GetSection("TonieBoxCreativeManager").Get<Settings>();
+            config.LibraryRoot = Configuration["MEDIA_LIBRARY"];
+            services.AddSingleton(config);
             services.AddSingleton(new Login { Email = Configuration["MYTONIE_LOGIN"], Password = Configuration["MYTONIE_PASSWORD"] });
+            
             services.AddSingleton<TonieboxClient>();
             services.AddSingleton<TonieboxService>();
             services.AddSingleton<FileService>();
             services.AddScoped<CoverHandler>();
+
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

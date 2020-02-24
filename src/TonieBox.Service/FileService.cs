@@ -15,6 +15,8 @@ namespace TonieBox.Service
 
         public FileService(Settings settings)
         {
+            Console.WriteLine($"Using '{settings.LibraryRoot}' for library root");
+
             this.settings = settings;
         }
 
