@@ -38,6 +38,8 @@ namespace TonieBox.Ui
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            Console.WriteLine($"Proxy: {Configuration["HTTPS_PROXY"]}");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

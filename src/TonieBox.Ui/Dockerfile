@@ -18,7 +18,6 @@ FROM build AS publish
 RUN dotnet publish "TonieBox.Ui.csproj" -c Release -o /app/publish
 
 FROM base AS final
-ENV TonieBoxCreativeManager:LibraryRoot /var/media
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "TonieBox.Ui.dll"]

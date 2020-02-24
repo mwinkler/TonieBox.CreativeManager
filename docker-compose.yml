@@ -7,6 +7,9 @@ services:
       context: ./
       args:
         HTTPS_PROXY: $HTTPS_PROXY
+    env_file: .env
+    environment: 
+      - MEDIA_LIBRARY=/var/media
     ports: 
       - "5995:80"
     volumes:
