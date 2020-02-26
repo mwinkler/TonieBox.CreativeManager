@@ -7,5 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - run: docker-compose build
+      - run: docker build -f .\src\TonieBox.Ui\Dockerfile -t mwinkler/toniebox-creativemanager .
+      - run: docker login -u mwinkler -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       - run: docker push mwinkler/toniebox-creativemanager:latest
