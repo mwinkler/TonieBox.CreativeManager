@@ -25,6 +25,7 @@ namespace TonieBox.Service
             var fullPath = settings.LibraryRoot + path;
 
             var directory = System.IO.Directory.GetDirectories(fullPath)
+                .Where(p => !settings.IgnoreFolderNames.Contains(Path.GetDirectoryName(p), StringComparer.OrdinalIgnoreCase))
                 .Select(p => new Directory
                 {
                     Path = path + Path.DirectorySeparatorChar + Path.GetFileName(p),

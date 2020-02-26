@@ -2,6 +2,7 @@ version: "3.7"
 
 services: 
   app:
+    image: mwinkler/toniebox-creativemanager
     build: 
       dockerfile: ./src/TonieBox.Ui/Dockerfile
       context: ./

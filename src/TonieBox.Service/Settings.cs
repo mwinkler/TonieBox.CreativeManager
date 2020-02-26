@@ -11,5 +11,6 @@ namespace TonieBox.Service
         public IEnumerable<string> SupportedFileExtensions { get; set; }
         public IEnumerable<string> FolderCoverFiles { get; set; }
         public string LibraryRoot { get; set; }
+        public IEnumerable<string> IgnoreFolderNames { get; set; }
     }
 }
