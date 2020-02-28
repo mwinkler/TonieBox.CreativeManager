@@ -33,6 +33,8 @@ namespace TonieBox.Client
         public Task<Household[]> GetHouseholds() => Get<Household[]>("/v2/households");
         
         public Task<CreativeTonie[]> GetCreativeTonies(string householdId) => Get<CreativeTonie[]>($"/v2/households/{householdId}/creativetonies");
+        
+        public Task<CreativeTonie> GetCreativeTonie(string householdId, string creativeTonieId) => Get<CreativeTonie>($"/v2/households/{householdId}/creativetonies/{creativeTonieId}");
 
         public Task<Toniebox[]> GetTonieboxes(string householdId) => Get<Toniebox[]>($"/v2/households/{householdId}/tonieboxes");
 

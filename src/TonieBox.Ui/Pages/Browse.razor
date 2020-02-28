@@ -2,12 +2,14 @@
 @page "/browse"
 @page "/browse/{path}"
 
+@if (BackPath != null)
+{
+    <a class="back mb-3" href="/browse/@BackPath">Zurück</a>
+}
+
 <div class="grid">
     @foreach (var item in Items)
     {
-        <a class="item" href="@item.Url">
-            <div class="cover" style="background-image:url('@item.CoverUrl')"></div>
-            <span>@item.Name</span>
-        </a>
+        <Item Value="item" />
     }
 </div>

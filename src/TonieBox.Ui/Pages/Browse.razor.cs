@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using TonieBox.Service;
 using TonieBox.Ui.Model;
 
@@ -18,16 +15,24 @@ namespace TonieBox.Ui.Pages
 
         private IEnumerable<Item> Items;
 
+        private string BackPath;
+
         protected override async Task OnInitializedAsync()
         {
-            var directories = await FileService.GetDirectory(HttpUtility.UrlDecode(Path ?? ""));
+            var path = Path.DecodeUrl();
+            
+            var directories = await FileService.GetDirectories(path);
+
+            BackPath = string.IsNullOrEmpty(path)
+                ? null
+                : path.GetParentPath().EncodeUrl();
 
             Items = directories
                 .Select(dir => new Item
                 {
                     Name = dir.Name,
-                    Url = $"/{(dir.HasSubfolders ? "browse" : "upload")}/{HttpUtility.UrlEncode(dir.Path)}",
-                    CoverUrl = $"/cover?path={HttpUtility.UrlEncode(dir.Path)}"
+                    Url = $"/{(dir.HasSubfolders ? "browse" : "upload")}/{dir.Path.EncodeUrl()}",
+                    CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}"
                 })
                 .ToArray();
         }

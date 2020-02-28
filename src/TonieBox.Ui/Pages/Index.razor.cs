@@ -22,7 +22,7 @@ namespace TonieBox.Ui.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            Directories = await FileService.GetDirectory(null);
+            Directories = await FileService.GetDirectories(null);
             Household = (await TonieboxService.GetHouseholds()).First();
         }
 
@@ -32,7 +32,7 @@ namespace TonieBox.Ui.Pages
 
             if (directory.HasSubfolders)
             {
-                Directories = await FileService.GetDirectory(directory.Path);
+                Directories = await FileService.GetDirectories(directory.Path);
             }
             else
             {
@@ -42,7 +42,7 @@ namespace TonieBox.Ui.Pages
 
         async Task ParentClick()
         {
-            Directories = await FileService.GetDirectory(Selected.ParentPath);
+            //Directories = await FileService.GetDirectories(Selected.ParentPath);
         }
 
         void Back()

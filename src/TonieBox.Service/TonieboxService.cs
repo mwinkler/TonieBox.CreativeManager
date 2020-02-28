@@ -23,6 +23,8 @@ namespace TonieBox.Service
         public Task<Household[]> GetHouseholds() => client.GetHouseholds();
 
         public Task<CreativeTonie[]> GetCreativeTonies(string householdId) => client.GetCreativeTonies(householdId);
+        
+        public Task<CreativeTonie> GetCreativeTonie(string householdId, string creativeTonieId) => client.GetCreativeTonie(householdId, creativeTonieId);
 
         public async Task Upload(string path, string householdId, string creativeTonieId)
         {

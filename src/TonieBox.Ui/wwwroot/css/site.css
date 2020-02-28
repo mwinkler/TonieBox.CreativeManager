@@ -52,10 +52,7 @@ app { position: relative; display: flex; flex-direction: column; }
     .sidebar .collapse { /* Never collapse the sidebar for wide screens */ display: block; }
 }
 
-
-.folder { display:inline-block; cursor:pointer;padding:1rem; }
-.folder .cover { border:1px solid black; width:10rem; height:10rem; }
-.folder:hover { background-color: #eee }
+/* creative tonie manager */
 
 /* grid with css grid */
 /*.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }*/
@@ -66,3 +63,6 @@ app { position: relative; display: flex; flex-direction: column; }
 
 .grid .item { border: 1px solid #eee; padding: 1rem; text-align: center; cursor:pointer; }
 .grid .cover { padding-bottom: 100%; margin-bottom: 0.5rem; background-size: contain; background-repeat: no-repeat; background-position: center center; }
+
+
+a.back { padding: 1rem; border: 1px solid #eee; display:block; }

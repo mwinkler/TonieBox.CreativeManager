@@ -1,0 +1,11 @@
+﻿
+<a class="item" href="@Value.Url">
+    <div class="cover" style="background-image:url('@Value.CoverUrl')"></div>
+    <span>@Value.Name</span>
+</a>
+
+@code {
+
+    [Parameter] public TonieBox.Ui.Model.Item Value { get; set; }
+
+}

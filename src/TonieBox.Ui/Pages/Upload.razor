@@ -1,0 +1,17 @@
+﻿@page "/upload/{path}"
+@page "/upload/{path}/{householdId}/{tonieid}"
+
+@if (BackUrl != null)
+{
+    <a class="back mb-3" href="@BackUrl">Zurück</a>
+}
+
+@if (Tonies != null)
+{
+    <div class="grid">
+        @foreach (var tonie in Tonies)
+        {
+            <Item Value="tonie" />
+        }
+    </div>
+}

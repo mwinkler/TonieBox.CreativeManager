@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +19,7 @@ namespace TonieBox.Service
             this.settings = settings;
         }
 
-        public async Task<IEnumerable<Directory>> GetDirectory(string path)
+        public async Task<IEnumerable<Directory>> GetDirectories(string path)
         {
             var fullPath = settings.LibraryRoot + path;
 
@@ -30,7 +29,6 @@ namespace TonieBox.Service
                 {
                     Path = path + Path.DirectorySeparatorChar + Path.GetFileName(p),
                     Name = Path.GetFileName(p),
-                    ParentPath = Path.GetDirectoryName(path),
                     HasSubfolders = System.IO.Directory.GetDirectories(p).Any()
                 })
                 .ToArray();
