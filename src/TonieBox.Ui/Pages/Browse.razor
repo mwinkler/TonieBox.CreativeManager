@@ -1,0 +1,13 @@
+﻿@page "/"
+@page "/browse"
+@page "/browse/{path}"
+
+<div class="grid">
+    @foreach (var item in Items)
+    {
+        <a class="item" href="@item.Url">
+            <div class="cover" style="background-image:url('@item.CoverUrl')"></div>
+            <span>@item.Name</span>
+        </a>
+    }
+</div>

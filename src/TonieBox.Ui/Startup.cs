@@ -62,7 +62,8 @@ namespace TonieBox.Ui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/cover", ctx => ctx.RequestServices.GetRequiredService<CoverHandler>().InvokeAsync(ctx));
-                endpoints.MapBlazorHub();
+                //endpoints.MapBlazorHub();
+                //endpoints.Map("/", async ctx => ctx.Response.Redirect("/browse"));
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
