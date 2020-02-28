@@ -31,7 +31,7 @@ namespace TonieBox.Ui.Pages
                 .Select(dir => new Item
                 {
                     Name = dir.Name,
-                    Url = $"/{(dir.HasSubfolders ? "browse" : "upload")}/{dir.Path.EncodeUrl()}",
+                    Url = $"/{(dir.HasSubfolders ? "browse" : "selecttonie")}/{dir.Path.EncodeUrl()}",
                     CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}"
                 })
                 .ToArray();
