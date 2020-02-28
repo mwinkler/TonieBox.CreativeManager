@@ -35,6 +35,7 @@ namespace TonieBox.Ui
             services.AddSingleton<TonieboxService>();
             services.AddSingleton<FileService>();
             services.AddScoped<CoverHandler>();
+            services.AddScoped<UploadHandler>();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
@@ -62,7 +63,7 @@ namespace TonieBox.Ui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/cover", ctx => ctx.RequestServices.GetRequiredService<CoverHandler>().InvokeAsync(ctx));
-                //endpoints.MapBlazorHub();
+                endpoints.MapPost("/upload/{householdId}/{tonieId}", ctx => ctx.RequestServices.GetRequiredService<UploadHandler>().InvokeAsync(ctx));
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

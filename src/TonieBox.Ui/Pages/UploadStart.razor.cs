@@ -18,14 +18,22 @@ namespace TonieBox.Ui.Pages
 
         [Parameter] public string HouseholdId { get; set; }
 
+        public string CoverUrl { get; set; }
+
+        public string TonieUrl { get; set; }
+
+        public string PostUrl { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             var path = Path.DecodeUrl();
             
             var tonie = await TonieboxService.GetCreativeTonie(HouseholdId, TonieId);
 
+            CoverUrl = $"/cover?path={path.EncodeUrl()}";
+            TonieUrl = tonie.ImageUrl;
 
-
+            PostUrl = $"/upload/{HouseholdId}/{TonieId}?path={path.EncodeUrl()}";
         }
     }
 }

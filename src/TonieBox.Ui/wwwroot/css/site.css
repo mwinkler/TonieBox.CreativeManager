@@ -1,4 +1,3 @@
-@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 
@@ -66,3 +65,5 @@ app { position: relative; display: flex; flex-direction: column; }
 
 
 a.back { padding: 1rem; border: 1px solid #eee; display:block; }
+
+.upload { width:300px; }
