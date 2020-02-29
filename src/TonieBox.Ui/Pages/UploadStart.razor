@@ -1,9 +1,12 @@
 ﻿@page "/uploadstart/{householdId}/{tonieid}"
 
 
-
-<img class="upload" src="@CoverUrl" onload="document.forms[0].submit()" />
-<i class="fas fa-sync fa-10x fa-spin" style="margin:5rem; vertical-align:middle; color:#808080"></i>
-<img class="upload" src="@TonieUrl" />
+<div style="display:flex;position:fixed;top:0;left:0;width:100%;height:100%;align-items:center;justify-content:center;">
+    <div>
+        <img class="upload" src="@CoverUrl" onload="document.forms[0].submit()" />
+        <i class="fas fa-sync fa-10x fa-spin" style="margin:5rem; vertical-align:middle; color:#808080"></i>
+        <img class="upload" src="@TonieUrl" />
+    </div>
+</div>
 
 <form method="post" action="@PostUrl"></form>
