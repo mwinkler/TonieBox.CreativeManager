@@ -38,31 +38,34 @@ namespace TonieBox.Service
 
         public Task<Cover> GetDirectoryCover(string path)
         {
-            var fullPath = settings.LibraryRoot + path;
-            var files = System.IO.Directory.GetFiles(fullPath);
-
-            // specific cover files
-            var coverFile = files.FirstOrDefault(p => settings.FolderCoverFiles.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase));
-
-            if (coverFile != null)
+            if (path != "folder")
             {
-                return Task.FromResult(new Cover
-                {
-                    Data = File.OpenRead(coverFile),
-                    MimeType = "application/octet-stream"
-                });
-            }
+                var fullPath = settings.LibraryRoot + path;
+                var files = System.IO.Directory.GetFiles(fullPath);
 
-            // any image files
-            var imageFile = files.FirstOrDefault(p => ImageExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase));
+                // specific cover files
+                var coverFile = files.FirstOrDefault(p => settings.FolderCoverFiles.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase));
+
+                if (coverFile != null)
+                {
+                    return Task.FromResult(new Cover
+                    {
+                        Data = File.OpenRead(coverFile),
+                        MimeType = "application/octet-stream"
+                    });
+                }
+
+                // any image files
+                var imageFile = files.FirstOrDefault(p => ImageExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase));
             
-            if (imageFile != null)
-            {
-                return Task.FromResult(new Cover
+                if (imageFile != null)
                 {
-                    Data = File.OpenRead(imageFile),
-                    MimeType = "application/octet-stream"
-                });
+                    return Task.FromResult(new Cover
+                    {
+                        Data = File.OpenRead(imageFile),
+                        MimeType = "application/octet-stream"
+                    });
+                }
             }
 
             // default folder image

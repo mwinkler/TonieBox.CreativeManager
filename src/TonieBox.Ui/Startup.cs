@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -27,7 +28,7 @@ namespace TonieBox.Ui
         public void ConfigureServices(IServiceCollection services)
         {
             var config = Configuration.GetSection("TonieBoxCreativeManager").Get<Settings>();
-            config.LibraryRoot = Configuration["MEDIA_LIBRARY"];
+            config.LibraryRoot = Configuration["MEDIA_LIBRARY"].TrimEnd(Path.DirectorySeparatorChar);
             services.AddSingleton(config);
             services.AddSingleton(new Login { Email = Configuration["MYTONIE_LOGIN"], Password = Configuration["MYTONIE_PASSWORD"] });
             

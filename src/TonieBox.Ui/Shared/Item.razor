@@ -1,6 +1,11 @@
 ﻿
 <a class="item" href="@Value.Url">
-    <div class="cover" style="background-image:url('@Value.CoverUrl')"></div>
+    <div class="cover" style="background-image:url('@Value.CoverUrl')">
+        @if (!string.IsNullOrEmpty(Value.SubCoverUrl))
+        {
+            <div class="subcover" style="background-image:url('@Value.SubCoverUrl')"></div>
+        }
+    </div>
     <span>@Value.Name</span>
 </a>
 
