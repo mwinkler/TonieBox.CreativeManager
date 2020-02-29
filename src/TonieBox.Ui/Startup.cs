@@ -40,6 +40,7 @@ namespace TonieBox.Ui
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddHttpContextAccessor();
 
             Console.WriteLine($"Proxy: {Configuration["HTTPS_PROXY"]}");
         }

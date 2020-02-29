@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace TonieBox.Ui.Pages
     {
         [Inject] private FileService FileService { get; set; }
 
-        [Parameter] public string Path { get; set; }
+        [Inject] public IHttpContextAccessor HttpContext { get; set; }
 
         private IEnumerable<Item> Items;
 
@@ -19,7 +20,7 @@ namespace TonieBox.Ui.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var path = Path.DecodeUrl();
+            var path = HttpContext.HttpContext.Request.Query["path"].ToString();
             
             var directories = await FileService.GetDirectories(path);
 
@@ -31,7 +32,7 @@ namespace TonieBox.Ui.Pages
                 .Select(dir => new Item
                 {
                     Name = dir.Name,
-                    Url = $"/{(dir.HasSubfolders ? "browse" : "selecttonie")}/{dir.Path.EncodeUrl()}",
+                    Url = $"/{(dir.HasSubfolders ? "browse" : "selecttonie")}?path={dir.Path.EncodeUrl()}",
                     CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}"
                 })
                 .ToArray();

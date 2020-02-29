@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace TonieBox.Ui.Pages
     {
         [Inject] private TonieboxService TonieboxService { get; set; }
 
-        [Parameter] public string Path { get; set; }
+        [Inject] public IHttpContextAccessor HttpContext { get; set; }
 
         private IEnumerable<Item> Tonies;
 
@@ -20,7 +21,7 @@ namespace TonieBox.Ui.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            var path = Path.DecodeUrl();
+            var path =  HttpContext.HttpContext.Request.Query["path"].ToString();
 
             BackUrl = $"/browse/{path.GetParentPath().EncodeUrl()}";
 
@@ -32,7 +33,7 @@ namespace TonieBox.Ui.Pages
                 {
                     CoverUrl = t.ImageUrl,
                     Name = t.Name,
-                    Url = $"/uploadstart/{path.EncodeUrl()}/{household.Id}/{t.Id}"
+                    Url = $"/uploadstart/{household.Id}/{t.Id}?path={path.EncodeUrl()}"
                 })
                 .ToArray();
         }

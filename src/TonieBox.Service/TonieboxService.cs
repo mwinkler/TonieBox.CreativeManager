@@ -14,6 +14,8 @@ namespace TonieBox.Service
         private readonly TonieboxClient client;
         private readonly Settings settings;
         private readonly MappingService mappingService;
+        private IEnumerable<Tonie> tonies;
+        private IEnumerable<Household> households;
 
         public TonieboxService(TonieboxClient client, Settings settings, MappingService mappingService)
         {
@@ -22,9 +24,29 @@ namespace TonieBox.Service
             this.mappingService = mappingService;
         }
 
-        public Task<Household[]> GetHouseholds() => client.GetHouseholds();
+        public async Task<IEnumerable<Household>> GetHouseholds() => households ?? (households = await client.GetHouseholds());
 
-        public Task<CreativeTonie[]> GetCreativeTonies(string householdId) => client.GetCreativeTonies(householdId);
+        public async Task<IEnumerable<Tonie>> GetCreativeTonies(string householdId)
+        {
+            if (tonies == null)
+            {
+                var cts = await client.GetCreativeTonies(householdId);
+
+                var mappings = await mappingService.GetMappings();
+
+                tonies = cts
+                    .Select(t => new Tonie
+                    {
+                        Id = t.Id,
+                        ImageUrl = t.ImageUrl,
+                        Name = t.Name,
+                        CurrentMediaPath = mappings.FirstOrDefault(m => m.TonieId == t.Id)?.Path
+                    })
+                    .ToArray();
+            }
+
+            return tonies;
+        }
         
         public Task<CreativeTonie> GetCreativeTonie(string householdId, string creativeTonieId) => client.GetCreativeTonie(householdId, creativeTonieId);
 

@@ -23,7 +23,9 @@ namespace TonieBox.Service
         {
             if (mappings == null)
             {
-                mappings = JsonConvert.DeserializeObject<IList<TonieMapping>>(File.ReadAllText(MappingFilePath));
+                mappings = File.Exists(MappingFilePath)
+                    ? JsonConvert.DeserializeObject<IList<TonieMapping>>(File.ReadAllText(MappingFilePath))
+                    : new List<TonieMapping>();
             }
 
             return Task.FromResult(mappings);
