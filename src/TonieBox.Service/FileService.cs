@@ -19,7 +19,7 @@ namespace TonieBox.Service
             this.settings = settings;
         }
 
-        public async Task<IEnumerable<Directory>> GetDirectories(string path)
+        public Task<IEnumerable<Directory>> GetDirectories(string path)
         {
             var fullPath = settings.LibraryRoot + path;
 
@@ -33,10 +33,10 @@ namespace TonieBox.Service
                 })
                 .ToArray();
 
-            return directory;
+            return Task.FromResult((IEnumerable<Directory>)directory);
         }
 
-        public async Task<Cover> GetDirectoryCover(string path)
+        public Task<Cover> GetDirectoryCover(string path)
         {
             var fullPath = settings.LibraryRoot + path;
             var files = System.IO.Directory.GetFiles(fullPath);
@@ -46,11 +46,11 @@ namespace TonieBox.Service
 
             if (coverFile != null)
             {
-                return new Cover
+                return Task.FromResult(new Cover
                 {
                     Data = File.OpenRead(coverFile),
                     MimeType = "application/octet-stream"
-                };
+                });
             }
 
             // any image files
@@ -58,19 +58,19 @@ namespace TonieBox.Service
             
             if (imageFile != null)
             {
-                return new Cover
+                return Task.FromResult(new Cover
                 {
                     Data = File.OpenRead(imageFile),
                     MimeType = "application/octet-stream"
-                };
+                });
             }
 
             // default folder image
-            return new Cover
+            return Task.FromResult(new Cover
             {
                 Data = typeof(FileService).GetTypeInfo().Assembly.GetManifestResourceStream("TonieBox.Service.folder.png"),
                 MimeType = "image/png"
-            };
+            });
         }
     }
 }

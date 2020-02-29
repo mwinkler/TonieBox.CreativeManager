@@ -13,11 +13,13 @@ namespace TonieBox.Service
     {
         private readonly TonieboxClient client;
         private readonly Settings settings;
+        private readonly MappingService mappingService;
 
-        public TonieboxService(TonieboxClient client, Settings settings)
+        public TonieboxService(TonieboxClient client, Settings settings, MappingService mappingService)
         {
             this.client = client;
             this.settings = settings;
+            this.mappingService = mappingService;
         }
 
         public Task<Household[]> GetHouseholds() => client.GetHouseholds();
@@ -45,7 +47,11 @@ namespace TonieBox.Service
                 Entries = files
             };
 
+            // upload media to tonie cloud
             var response = await client.UploadFilesToCreateiveTonie(request);
+
+            // save mapping
+            await mappingService.SetMapping(creativeTonieId, path);
         }
     }
 }

@@ -12,5 +12,6 @@ namespace TonieBox.Service
         public IEnumerable<string> FolderCoverFiles { get; set; }
         public string LibraryRoot { get; set; }
         public IEnumerable<string> IgnoreFolderNames { get; set; }
+        public string MappingFile { get; set; }
     }
 }
