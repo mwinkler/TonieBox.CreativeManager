@@ -26,8 +26,10 @@ namespace TonieBox.Service
             var fullPath = settings.LibraryRoot + path;
             var mappings = await mappingService.GetMappings();
 
+            bool isNotIgnoredFolder(string p) => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase);
+
             var directory = System.IO.Directory.GetDirectories(fullPath)
-                .Where(p => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase))
+                .Where(isNotIgnoredFolder)
                 .Select(p => 
                 {
                     var subpath = path + "/" + Path.GetFileName(p);
@@ -36,7 +38,7 @@ namespace TonieBox.Service
                     {
                         Path = subpath,
                         Name = Path.GetFileName(p),
-                        HasSubfolders = System.IO.Directory.GetDirectories(p).Any(),
+                        HasSubfolders = System.IO.Directory.GetDirectories(p).Where(isNotIgnoredFolder).Any(),
                         MappedTonieId = mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId
                     };
                 })
