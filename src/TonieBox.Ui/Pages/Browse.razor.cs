@@ -30,7 +30,7 @@ namespace TonieBox.Ui.Pages
 
             BackPath = string.IsNullOrEmpty(path)
                 ? null
-                : path.GetParentPath().EncodeUrl();
+                : $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
             Items = directories
                 .Select(dir => new Item
