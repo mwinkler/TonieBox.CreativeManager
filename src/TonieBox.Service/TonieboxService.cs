@@ -54,6 +54,7 @@ namespace TonieBox.Service
         {
             var files = System.IO.Directory.GetFiles(settings.LibraryRoot + path)
                 .Where(p => settings.SupportedFileExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase))
+                .OrderBy(p => p)
                 .Select(p => new UploadFilesToCreateiveTonieRequest.Entry
                 {
                     File = File.OpenRead(p),
