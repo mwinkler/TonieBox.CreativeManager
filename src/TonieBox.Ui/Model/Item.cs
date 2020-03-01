@@ -12,5 +12,6 @@ namespace TonieBox.Ui.Model
         public string Name { get; set; }
         public string Url { get; set; }
         public string SubCoverUrl { get; set; }
+        public string SubCoverClass { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace TonieBox.Service
         
         public Task<CreativeTonie> GetCreativeTonie(string householdId, string creativeTonieId) => client.GetCreativeTonie(householdId, creativeTonieId);
 
-        public async Task Upload(string path, string householdId, string creativeTonieId)
+        public async Task<CreativeTonie> Upload(string path, string householdId, string creativeTonieId)
         {
             var files = System.IO.Directory.GetFiles(settings.LibraryRoot + path)
                 .Where(p => settings.SupportedFileExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase))
@@ -72,8 +72,18 @@ namespace TonieBox.Service
             // upload media to tonie cloud
             var response = await client.UploadFilesToCreateiveTonie(request);
 
+            // wait until transcoding is finished
+            while (response.Transcoding)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(10));
+
+                response = await client.GetCreativeTonie(householdId, creativeTonieId);
+            }
+
             // save mapping
             await mappingService.SetMapping(creativeTonieId, path);
+
+            return response;
         }
     }
 }

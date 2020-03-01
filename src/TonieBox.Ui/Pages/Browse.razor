@@ -6,9 +6,12 @@
     <a class="back mb-3" href="/browse/@BackPath">Zurück</a>
 }
 
-<div class="grid">
-    @foreach (var item in Items)
-    {
-        <Item Value="item" />
-    }
-</div>
+@if (Items != null)
+{
+    <div class="grid">
+        @foreach (var item in Items)
+        {
+            <Item Value="item" />
+        }
+    </div>
+}

@@ -33,7 +33,8 @@ namespace TonieBox.Ui.Pages
                 {
                     CoverUrl = t.ImageUrl,
                     Name = t.Name,
-                    Url = $"/uploadstart/{household.Id}/{t.Id}?path={path.EncodeUrl()}"
+                    Url = $"/uploadstart/{household.Id}/{t.Id}?path={path.EncodeUrl()}",
+                    SubCoverUrl = t.CurrentMediaPath != null ? $"/cover?path={t.CurrentMediaPath.EncodeUrl()}" : null
                 })
                 .ToArray();
         }

@@ -11,6 +11,8 @@ namespace TonieBox.Ui.Pages
     public partial class Browse
     {
         [Inject] private FileService FileService { get; set; }
+        
+        [Inject] private TonieboxService TonieboxService { get; set; }
 
         [Inject] public IHttpContextAccessor HttpContext { get; set; }
 
@@ -23,6 +25,8 @@ namespace TonieBox.Ui.Pages
             var path = HttpContext.HttpContext.Request.Query["path"].ToString();
             
             var directories = await FileService.GetDirectories(path);
+            var households = await TonieboxService.GetHouseholds();
+            var tonies = await TonieboxService.GetCreativeTonies(households.First().Id);
 
             BackPath = string.IsNullOrEmpty(path)
                 ? null
@@ -36,7 +40,10 @@ namespace TonieBox.Ui.Pages
                     CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}",
                     SubCoverUrl = dir.HasSubfolders
                         ? $"/cover?path=folder"
-                        : null
+                        : dir.MappedTonieId != null
+                            ? tonies.FirstOrDefault(t => dir.MappedTonieId == t.Id)?.ImageUrl
+                            : null,
+                    SubCoverClass = dir.MappedTonieId != null ? "tonie" : null
                 })
                 .ToArray();
         }

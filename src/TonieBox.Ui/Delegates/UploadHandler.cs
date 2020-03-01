@@ -20,8 +20,8 @@ namespace TonieBox.Ui.Delegates
             var householdId = (string)context.GetRouteValue("householdId");
             var tonieId = (string)context.GetRouteValue("tonieId");
 
-            //await tonieboxService.Upload(path, householdId, tonieId);
-            await Task.Delay(3000);
+            await tonieboxService.Upload(path, householdId, tonieId);
+            //await Task.Delay(3000);
 
             context.Response.Redirect("/browse");
         }

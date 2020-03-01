@@ -40,6 +40,8 @@ namespace TonieBox.Service
             if (mapping == null)
             {
                 mapping = new TonieMapping { TonieId = creativeTonieId };
+
+                mappings.Add(mapping);
             }
 
             mapping.Path = path;

@@ -11,29 +11,38 @@ namespace TonieBox.Service
     {
         private static readonly string[] ImageExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif" };
         private readonly Settings settings;
+        private readonly MappingService mappingService;
 
-        public FileService(Settings settings)
+        public FileService(Settings settings, MappingService mappingService)
         {
             Console.WriteLine($"Using '{settings.LibraryRoot}' for library root");
 
             this.settings = settings;
+            this.mappingService = mappingService;
         }
 
-        public Task<IEnumerable<Directory>> GetDirectories(string path)
+        public async Task<IEnumerable<Directory>> GetDirectories(string path)
         {
             var fullPath = settings.LibraryRoot + path;
+            var mappings = await mappingService.GetMappings();
 
             var directory = System.IO.Directory.GetDirectories(fullPath)
                 .Where(p => !settings.IgnoreFolderNames.Contains(Path.GetDirectoryName(p), StringComparer.OrdinalIgnoreCase))
-                .Select(p => new Directory
+                .Select(p => 
                 {
-                    Path = path + Path.DirectorySeparatorChar + Path.GetFileName(p),
-                    Name = Path.GetFileName(p),
-                    HasSubfolders = System.IO.Directory.GetDirectories(p).Any()
+                    var subpath = path + "/" + Path.GetFileName(p);
+
+                    return new Directory
+                    {
+                        Path = subpath,
+                        Name = Path.GetFileName(p),
+                        HasSubfolders = System.IO.Directory.GetDirectories(p).Any(),
+                        MappedTonieId = mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId
+                    };
                 })
                 .ToArray();
 
-            return Task.FromResult((IEnumerable<Directory>)directory);
+            return directory;
         }
 
         public Task<Cover> GetDirectoryCover(string path)

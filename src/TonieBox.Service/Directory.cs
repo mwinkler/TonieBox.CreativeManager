@@ -7,5 +7,6 @@ namespace TonieBox.Service
         public string Path { get; set; }
         public byte[] Cover { get; set; }
         public bool HasSubfolders { get; set; }
+        public string MappedTonieId { get; set; }
     }
 }
