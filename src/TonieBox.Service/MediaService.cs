@@ -48,44 +48,63 @@ namespace TonieBox.Service
             return directory;
         }
 
-        public Task<Cover> GetDirectoryCover(string path)
+        public async Task<Cover> GetCover(string path)
         {
             if (path != "folder")
             {
-                var fullPath = settings.LibraryRoot + path;
-                var files = System.IO.Directory.GetFiles(fullPath);
-
-                // specific cover files
-                var coverFile = files.FirstOrDefault(p => settings.FolderCoverFiles.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase));
-
-                if (coverFile != null)
+                while (true)
                 {
-                    return Task.FromResult(new Cover
-                    {
-                        Data = File.OpenRead(coverFile),
-                        MimeType = "application/octet-stream"
-                    });
-                }
+                    var coverPath = await TryGetCoverPath(path);
 
-                // any image files
-                var imageFile = files.FirstOrDefault(p => ImageExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase));
-            
-                if (imageFile != null)
-                {
-                    return Task.FromResult(new Cover
+                    if (coverPath != null)
                     {
-                        Data = File.OpenRead(imageFile),
-                        MimeType = "application/octet-stream"
-                    });
+                        return new Cover
+                        {
+                            Data = File.OpenRead(coverPath),
+                            MimeType = "application/octet-stream"
+                        };
+                    }
+
+                    // switch to parent
+                    path = path.GetParentPath();
+
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        break;
+                    }
                 }
             }
 
             // default folder image
-            return Task.FromResult(new Cover
+            return new Cover
             {
                 Data = typeof(MediaService).GetTypeInfo().Assembly.GetManifestResourceStream("TonieBox.Service.folder.png"),
                 MimeType = "image/png"
-            });
+            };
+        }
+
+        private Task<string> TryGetCoverPath(string path)
+        {
+            var fullPath = settings.LibraryRoot + path;
+            var files = System.IO.Directory.GetFiles(fullPath);
+
+            // specific cover files
+            var coverFile = files.FirstOrDefault(p => settings.FolderCoverFiles.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase));
+
+            if (coverFile != null)
+            {
+                return Task.FromResult(coverFile);
+            }
+
+            // any image files
+            var imageFile = files.FirstOrDefault(p => ImageExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase));
+
+            if (imageFile != null)
+            {
+                return Task.FromResult(imageFile);
+            }
+
+            return Task.FromResult<string>(null);
         }
     }
 }

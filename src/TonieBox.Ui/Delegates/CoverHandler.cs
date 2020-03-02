@@ -17,7 +17,7 @@ namespace TonieBox.Ui.Delegates
         {
             var path = context.Request.Query["path"];
 
-            var cover = await mediaService.GetDirectoryCover(path);
+            var cover = await mediaService.GetCover(path);
             
             context.Response.ContentType = cover.MimeType;
 
