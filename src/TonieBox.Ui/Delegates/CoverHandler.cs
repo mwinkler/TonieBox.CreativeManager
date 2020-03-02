@@ -6,18 +6,18 @@ namespace TonieBox.Ui.Delegates
 {
     public class CoverHandler
     {
-        private readonly FileService fileService;
+        private readonly MediaService mediaService;
 
-        public CoverHandler(FileService fileService)
+        public CoverHandler(MediaService mediaService)
         {
-            this.fileService = fileService;
+            this.mediaService = mediaService;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
             var path = context.Request.Query["path"];
 
-            var cover = await fileService.GetDirectoryCover(path);
+            var cover = await mediaService.GetDirectoryCover(path);
             
             context.Response.ContentType = cover.MimeType;
 

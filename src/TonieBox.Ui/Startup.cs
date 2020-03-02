@@ -34,7 +34,7 @@ namespace TonieBox.Ui
             
             services.AddSingleton<TonieboxClient>();
             services.AddSingleton<TonieboxService>();
-            services.AddSingleton<FileService>();
+            services.AddSingleton<MediaService>();
             services.AddSingleton<MappingService>();
             services.AddScoped<CoverHandler>();
             services.AddScoped<UploadHandler>();

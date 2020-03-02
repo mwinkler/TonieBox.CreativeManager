@@ -10,7 +10,7 @@ namespace TonieBox.Ui.Pages
 {
     public partial class Browse
     {
-        [Inject] private FileService FileService { get; set; }
+        [Inject] private MediaService MediaService { get; set; }
         
         [Inject] private TonieboxService TonieboxService { get; set; }
 
@@ -24,7 +24,7 @@ namespace TonieBox.Ui.Pages
         {
             var path = HttpContext.HttpContext.Request.Query["path"].ToString();
             
-            var directories = await FileService.GetDirectories(path);
+            var directories = await MediaService.GetDirectories(path);
             var households = await TonieboxService.GetHouseholds();
             var tonies = await TonieboxService.GetCreativeTonies(households.First().Id);
 

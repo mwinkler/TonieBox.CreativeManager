@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace TonieBox.Service
 {
-    public class FileService
+    public class MediaService
     {
         private static readonly string[] ImageExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif" };
         private readonly Settings settings;
         private readonly MappingService mappingService;
 
-        public FileService(Settings settings, MappingService mappingService)
+        public MediaService(Settings settings, MappingService mappingService)
         {
             Console.WriteLine($"Using '{settings.LibraryRoot}' for library root");
 
@@ -83,7 +83,7 @@ namespace TonieBox.Service
             // default folder image
             return Task.FromResult(new Cover
             {
-                Data = typeof(FileService).GetTypeInfo().Assembly.GetManifestResourceStream("TonieBox.Service.folder.png"),
+                Data = typeof(MediaService).GetTypeInfo().Assembly.GetManifestResourceStream("TonieBox.Service.folder.png"),
                 MimeType = "image/png"
             });
         }
