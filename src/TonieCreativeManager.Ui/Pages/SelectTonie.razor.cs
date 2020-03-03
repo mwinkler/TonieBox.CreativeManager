@@ -22,7 +22,7 @@ namespace TonieCreativeManager.Ui.Pages
         {
             var path =  HttpContext.HttpContext.Request.Query["path"].ToString();
 
-            BackUrl = $"/browse/{path.GetParentPath().EncodeUrl()}";
+            BackUrl = $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
             var tonies = await CreativeTonieService.GetTonies();
 
