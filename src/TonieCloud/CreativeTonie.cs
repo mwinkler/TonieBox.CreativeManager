@@ -1,5 +1,5 @@
 ﻿
-namespace TonieBox.Client
+namespace TonieCloud
 {
     public class CreativeTonie
     {

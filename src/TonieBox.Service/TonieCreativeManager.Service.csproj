@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TonieBox.Client\TonieBox.Client.csproj" />
+    <ProjectReference Include="..\TonieBox.Client\TonieCloud.csproj" />
   </ItemGroup>
 
 </Project>

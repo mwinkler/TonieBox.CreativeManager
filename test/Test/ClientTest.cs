@@ -4,20 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TonieBox.Client;
-using TonieBox.Client;
+using TonieCloud;
 
 namespace Test
 {
     public class ClientTest
     {
-        private TonieboxClient client;
+        private TonieCloudClient client;
 
         [SetUp]
         public void Setup()
         {
             DotNetEnv.Env.Load("../../../../../.env");
             
-            client = new TonieboxClient(new Login { Email = DotNetEnv.Env.GetString("MYTONIE_LOGIN"), Password = DotNetEnv.Env.GetString("MYTONIE_PASSWORD") });
+            client = new TonieCloudClient(new Login { Email = DotNetEnv.Env.GetString("MYTONIE_LOGIN"), Password = DotNetEnv.Env.GetString("MYTONIE_PASSWORD") });
         }
 
         [Test]

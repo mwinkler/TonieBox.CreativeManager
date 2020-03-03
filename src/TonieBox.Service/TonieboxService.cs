@@ -6,18 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TonieBox.Client;
+using TonieCloud;
 
 namespace TonieBox.Service
 {
     public class TonieboxService
     {
-        private readonly TonieboxClient client;
+        private readonly TonieCloudClient client;
         private readonly Settings settings;
         private readonly MappingService mappingService;
         private IEnumerable<Tonie> tonies;
         private IEnumerable<Household> households;
 
-        public TonieboxService(TonieboxClient client, Settings settings, MappingService mappingService)
+        public TonieboxService(TonieCloudClient client, Settings settings, MappingService mappingService)
         {
             this.client = client;
             this.settings = settings;

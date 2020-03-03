@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 
-namespace TonieBox.Client
+namespace TonieCloud
 {
     internal static class Extensions
     {

@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29721.120
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "test\Test\Test.csproj", "{E3CB3374-DFB3-4CD9-8394-5E8EA1E62C7B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieBox.Client", "src\TonieBox.Client\TonieBox.Client.csproj", "{F3F9C5FE-C5B9-4730-800B-8FAEFF3C5427}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieCloud", "src\TonieCloud\TonieCloud.csproj", "{F3F9C5FE-C5B9-4730-800B-8FAEFF3C5427}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TonieBox.Service", "src\TonieBox.Service\TonieBox.Service.csproj", "{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieCreativeManager.Service", "src\TonieBox.Service\TonieCreativeManager.Service.csproj", "{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TonieBox.Ui", "src\TonieBox.Ui\TonieBox.Ui.csproj", "{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieBox.Ui", "src\TonieBox.Ui\TonieBox.Ui.csproj", "{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

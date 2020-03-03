@@ -9,10 +9,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using TonieCloud;
 
 namespace TonieBox.Client
 {
-    public class TonieboxClient
+    public class TonieCloudClient
     {
         private const string TONIE_API_URL = "https://api.tonie.cloud";
         private const string AMAZON_UPLOAD_URL = "https://bxn-toniecloud-prod-upload.s3.amazonaws.com";
@@ -20,7 +21,7 @@ namespace TonieBox.Client
         private readonly HttpClient client;
         private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
 
-        public TonieboxClient(Login login)
+        public TonieCloudClient(Login login)
         {
             this.login = login;
 

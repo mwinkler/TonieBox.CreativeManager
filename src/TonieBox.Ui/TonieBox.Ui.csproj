@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TonieBox.Service\TonieBox.Service.csproj" />
+    <ProjectReference Include="..\TonieBox.Service\TonieCreativeManager.Service.csproj" />
   </ItemGroup>
 
 </Project>

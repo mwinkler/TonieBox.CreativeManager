@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TonieBox.Client
+namespace TonieCloud
 {
     public class AmazonToken
     { 

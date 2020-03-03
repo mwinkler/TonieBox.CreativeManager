@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using TonieBox.Client;
 using TonieBox.Service;
 using TonieBox.Ui.Delegates;
+using TonieCloud;
 
 namespace TonieBox.Ui
 {
@@ -32,7 +33,7 @@ namespace TonieBox.Ui
             services.AddSingleton(config);
             services.AddSingleton(new Login { Email = Configuration["MYTONIE_LOGIN"], Password = Configuration["MYTONIE_PASSWORD"] });
             
-            services.AddSingleton<TonieboxClient>();
+            services.AddSingleton<TonieCloudClient>();
             services.AddSingleton<TonieboxService>();
             services.AddSingleton<MediaService>();
             services.AddSingleton<MappingService>();
