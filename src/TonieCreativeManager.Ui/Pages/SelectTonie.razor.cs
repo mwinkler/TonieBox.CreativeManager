@@ -12,7 +12,7 @@ namespace TonieCreativeManager.Ui.Pages
 {
     public partial class SelectTonie
     {
-        [Inject] private TonieboxService TonieboxService { get; set; }
+        [Inject] private CreativeTonieService CreativeTonieService { get; set; }
 
         [Inject] public IHttpContextAccessor HttpContext { get; set; }
 
@@ -26,15 +26,14 @@ namespace TonieCreativeManager.Ui.Pages
 
             BackUrl = $"/browse/{path.GetParentPath().EncodeUrl()}";
 
-            var household = (await TonieboxService.GetHouseholds()).FirstOrDefault() ?? throw new Exception("No household found");
-            var tonies = await TonieboxService.GetCreativeTonies(household.Id);
+            var tonies = await CreativeTonieService.GetTonies();
 
             Tonies = tonies
                 .Select(t => new Item
                 {
                     CoverUrl = t.ImageUrl,
                     Name = t.Name,
-                    Url = $"/uploadstart/{household.Id}/{t.Id}?path={path.EncodeUrl()}",
+                    Url = $"/uploadstart/{t.Id}?path={path.EncodeUrl()}",
                     SubCoverUrl = t.CurrentMediaPath != null ? $"/cover?path={t.CurrentMediaPath.EncodeUrl()}" : null
                 })
                 .ToArray();

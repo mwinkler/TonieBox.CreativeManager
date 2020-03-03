@@ -1,23 +1,17 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TonieCreativeManager.Service;
-using TonieCreativeManager.Ui.Model;
 
 namespace TonieCreativeManager.Ui.Pages
 {
     public partial class UploadStart
     {
-        [Inject] private TonieboxService TonieboxService { get; set; }
+        [Inject] private CreativeTonieService CreativeTonieService { get; set; }
 
         [Inject] public IHttpContextAccessor HttpContext { get; set; }
 
         [Parameter] public string TonieId { get; set; }
-
-        [Parameter] public string HouseholdId { get; set; }
 
         public string CoverUrl { get; set; }
 
@@ -29,12 +23,12 @@ namespace TonieCreativeManager.Ui.Pages
         {
             var path = HttpContext.HttpContext.Request.Query["path"].ToString();
             
-            var tonie = await TonieboxService.GetCreativeTonie(HouseholdId, TonieId);
+            var tonie = await CreativeTonieService.GetTonie(TonieId);
 
             CoverUrl = $"/cover?path={path.EncodeUrl()}";
             TonieUrl = tonie.ImageUrl;
 
-            PostUrl = $"/upload/{HouseholdId}/{TonieId}?path={path.EncodeUrl()}";
+            PostUrl = $"/upload/{TonieId}?path={path.EncodeUrl()}";
         }
     }
 }

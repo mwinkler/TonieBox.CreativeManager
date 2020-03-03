@@ -33,9 +33,11 @@ namespace TonieCreativeManager.Ui
             services.AddSingleton(new Login { Email = Configuration["MYTONIE_LOGIN"], Password = Configuration["MYTONIE_PASSWORD"] });
             
             services.AddSingleton<TonieCloudClient>();
-            services.AddSingleton<TonieboxService>();
+            services.AddSingleton<TonieCloudService>();
+            services.AddSingleton<CreativeTonieService>();
             services.AddSingleton<MediaService>();
             services.AddSingleton<MappingService>();
+            services.AddSingleton<UserService>();
             services.AddScoped<CoverHandler>();
             services.AddScoped<UploadHandler>();
 
@@ -66,7 +68,7 @@ namespace TonieCreativeManager.Ui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/cover", ctx => ctx.RequestServices.GetRequiredService<CoverHandler>().InvokeAsync(ctx));
-                endpoints.MapPost("/upload/{householdId}/{tonieId}", ctx => ctx.RequestServices.GetRequiredService<UploadHandler>().InvokeAsync(ctx));
+                endpoints.MapPost("/upload/{tonieId}", ctx => ctx.RequestServices.GetRequiredService<UploadHandler>().InvokeAsync(ctx));
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

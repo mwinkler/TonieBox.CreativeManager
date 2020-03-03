@@ -12,7 +12,7 @@ namespace TonieCreativeManager.Ui.Pages
     {
         [Inject] private MediaService MediaService { get; set; }
         
-        [Inject] private TonieboxService TonieboxService { get; set; }
+        [Inject] private CreativeTonieService CreativeTonieService { get; set; }
 
         [Inject] public IHttpContextAccessor HttpContext { get; set; }
 
@@ -25,8 +25,7 @@ namespace TonieCreativeManager.Ui.Pages
             var path = HttpContext.HttpContext.Request.Query["path"].ToString();
             
             var directories = await MediaService.GetDirectories(path);
-            var households = await TonieboxService.GetHouseholds();
-            var tonies = await TonieboxService.GetCreativeTonies(households.First().Id);
+            var tonies = await CreativeTonieService.GetTonies();
 
             BackPath = string.IsNullOrEmpty(path)
                 ? null

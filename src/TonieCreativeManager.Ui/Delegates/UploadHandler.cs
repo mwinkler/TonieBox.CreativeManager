@@ -7,20 +7,19 @@ namespace TonieCreativeManager.Ui.Delegates
 {
     public class UploadHandler
     {
-        private readonly TonieboxService tonieboxService;
+        private readonly CreativeTonieService creativeTonieService;
 
-        public UploadHandler(TonieboxService tonieboxService)
+        public UploadHandler(CreativeTonieService creativeTonieService)
         {
-            this.tonieboxService = tonieboxService;
+            this.creativeTonieService = creativeTonieService;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
             var path = context.Request.Query["path"];
-            var householdId = (string)context.GetRouteValue("householdId");
             var tonieId = (string)context.GetRouteValue("tonieId");
 
-            await tonieboxService.Upload(path, householdId, tonieId);
+            await creativeTonieService.Upload(path, tonieId);
             //await Task.Delay(3000);
 
             context.Response.Redirect("/browse");
