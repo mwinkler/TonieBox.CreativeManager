@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TonieCreativeManager.Service
+namespace TonieCreativeManager.Service.Model
 {
     public class Settings
     {

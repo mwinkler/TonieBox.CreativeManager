@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using TonieCreativeManager.Service;
 using TonieCreativeManager.Ui.Delegates;
 using TonieCloud;
+using TonieCreativeManager.Service.Model;
 
 namespace TonieCreativeManager.Ui
 {
@@ -44,8 +45,6 @@ namespace TonieCreativeManager.Ui
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddHttpContextAccessor();
-
-            Console.WriteLine($"Proxy: {Configuration["HTTPS_PROXY"]}");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

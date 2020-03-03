@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace TonieCreativeManager.Service
+namespace TonieCreativeManager.Service.Model
 {
     public class Cover
     {

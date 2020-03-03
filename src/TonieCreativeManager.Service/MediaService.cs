@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using TonieCreativeManager.Service.Model;
 
 namespace TonieCreativeManager.Service
 {
@@ -21,7 +22,7 @@ namespace TonieCreativeManager.Service
             this.mappingService = mappingService;
         }
 
-        public async Task<IEnumerable<Directory>> GetDirectories(string path)
+        public async Task<IEnumerable<Model.Directory>> GetDirectories(string path)
         {
             var fullPath = settings.LibraryRoot + path;
             var mappings = await mappingService.GetMappings();
@@ -34,7 +35,7 @@ namespace TonieCreativeManager.Service
                 {
                     var subpath = path + "/" + Path.GetFileName(p);
 
-                    return new Directory
+                    return new Model.Directory
                     {
                         Path = subpath,
                         Name = Path.GetFileName(p),

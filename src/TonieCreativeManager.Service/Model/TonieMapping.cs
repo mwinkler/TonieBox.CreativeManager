@@ -1,5 +1,5 @@
 ﻿
-namespace TonieCreativeManager.Service
+namespace TonieCreativeManager.Service.Model
 {
     public class TonieMapping
     {

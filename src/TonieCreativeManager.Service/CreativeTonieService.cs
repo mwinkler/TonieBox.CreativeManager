@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TonieCloud;
+using TonieCreativeManager.Service.Model;
 
 namespace TonieCreativeManager.Service
 {
