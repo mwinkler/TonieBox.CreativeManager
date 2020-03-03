@@ -22,10 +22,10 @@ namespace TonieCreativeManager.Service
             this.repositoryService = repositoryService;
         }
 
-        public Task<IEnumerable<MediaItem>> GetItems(string path)
+        public async Task<IEnumerable<MediaItem>> GetItems(string path)
         {
             var fullPath = settings.LibraryRoot + path;
-            var mappings = repositoryService.GetMappings();
+            var mappings = await repositoryService.GetMappings();
 
             bool isNotIgnoredFolder(string p) => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase);
 
@@ -46,7 +46,7 @@ namespace TonieCreativeManager.Service
                 .OrderBy(p => p.Name)
                 .ToArray();
 
-            return Task.FromResult(directory.AsEnumerable());
+            return directory;
         }
 
         public async Task<Cover> GetCover(string path)

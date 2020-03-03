@@ -30,7 +30,7 @@ namespace TonieCreativeManager.Service
 
                 var cts = await tonieCloudService.GetCreativeTonies();
 
-                var mappings = repositoryService.GetMappings();
+                var mappings = await repositoryService.GetMappings();
 
                 tonies = cts
                     .Select(t => new Tonie

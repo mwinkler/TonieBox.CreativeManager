@@ -20,32 +20,32 @@ namespace TonieCreativeManager.Service
             this.settings = settings;
         }
 
-        private PersistentData Data
+        private async Task<PersistentData> GetData()
         {
-            get
+            if (data == null)
             {
-                if (data == null)
-                {
-                    data = File.Exists(PersistentDataFilePath)
-                        ? JsonConvert.DeserializeObject<PersistentData>(File.ReadAllText(PersistentDataFilePath))
-                        : new PersistentData();
-                }
-
-                return data;
+                data = File.Exists(PersistentDataFilePath)
+                    ? JsonConvert.DeserializeObject<PersistentData>(await File.ReadAllTextAsync(PersistentDataFilePath))
+                    : new PersistentData();
             }
+
+            return data;
         }
 
-        public IEnumerable<PersistentData.TonieMapping> GetMappings() => Data.TonieMappings;
+        public async Task<IEnumerable<PersistentData.TonieMapping>> GetMappings() => (await GetData()).TonieMappings;
+        
+        public async Task<IEnumerable<PersistentData.User>> GetUsers() => (await GetData()).Users;
 
         public async Task<PersistentData.TonieMapping> SetMapping(string creativeTonieId, string path)
         {
-            var mapping = Data.TonieMappings.FirstOrDefault(m => m.TonieId == creativeTonieId);
+            var data = await GetData();
+            var mapping = data.TonieMappings.FirstOrDefault(m => m.TonieId == creativeTonieId);
 
             if (mapping == null)
             {
                 mapping = new PersistentData.TonieMapping { TonieId = creativeTonieId };
 
-                Data.TonieMappings.Add(mapping);
+                data.TonieMappings.Add(mapping);
             }
 
             mapping.Path = path;
@@ -55,13 +55,11 @@ namespace TonieCreativeManager.Service
             return mapping;
         }
 
-        private Task PersistData()
+        private async Task PersistData()
         {
-            var json = JsonConvert.SerializeObject(Data, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(await GetData(), Formatting.Indented);
 
-            File.WriteAllText(PersistentDataFilePath, json);
-
-            return Task.CompletedTask;
+            await File.WriteAllTextAsync(PersistentDataFilePath, json);
         }
     }
 }
