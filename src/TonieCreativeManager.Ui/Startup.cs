@@ -37,7 +37,7 @@ namespace TonieCreativeManager.Ui
             services.AddSingleton<TonieCloudService>();
             services.AddSingleton<CreativeTonieService>();
             services.AddSingleton<MediaService>();
-            services.AddSingleton<MappingService>();
+            services.AddSingleton<RepositoryService>();
             services.AddSingleton<UserService>();
             services.AddScoped<CoverHandler>();
             services.AddScoped<UploadHandler>();

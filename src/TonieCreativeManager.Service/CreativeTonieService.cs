@@ -12,14 +12,14 @@ namespace TonieCreativeManager.Service
     {
         private readonly Settings settings;
         private readonly TonieCloudService tonieCloudService;
-        private readonly MappingService mappingService;
+        private readonly RepositoryService repositoryService;
         private IEnumerable<Tonie> tonies;
 
-        public CreativeTonieService(Settings settings, TonieCloudService tonieCloudService, MappingService mappingService)
+        public CreativeTonieService(Settings settings, TonieCloudService tonieCloudService, RepositoryService repositoryService)
         {
             this.settings = settings;
             this.tonieCloudService = tonieCloudService;
-            this.mappingService = mappingService;
+            this.repositoryService = repositoryService;
         }
 
         public async Task<IEnumerable<Tonie>> GetTonies()
@@ -30,7 +30,7 @@ namespace TonieCreativeManager.Service
 
                 var cts = await tonieCloudService.GetCreativeTonies();
 
-                var mappings = await mappingService.GetMappings();
+                var mappings = repositoryService.GetMappings();
 
                 tonies = cts
                     .Select(t => new Tonie
@@ -80,7 +80,7 @@ namespace TonieCreativeManager.Service
             }
 
             // save mapping
-            await mappingService.SetMapping(creativeTonieId, path);
+            await repositoryService.SetMapping(creativeTonieId, path);
 
             // reset creative tonies
             tonies = null;

@@ -12,20 +12,20 @@ namespace TonieCreativeManager.Service
     {
         private static readonly string[] ImageExtensions = new string[] { ".png", ".jpg", ".jpeg", ".gif" };
         private readonly Settings settings;
-        private readonly MappingService mappingService;
+        private readonly RepositoryService repositoryService;
 
-        public MediaService(Settings settings, MappingService mappingService)
+        public MediaService(Settings settings, RepositoryService repositoryService)
         {
             Console.WriteLine($"Using '{settings.LibraryRoot}' for library root");
 
             this.settings = settings;
-            this.mappingService = mappingService;
+            this.repositoryService = repositoryService;
         }
 
-        public async Task<IEnumerable<MediaItem>> GetItems(string path)
+        public Task<IEnumerable<MediaItem>> GetItems(string path)
         {
             var fullPath = settings.LibraryRoot + path;
-            var mappings = await mappingService.GetMappings();
+            var mappings = repositoryService.GetMappings();
 
             bool isNotIgnoredFolder(string p) => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase);
 
@@ -46,7 +46,7 @@ namespace TonieCreativeManager.Service
                 .OrderBy(p => p.Name)
                 .ToArray();
 
-            return directory;
+            return Task.FromResult(directory.AsEnumerable());
         }
 
         public async Task<Cover> GetCover(string path)

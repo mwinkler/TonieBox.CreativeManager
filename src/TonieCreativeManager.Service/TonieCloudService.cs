@@ -17,6 +17,7 @@ namespace TonieCreativeManager.Service
 
         private IEnumerable<CreativeTonie> creativeTonies;
         private IEnumerable<Household> households;
+        private IEnumerable<Toniebox> tonieboxes;
 
         public async Task<Household> GetHousehold() => (await GetHouseholds()).FirstOrDefault() ?? throw new Exception("No household found");
 
@@ -29,5 +30,8 @@ namespace TonieCreativeManager.Service
         public void RefreshCreativeTonies() => creativeTonies = null;
 
         public Task<CreativeTonie> UploadFilesToCreateiveTonie(UploadFilesToCreateiveTonieRequest request) => client.UploadFilesToCreateiveTonie(request);
+
+        public async Task<IEnumerable<Toniebox>> GetTonieboxes() => tonieboxes ?? (tonieboxes = await client.GetTonieboxes((await GetHousehold()).Id));
+
     }
 }
