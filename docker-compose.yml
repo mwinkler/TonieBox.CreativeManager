@@ -4,7 +4,7 @@ services:
   app:
     image: mwinkler/toniebox-creativemanager
     build: 
-      dockerfile: ./src/TonieBox.Ui/Dockerfile
+      dockerfile: ./src/TonieCreativeManager.Ui/Dockerfile
       context: ./
       args:
         HTTPS_PROXY: $HTTPS_PROXY

@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "test\Test\Test.cspr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieCloud", "src\TonieCloud\TonieCloud.csproj", "{F3F9C5FE-C5B9-4730-800B-8FAEFF3C5427}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieCreativeManager.Service", "src\TonieBox.Service\TonieCreativeManager.Service.csproj", "{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieCreativeManager.Service", "src\TonieCreativeManager.Service\TonieCreativeManager.Service.csproj", "{DDFB083C-F02C-48D0-8EBC-A3D9553C3A3A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieBox.Ui", "src\TonieBox.Ui\TonieBox.Ui.csproj", "{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TonieCreativeManager.Ui", "src\TonieCreativeManager.Ui\TonieCreativeManager.Ui.csproj", "{F8C5D87B-9C89-4BB2-8F96-D36080CAEFFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
