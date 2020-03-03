@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -36,23 +37,49 @@ namespace TonieCreativeManager.Service
         
         public async Task<IEnumerable<PersistentData.User>> GetUsers() => (await GetData()).Users;
 
-        public async Task<PersistentData.TonieMapping> SetMapping(string creativeTonieId, string path)
+        public async Task<IEnumerable<PersistentData.Voucher>> GetVouchers() => (await GetData()).Vouchers;
+
+        public Task<PersistentData.TonieMapping> SetMapping(string creativeTonieId, string path) => 
+            SetValue(
+                data => data.TonieMappings,
+                mapping => mapping.TonieId == creativeTonieId,
+                mapping =>
+                {
+                    mapping.TonieId = creativeTonieId;
+                    mapping.Path = path;
+                }
+            );
+
+        public Task<PersistentData.Voucher> SetVoucher(PersistentData.Voucher voucher) =>
+            SetValue(
+                data => data.Vouchers,
+                v => v.Code == voucher.Code,
+                v =>
+                {
+                    v.Code = voucher.Code;
+                    v.Used = voucher.Used;
+                    v.Value = voucher.Value;
+                }
+            );
+
+        private async Task<T> SetValue<T>(Func<PersistentData, IList<T>> set, Func<T, bool> select, Action<T> update) where T : class
         {
             var data = await GetData();
-            var mapping = data.TonieMappings.FirstOrDefault(m => m.TonieId == creativeTonieId);
+            var list = set.Invoke(data);
+            var value = list.FirstOrDefault(select);
 
-            if (mapping == null)
+            if (value == null)
             {
-                mapping = new PersistentData.TonieMapping { TonieId = creativeTonieId };
+                value = Activator.CreateInstance<T>();
 
-                data.TonieMappings.Add(mapping);
+                list.Add(value);
             }
 
-            mapping.Path = path;
+            update.Invoke(value);
 
             await PersistData();
 
-            return mapping;
+            return value;
         }
 
         private async Task PersistData()

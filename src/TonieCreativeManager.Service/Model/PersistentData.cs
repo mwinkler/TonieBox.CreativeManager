@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TonieCreativeManager.Service.Model
 {
@@ -16,7 +17,15 @@ namespace TonieCreativeManager.Service.Model
             public int Credits { get; set; }
         }
 
+        public class Voucher
+        {
+            public string Code { get; set; }
+            public int Value { get; set; }
+            public DateTime? Used { get; set; }
+        }
+
         public IList<TonieMapping> TonieMappings { get; set; } = new List<TonieMapping>();
         public IList<User> Users { get; set; } = new List<User>();
+        public IList<Voucher> Vouchers { get; set; } = new List<Voucher>();
     }
 }
