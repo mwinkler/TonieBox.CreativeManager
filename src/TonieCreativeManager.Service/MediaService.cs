@@ -22,24 +22,24 @@ namespace TonieCreativeManager.Service
             this.mappingService = mappingService;
         }
 
-        public async Task<IEnumerable<Model.Directory>> GetDirectories(string path)
+        public async Task<IEnumerable<MediaItem>> GetItems(string path)
         {
             var fullPath = settings.LibraryRoot + path;
             var mappings = await mappingService.GetMappings();
 
             bool isNotIgnoredFolder(string p) => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase);
 
-            var directory = System.IO.Directory.GetDirectories(fullPath)
+            var directory = Directory.GetDirectories(fullPath)
                 .Where(isNotIgnoredFolder)
                 .Select(p => 
                 {
                     var subpath = path + "/" + Path.GetFileName(p);
 
-                    return new Model.Directory
+                    return new MediaItem
                     {
                         Path = subpath,
                         Name = Path.GetFileName(p),
-                        HasSubfolders = System.IO.Directory.GetDirectories(p).Where(isNotIgnoredFolder).Any(),
+                        HasSubitems = Directory.GetDirectories(p).Where(isNotIgnoredFolder).Any(),
                         MappedTonieId = mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId
                     };
                 })
@@ -87,7 +87,7 @@ namespace TonieCreativeManager.Service
         private Task<string> TryGetCoverPath(string path)
         {
             var fullPath = settings.LibraryRoot + path;
-            var files = System.IO.Directory.GetFiles(fullPath);
+            var files = Directory.GetFiles(fullPath);
 
             // specific cover files
             var coverFile = files.FirstOrDefault(p => settings.FolderCoverFiles.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase));

@@ -24,20 +24,20 @@ namespace TonieCreativeManager.Ui.Pages
         {
             var path = HttpContext.HttpContext.Request.Query["path"].ToString();
             
-            var directories = await MediaService.GetDirectories(path);
+            var items = await MediaService.GetItems(path);
             var tonies = await CreativeTonieService.GetTonies();
 
             BackPath = string.IsNullOrEmpty(path)
                 ? null
                 : $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
-            Items = directories
+            Items = items
                 .Select(dir => new Item
                 {
                     Name = dir.Name,
-                    Url = $"/{(dir.HasSubfolders ? "browse" : "selecttonie")}?path={dir.Path.EncodeUrl()}",
+                    Url = $"/{(dir.HasSubitems ? "browse" : "selecttonie")}?path={dir.Path.EncodeUrl()}",
                     CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}",
-                    SubCoverUrl = dir.HasSubfolders
+                    SubCoverUrl = dir.HasSubitems
                         ? $"/cover?path=folder"
                         : dir.MappedTonieId != null
                             ? tonies.FirstOrDefault(t => dir.MappedTonieId == t.Id)?.ImageUrl
