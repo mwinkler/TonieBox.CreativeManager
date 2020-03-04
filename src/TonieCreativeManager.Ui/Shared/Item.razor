@@ -1,5 +1,5 @@
 ﻿
-<a class="item" href="@Value.Url">
+<a class="item @(RestrictWidth ? "restrict" : "")" href="@Value.Url">
     <div class="cover" style="background-image:url('@Value.CoverUrl')">
         @if (!string.IsNullOrEmpty(Value.SubCoverUrl))
         {
@@ -12,5 +12,7 @@
 @code {
 
     [Parameter] public TonieCreativeManager.Ui.Model.Item Value { get; set; }
+
+    [Parameter] public bool RestrictWidth { get; set; }
 
 }

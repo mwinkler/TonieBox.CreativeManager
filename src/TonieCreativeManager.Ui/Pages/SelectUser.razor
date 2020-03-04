@@ -1,0 +1,11 @@
+﻿@page "/selectuser"
+
+@if (Users != null)
+{
+    <div class="grid">
+        @foreach (var user in Users)
+        {
+            <Item Value="user" />
+        }
+    </div>
+}

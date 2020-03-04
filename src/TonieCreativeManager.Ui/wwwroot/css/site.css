@@ -58,7 +58,8 @@ app { position: relative; display: flex; flex-direction: column; }
 
 /* grid with flexbox */
 .grid { display: flex; flex-wrap:wrap; }
-.grid .item { flex: 1 0 250px; max-width:375px; }
+.grid .item { flex: 1 0 250px;  }
+.grid .item.restrict { max-width: 375px; }
 
 .grid .item { border: 1px solid #eee; padding: 1rem; text-align: center; cursor:pointer; }
 .grid .cover { padding-bottom: 100%; margin-bottom: 0.5rem; background-size: contain; background-repeat: no-repeat; background-position: center center; position:relative; }
