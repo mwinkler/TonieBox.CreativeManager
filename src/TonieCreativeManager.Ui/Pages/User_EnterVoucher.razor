@@ -1,0 +1,37 @@
+﻿@page "/user/{userid}/voucher/enter"
+@page "/user/{userid}/voucher/enter/{value}"
+
+@inject Settings Settings
+
+@inject VoucherService VoucherService
+
+@inject IHttpContextAccessor Accessor
+
+<div class="enterbox" style="margin-top:2rem;margin-bottom:4rem;">
+    &nbsp;@Value&nbsp;
+</div>
+
+<div class="keyboard">
+
+    @foreach (var key in Settings.KeyboardCharacters)
+    {
+        <a href="/user/@UserId/voucher/enter/@(Value + key)">@key</a>
+    }
+
+</div>
+
+@code {
+
+    [Parameter] public string UserId { get; set; }
+
+    [Parameter] public string Value { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (await VoucherService.IsValid(Value))
+        {
+            Accessor.HttpContext.Response.Redirect($"/user/{UserId}/voucher/redeem/{Value}");
+        }
+    }
+
+}

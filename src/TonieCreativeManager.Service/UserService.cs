@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TonieCreativeManager.Service.Model;
@@ -9,12 +10,15 @@ namespace TonieCreativeManager.Service
     {
         private readonly TonieCloudService tonieCloudService;
         private readonly RepositoryService repositoryService;
+        private readonly VoucherService voucherService;
+
         private IEnumerable<User> users;
 
-        public UserService(TonieCloudService tonieCloudService, RepositoryService repositoryService)
+        public UserService(TonieCloudService tonieCloudService, RepositoryService repositoryService, VoucherService voucherService)
         {
             this.tonieCloudService = tonieCloudService;
             this.repositoryService = repositoryService;
+            this.voucherService = voucherService;
         }
 
         public async Task<IEnumerable<User>> GetUsers()
@@ -38,5 +42,24 @@ namespace TonieCreativeManager.Service
             return users;
         }
 
+        public async Task RedeemVoucher(string code, string userId)
+        {
+            var users = await repositoryService.GetUsers();
+            var user = users.FirstOrDefault(u => u.Id == userId);
+
+            if (user == null)
+            {
+                user = new PersistentData.User { Id = userId };
+            }
+
+            // redeem voucher
+            var voucher = await voucherService.Redeem(code);
+
+            // credit user
+            user.Credits += voucher.Value;
+
+            // save user
+            await repositoryService.SetUser(user);
+        }
     }
 }

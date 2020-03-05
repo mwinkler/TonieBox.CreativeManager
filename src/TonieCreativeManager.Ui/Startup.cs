@@ -39,6 +39,7 @@ namespace TonieCreativeManager.Ui
             services.AddSingleton<MediaService>();
             services.AddSingleton<RepositoryService>();
             services.AddSingleton<UserService>();
+            services.AddSingleton<VoucherService>();
             services.AddScoped<CoverHandler>();
 
             services.AddRazorPages();

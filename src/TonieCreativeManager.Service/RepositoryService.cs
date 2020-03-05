@@ -62,6 +62,17 @@ namespace TonieCreativeManager.Service
                 }
             );
 
+        public Task<PersistentData.User> SetUser(PersistentData.User user) =>
+            SetValue(
+                data => data.Users,
+                v => v.Id == user.Id,
+                v =>
+                {
+                    v.Id = user.Id;
+                    v.Credits = user.Credits;
+                }
+            );
+
         private async Task<T> SetValue<T>(Func<PersistentData, IList<T>> set, Func<T, bool> select, Action<T> update) where T : class
         {
             var data = await GetData();
