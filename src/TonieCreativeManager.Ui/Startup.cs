@@ -40,7 +40,6 @@ namespace TonieCreativeManager.Ui
             services.AddSingleton<RepositoryService>();
             services.AddSingleton<UserService>();
             services.AddScoped<CoverHandler>();
-            services.AddScoped<UploadHandler>();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
@@ -67,7 +66,6 @@ namespace TonieCreativeManager.Ui
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/cover", ctx => ctx.RequestServices.GetRequiredService<CoverHandler>().InvokeAsync(ctx));
-                endpoints.MapPost("/upload/{tonieId}", ctx => ctx.RequestServices.GetRequiredService<UploadHandler>().InvokeAsync(ctx));
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

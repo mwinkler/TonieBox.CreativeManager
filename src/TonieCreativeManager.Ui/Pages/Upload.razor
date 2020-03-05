@@ -1,0 +1,21 @@
+﻿@page "/upload/{tonieId}"
+
+@inject CreativeTonieService CreativeTonieService
+
+@inject IHttpContextAccessor Accessor
+
+@code {
+
+    [Parameter] public string TonieId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var ctx = Accessor.HttpContext;
+        var path = ctx.Request.Query["path"];
+
+        await CreativeTonieService.Upload(path, TonieId);
+        //await Task.Delay(3000);
+
+        ctx.Response.Redirect("/browse");
+    }
+}

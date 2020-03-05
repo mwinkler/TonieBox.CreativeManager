@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<form method="post" action="@postUrl"></form>
+<form method="get" action="@postUrl"></form>
 
 @code {
 
@@ -32,7 +32,6 @@
 
         coverUrl = $"/cover?path={path.EncodeUrl()}";
         tonieUrl = tonie.ImageUrl;
-
         postUrl = $"/upload/{TonieId}?path={path.EncodeUrl()}";
     }
 
