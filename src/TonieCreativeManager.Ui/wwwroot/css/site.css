@@ -70,5 +70,7 @@ a.back { padding: 1rem; border: 1px solid #eee; display:block; }
 
 .upload { width:300px; }
 
-.keyboard { display:flex; }
-.keyboard > a { display:inline-block; padding:4rem; font-size:4rem; }
+.enterbox { text-align: center; }
+.enterbox span { padding: 2rem; font-size: 5rem; background-color:#e2e2e2; }
+.keyboard { display: flex; flex-wrap: wrap; justify-content: center; }
+.keyboard > a { display: inline-block; padding: 4rem; font-size: 4rem; border: 1px solid #eee; }

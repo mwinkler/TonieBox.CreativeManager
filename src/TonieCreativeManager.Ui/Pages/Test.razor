@@ -3,29 +3,27 @@
 
 @inject Settings Settings
 
-<div>
 
+<div class="enterbox" style="margin-top:2rem;margin-bottom:4rem;">
+    <span>&nbsp;@Value</span>
 </div>
 
 <div class="keyboard">
 
-    @foreach (var key in keys)
+    @foreach (var key in Settings.KeyboardCharacters)
     {
-        <a href="/user/entervoucher/@Value@key">@key</a>
+        <a href="/user/entervoucher/@(Value + key)">@key</a>
     }
 
 </div>
-
 
 @code {
 
     [Parameter] public string Value { get; set; }
 
-    IEnumerable<char> keys;
 
     protected override void OnInitialized()
     {
-        keys = Settings.KeyboardCharacters;
     }
 
 }

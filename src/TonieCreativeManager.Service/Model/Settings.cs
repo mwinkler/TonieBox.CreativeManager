@@ -14,6 +14,6 @@ namespace TonieCreativeManager.Service.Model
         public IEnumerable<string> IgnoreFolderNames { get; set; }
         public string PersistentDataFile { get; set; }
         public bool UsersEnabled { get; set; }
-        public string KeyboardCharacters { get; set; }
+        public IEnumerable<string> KeyboardCharacters { get; set; }
     }
 }
