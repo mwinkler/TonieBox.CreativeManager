@@ -1,4 +1,4 @@
-﻿@page "/upload/{tonieId}"
+﻿@page "/upload/run/{tonieId}"
 
 @inject CreativeTonieService CreativeTonieService
 
@@ -13,8 +13,8 @@
         var ctx = Accessor.HttpContext;
         var path = ctx.Request.Query["path"];
 
-        await CreativeTonieService.Upload(path, TonieId);
-        //await Task.Delay(3000);
+        //await CreativeTonieService.Upload(path, TonieId);
+        await Task.Delay(3000);
 
         ctx.Response.Redirect("/browse");
     }

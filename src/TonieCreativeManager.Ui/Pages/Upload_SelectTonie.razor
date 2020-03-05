@@ -1,4 +1,4 @@
-﻿@page "/selecttonie"
+﻿@page "/upload/selecttonie"
 
 @inject CreativeTonieService CreativeTonieService
 
@@ -35,7 +35,7 @@
             {
                 CoverUrl = t.ImageUrl,
                 Name = t.Name,
-                Url = $"/uploadstart/{t.Id}?path={path.EncodeUrl()}",
+                Url = $"/upload/start/{t.Id}?path={path.EncodeUrl()}",
                 SubCoverUrl = t.CurrentMediaPath != null ? $"/cover?path={t.CurrentMediaPath.EncodeUrl()}" : null
             })
             .ToArray();

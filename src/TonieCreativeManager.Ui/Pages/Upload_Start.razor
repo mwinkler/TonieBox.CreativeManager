@@ -1,4 +1,4 @@
-﻿@page "/uploadstart/{tonieid}"
+﻿@page "/upload/start/{tonieid}"
 
 @inject CreativeTonieService CreativeTonieService
 
@@ -32,7 +32,7 @@
 
         coverUrl = $"/cover?path={path.EncodeUrl()}";
         tonieUrl = tonie.ImageUrl;
-        postUrl = $"/upload/{TonieId}?path={path.EncodeUrl()}";
+        postUrl = $"/upload/run/{TonieId}?path={path.EncodeUrl()}";
     }
 
 }

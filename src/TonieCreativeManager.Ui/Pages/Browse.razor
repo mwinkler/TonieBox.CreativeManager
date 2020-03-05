@@ -42,7 +42,7 @@
             .Select(dir => new ItemModel
             {
                 Name = dir.Name,
-                Url = $"/{(dir.HasSubitems ? "browse" : "selecttonie")}?path={dir.Path.EncodeUrl()}",
+                Url = $"/{(dir.HasSubitems ? "browse" : "upload/selecttonie")}?path={dir.Path.EncodeUrl()}",
                 CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}",
                 SubCoverUrl = dir.HasSubitems
                     ? $"/cover?path=folder"
