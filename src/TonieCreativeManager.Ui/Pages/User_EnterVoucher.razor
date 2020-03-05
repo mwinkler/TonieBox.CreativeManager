@@ -1,0 +1,31 @@
+﻿@page "/user/entervoucher"
+@page "/user/entervoucher/{value}"
+
+@inject Settings Settings
+
+<div>
+
+</div>
+
+<div class="keyboard">
+
+    @foreach (var key in keys)
+    {
+        <a href="/user/entervoucher/@Value@key">@key</a>
+    }
+
+</div>
+
+
+@code {
+
+    [Parameter] public string Value { get; set; }
+
+    IEnumerable<char> keys;
+
+    protected override void OnInitialized()
+    {
+        keys = Settings.KeyboardCharacters;
+    }
+
+}

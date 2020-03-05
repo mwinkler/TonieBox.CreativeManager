@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\User_EnterVoucher.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\User_EnterVoucher.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="1.4.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.6" />
   </ItemGroup>

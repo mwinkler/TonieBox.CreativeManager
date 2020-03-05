@@ -69,3 +69,6 @@ app { position: relative; display: flex; flex-direction: column; }
 a.back { padding: 1rem; border: 1px solid #eee; display:block; }
 
 .upload { width:300px; }
+
+.keyboard { display:flex; }
+.keyboard > a { display:inline-block; padding:4rem; font-size:4rem; }
