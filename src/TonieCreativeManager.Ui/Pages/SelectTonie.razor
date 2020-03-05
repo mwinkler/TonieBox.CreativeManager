@@ -1,13 +1,44 @@
 ﻿@page "/selecttonie"
 
-<a class="back mb-3" href="@BackUrl">Zurück</a>
+@inject CreativeTonieService CreativeTonieService
 
-@if (Tonies != null)
+@inject IHttpContextAccessor HttpContext
+
+<a class="back mb-3" href="@backUrl">Zurück</a>
+
+@if (items != null)
 {
     <div class="grid">
-        @foreach (var tonie in Tonies)
+        @foreach (var tonie in items)
         {
             <Item Value="tonie" RestrictWidth="true" />
         }
     </div>
+}
+
+@code {
+
+    IEnumerable<ItemModel> items;
+
+    string backUrl;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var path =  HttpContext.HttpContext.Request.Query["path"].ToString();
+
+        backUrl = $"/browse?path={path.GetParentPath().EncodeUrl()}";
+
+        var tonies = await CreativeTonieService.GetTonies();
+
+        items = tonies
+            .Select(t => new ItemModel
+            {
+                CoverUrl = t.ImageUrl,
+                Name = t.Name,
+                Url = $"/uploadstart/{t.Id}?path={path.EncodeUrl()}",
+                SubCoverUrl = t.CurrentMediaPath != null ? $"/cover?path={t.CurrentMediaPath.EncodeUrl()}" : null
+            })
+            .ToArray();
+    }
+
 }

@@ -1,17 +1,57 @@
-﻿@page "/"
-@page "/browse"
+﻿@page "/browse"
 
-@if (BackPath != null)
+@inject MediaService MediaService 
+
+@inject CreativeTonieService CreativeTonieService
+
+@inject IHttpContextAccessor HttpContext 
+
+@if (backPath != null)
 {
-    <a class="back mb-3" href="@BackPath">Zurück</a>
+    <a class="back mb-3" href="@backPath">Zurück</a>
 }
 
-@if (Items != null)
+@if (items != null)
 {
     <div class="grid">
-        @foreach (var item in Items)
+        @foreach (var item in items)
         {
             <Item Value="item" RestrictWidth="true" />
         }
     </div>
+}
+
+@code {
+
+    IEnumerable<ItemModel> items;
+
+    string backPath;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var path = HttpContext.HttpContext.Request.Query["path"].ToString();
+            
+        var mediaItems = await MediaService.GetItems(path);
+        var tonies = await CreativeTonieService.GetTonies();
+
+        backPath = string.IsNullOrEmpty(path)
+            ? null
+            : $"/browse?path={path.GetParentPath().EncodeUrl()}";
+
+        items = mediaItems
+            .Select(dir => new ItemModel
+            {
+                Name = dir.Name,
+                Url = $"/{(dir.HasSubitems ? "browse" : "selecttonie")}?path={dir.Path.EncodeUrl()}",
+                CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}",
+                SubCoverUrl = dir.HasSubitems
+                    ? $"/cover?path=folder"
+                    : dir.MappedTonieId != null
+                        ? tonies.FirstOrDefault(t => dir.MappedTonieId == t.Id)?.ImageUrl
+                        : null,
+                SubCoverClass = dir.MappedTonieId != null ? "tonie" : null
+            })
+            .ToArray();
+    }
+
 }

@@ -13,5 +13,6 @@ namespace TonieCreativeManager.Service.Model
         public string LibraryRoot { get; set; }
         public IEnumerable<string> IgnoreFolderNames { get; set; }
         public string PersistentDataFile { get; set; }
+        public bool UsersEnabled { get; set; }
     }
 }

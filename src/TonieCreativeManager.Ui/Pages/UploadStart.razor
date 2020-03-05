@@ -1,12 +1,39 @@
 ﻿@page "/uploadstart/{tonieid}"
 
+@inject CreativeTonieService CreativeTonieService
+
+@inject IHttpContextAccessor HttpContext
 
 <div style="display:flex;position:fixed;top:0;left:0;width:100%;height:100%;align-items:center;justify-content:center;">
     <div>
-        <img class="upload" src="@CoverUrl" onload="setTimeout('document.forms[0].submit()', 1000)" />
+        <img class="upload" src="@coverUrl" onload="setTimeout('document.forms[0].submit()', 1000)" />
         <img src="/loader.gif" style="margin:5rem; vertical-align:middle" />
-        <img class="upload" src="@TonieUrl" />
+        <img class="upload" src="@tonieUrl" />
     </div>
 </div>
 
-<form method="post" action="@PostUrl"></form>
+<form method="post" action="@postUrl"></form>
+
+@code {
+
+    [Parameter] public string TonieId { get; set; }
+
+    string coverUrl;
+
+    string tonieUrl;
+
+    string postUrl;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var path = HttpContext.HttpContext.Request.Query["path"].ToString();
+            
+        var tonie = await CreativeTonieService.GetTonie(TonieId);
+
+        coverUrl = $"/cover?path={path.EncodeUrl()}";
+        tonieUrl = tonie.ImageUrl;
+
+        postUrl = $"/upload/{TonieId}?path={path.EncodeUrl()}";
+    }
+
+}

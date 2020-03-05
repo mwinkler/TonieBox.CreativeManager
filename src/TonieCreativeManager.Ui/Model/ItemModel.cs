@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace TonieCreativeManager.Ui.Model
 {
-    public class Item
+    public class ItemModel
     {
         public string CoverUrl { get; set; }
         public string Name { get; set; }

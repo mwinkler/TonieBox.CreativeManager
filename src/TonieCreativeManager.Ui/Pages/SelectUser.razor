@@ -1,11 +1,32 @@
 ﻿@page "/selectuser"
 
-@if (Users != null)
+@inject UserService UserService
+
+@if (items != null)
 {
     <div class="grid">
-        @foreach (var user in Users)
+        @foreach (var user in items)
         {
             <Item Value="user" />
         }
     </div>
+}
+
+@code {
+
+    IEnumerable<ItemModel> items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var users = await UserService.GetUsers();
+
+        items = users
+            .Select(u => new ItemModel
+            {
+                Name = u.Name,
+                CoverUrl = u.ProfileUrl
+            })
+            .ToArray();
+    }
+
 }
