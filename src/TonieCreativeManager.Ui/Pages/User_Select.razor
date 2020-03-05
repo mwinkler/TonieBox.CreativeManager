@@ -2,29 +2,22 @@
 
 @inject UserService UserService
 
-@if (items != null)
-{
-    <div class="grid">
-        @foreach (var user in items)
-        {
-            <Item Value="user" />
-        }
-    </div>
-}
+<Grid Items="items"></Grid>
 
 @code {
 
-    IEnumerable<ItemModel> items;
+    IEnumerable<GridItem> items;
 
     protected override async Task OnInitializedAsync()
     {
         var users = await UserService.GetUsers();
 
         items = users
-            .Select(u => new ItemModel
+            .Select(u => new GridItem
             {
                 Name = u.Name,
-                CoverUrl = u.ProfileUrl
+                CoverUrl = u.ProfileUrl,
+                Url = $"/user/selected/{u.Id}"
             })
             .ToArray();
     }

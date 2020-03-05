@@ -6,32 +6,24 @@
 
 <a class="back mb-3" href="@backUrl">Zurück</a>
 
-@if (items != null)
-{
-    <div class="grid">
-        @foreach (var tonie in items)
-        {
-            <Item Value="tonie" RestrictWidth="true" />
-        }
-    </div>
-}
+<Grid Items="items" RestrictWidth="true"></Grid>
 
 @code {
 
-    IEnumerable<ItemModel> items;
+    IEnumerable<GridItem> items;
 
     string backUrl;
 
     protected override async Task OnInitializedAsync()
     {
-        var path =  HttpContext.HttpContext.Request.Query["path"].ToString();
+        var path = HttpContext.HttpContext.Request.Query["path"].ToString();
 
         backUrl = $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
         var tonies = await CreativeTonieService.GetTonies();
 
         items = tonies
-            .Select(t => new ItemModel
+            .Select(t => new GridItem
             {
                 CoverUrl = t.ImageUrl,
                 Name = t.Name,

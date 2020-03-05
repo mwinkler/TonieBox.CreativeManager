@@ -11,19 +11,11 @@
     <a class="back mb-3" href="@backPath">Zurück</a>
 }
 
-@if (items != null)
-{
-    <div class="grid">
-        @foreach (var item in items)
-        {
-            <Item Value="item" RestrictWidth="true" />
-        }
-    </div>
-}
+<Grid Items="items" RestrictWidth="true"></Grid>
 
 @code {
 
-    IEnumerable<ItemModel> items;
+    IEnumerable<GridItem> items;
 
     string backPath;
 
@@ -39,7 +31,7 @@
             : $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
         items = mediaItems
-            .Select(dir => new ItemModel
+            .Select(dir => new GridItem
             {
                 Name = dir.Name,
                 Url = $"/{(dir.HasSubitems ? "browse" : "upload/selecttonie")}?path={dir.Path.EncodeUrl()}",

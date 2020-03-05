@@ -1,7 +1,7 @@
 ﻿
 namespace TonieCreativeManager.Ui.Model
 {
-    public class ItemModel
+    public class GridItem
     {
         public string CoverUrl { get; set; }
         public string Name { get; set; }

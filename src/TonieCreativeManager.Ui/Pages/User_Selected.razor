@@ -1,0 +1,15 @@
+﻿@page "/user/selected/{id}"
+
+@inject IHttpContextAccessor Accessor
+
+@code {
+
+    [Parameter] public string Id { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Accessor.HttpContext.Response.Cookies.Append("CretiveManager_UserId", Id);
+
+        Accessor.HttpContext.Response.Redirect("/browse");
+    }
+}
