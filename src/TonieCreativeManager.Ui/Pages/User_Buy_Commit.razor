@@ -4,10 +4,17 @@
 
 @inject IHttpContextAccessor Accessor
 
+@inject SessionService Session
+
 @code { 
     
     protected override async Task OnInitializedAsync()
     {
+        var path = Accessor.HttpContext.Request.Query["path"].ToString();
+
+        await UserService.BuyItem(Session.UserId, path);
+
+        Accessor.HttpContext.Response.Redirect($"/browse?path={path.GetParentPath().EncodeUrl()}");
     }
 
 }

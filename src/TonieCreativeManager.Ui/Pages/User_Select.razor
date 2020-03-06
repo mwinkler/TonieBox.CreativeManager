@@ -16,7 +16,7 @@
             .Select(u => new GridItem
             {
                 Name = u.Name,
-                ImageUrl = u.ProfileUrl,
+                ImageUrl = u.ProfileImageUrl,
                 Url = $"/user/selected/{u.Id}"
             })
             .ToArray();

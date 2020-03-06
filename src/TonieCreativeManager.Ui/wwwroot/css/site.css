@@ -64,7 +64,7 @@ app { position: relative; display: flex; flex-direction: column; }
 .grid .item { flex: 1 0 250px;  }
 .grid .item { border: 1px solid #eee; padding: 1rem; text-align: center; cursor: pointer; }
 .grid .item.restricted { opacity: 0.5; }
-.grid .cover { padding-bottom: 100%; margin-bottom: 0.5rem; background-size: contain; background-repeat: no-repeat; background-position: center center; position:relative; }
+.grid .cover { padding-bottom: 100%; margin-bottom: 0.5rem; background-size: cover; background-repeat: no-repeat; background-position: center center; position:relative; }
 .grid .item.restricted .cover { clip-path: circle(45% at center); }
 .grid .subcover { position: absolute; top: 60%; left: 60%; height: 40%; width: 40%; background-size: contain; background-repeat: no-repeat; background-position: center center; }
 .grid .subcover.tonie { top:75%;left:75%; }

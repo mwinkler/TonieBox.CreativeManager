@@ -12,38 +12,20 @@ namespace TonieCreativeManager.Service
         private readonly RepositoryService repositoryService;
         private readonly VoucherService voucherService;
         private readonly Settings settings;
-        private IEnumerable<User> users;
+        private readonly MediaService mediaService;
 
-        public UserService(TonieCloudService tonieCloudService, RepositoryService repositoryService, VoucherService voucherService, Settings settings)
+        public UserService(TonieCloudService tonieCloudService, RepositoryService repositoryService, VoucherService voucherService, Settings settings, MediaService mediaService)
         {
             this.tonieCloudService = tonieCloudService;
             this.repositoryService = repositoryService;
             this.voucherService = voucherService;
             this.settings = settings;
+            this.mediaService = mediaService;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            if (users == null)
-            {
-                var boxes = await tonieCloudService.GetTonieboxes();
-                var data = await repositoryService.GetUsers();
+        public Task<IEnumerable<PersistentData.User>> GetUsers() => repositoryService.GetUsers();
 
-                users = boxes
-                    .Select(box => new User
-                    {
-                        Id = box.Id,
-                        Name = box.Name,
-                        ProfileUrl = box.ImageUrl,
-                        Credits = data.FirstOrDefault(u => u.Id == box.Id)?.Credits ?? 0
-                    })
-                    .ToArray();
-            }
-
-            return users;
-        }
-
-        public async Task<User> GetUser(string id) => (await GetUsers()).FirstOrDefault(u => u.Id == id);
+        public async Task<PersistentData.User> GetUser(string id) => (await GetUsers()).FirstOrDefault(u => u.Id == id);
 
         public async Task<bool> CanBuyItem(string userId)
         {
@@ -54,13 +36,7 @@ namespace TonieCreativeManager.Service
 
         public async Task RedeemVoucher(string code, string userId)
         {
-            var users = await repositoryService.GetUsers();
-            var user = users.FirstOrDefault(u => u.Id == userId);
-
-            if (user == null)
-            {
-                user = new PersistentData.User { Id = userId };
-            }
+            var user = await GetUser(userId);
 
             // redeem voucher
             var voucher = await voucherService.Redeem(code);
@@ -70,6 +46,26 @@ namespace TonieCreativeManager.Service
 
             // save user
             await repositoryService.SetUser(user);
+        }
+
+        public async Task BuyItem(string userId, string path)
+        {
+            var user = await GetUser(userId);
+
+            // check credit
+            if (user.Credits < settings.MediaItemCost)
+            {
+                throw new Exception("Insufficient credits");
+            }
+
+            // grab credit
+            user.Credits -= settings.MediaItemCost;
+
+            // update user
+            await repositoryService.SetUser(user);
+
+            // mark path as bought
+            await mediaService.MarkFolderAsBought(path);
         }
     }
 }

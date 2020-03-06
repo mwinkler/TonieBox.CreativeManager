@@ -14,7 +14,7 @@
 
         <div style="display:flex">
             <div>
-                <img src="@user.ProfileUrl" style="width:40vw" />
+                <img src="@user.ProfileImageUrl" style="width:40vw" />
                 <div>
                     Credits: @user.Credits
                 </div>
@@ -27,7 +27,9 @@
             </div>
         </div>
         <div>
-            OK
+            <a href="/user/buy/commit?path=@path.EncodeUrl()">
+                OK
+            </a>
         </div>
 
     </div>
@@ -35,7 +37,7 @@
 
 @code {
 
-    User user;
+    PersistentData.User user;
     string path;
     bool canBuy;
 

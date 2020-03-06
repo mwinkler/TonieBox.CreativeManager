@@ -87,6 +87,13 @@ namespace TonieCreativeManager.Service
             };
         }
 
+        public Task MarkFolderAsBought(string path)
+        {
+            var full = settings.LibraryRoot + path + "/" + settings.MarkAsBoughtFilename;
+
+            return File.WriteAllTextAsync(full, "");
+        }
+
         private Task<string> TryGetCoverPath(string path)
         {
             var fullPath = settings.LibraryRoot + path;
