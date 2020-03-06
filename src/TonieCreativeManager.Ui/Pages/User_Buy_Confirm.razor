@@ -10,15 +10,24 @@
 
 @if (user != null)
 {
-    <div class="centered">
+    <div class="centered" style="flex-direction:column">
 
-        <div>
-            <img src="@user.ProfileUrl" /><br />
-            Credits: @user.Credits
+        <div style="display:flex">
+            <div>
+                <img src="@user.ProfileUrl" style="width:40vw" />
+                <div>
+                    Credits: @user.Credits
+                </div>
+            </div>
+            <div>
+                <img src="/cover?path=@path.EncodeUrl()" style="width:40vw" />
+                <div>
+                    Credits: @Settings.MediaItemCost
+                </div>
+            </div>
         </div>
         <div>
-            <img src="/cover?path=@path.EncodeUrl()" />
-            Credits: @Settings.MediaItemCost
+            OK
         </div>
 
     </div>
