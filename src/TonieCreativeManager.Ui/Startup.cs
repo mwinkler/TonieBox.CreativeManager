@@ -14,6 +14,7 @@ using TonieCreativeManager.Service;
 using TonieCreativeManager.Ui.Delegates;
 using TonieCloud;
 using TonieCreativeManager.Service.Model;
+using TonieCreativeManager.Ui.Service;
 
 namespace TonieCreativeManager.Ui
 {
@@ -41,6 +42,7 @@ namespace TonieCreativeManager.Ui
             services.AddSingleton<UserService>();
             services.AddSingleton<VoucherService>();
             services.AddScoped<CoverHandler>();
+            services.AddSingleton<SessionService>();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();

@@ -8,7 +8,6 @@
 
     protected override void OnInitialized()
     {
-        //Accessor.HttpContext.Response.Redirect(Settings.UsersEnabled ? "/user/select" : "/browse");
-        Accessor.HttpContext.Response.Redirect("/browse");
+        Accessor.HttpContext.Response.Redirect(Settings.EnableShop ? "/user/select" : "/browse");
     }
 }

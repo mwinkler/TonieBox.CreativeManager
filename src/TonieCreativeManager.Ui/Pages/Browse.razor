@@ -4,7 +4,9 @@
 
 @inject CreativeTonieService CreativeTonieService
 
-@inject IHttpContextAccessor HttpContext 
+@inject SessionService Session
+
+@inject IHttpContextAccessor Accessor 
 
 @if (backPath != null)
 {
@@ -21,7 +23,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var path = HttpContext.HttpContext.Request.Query["path"].ToString();
+        var path = Accessor.HttpContext.Request.Query["path"].ToString();
 
         var mediaItems = await MediaService.GetItems(path);
         var tonies = await CreativeTonieService.GetTonies();
@@ -31,18 +33,28 @@
             : $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
         items = mediaItems
-            .Select(dir => new GridItem
+            .Select(dir =>
             {
-                Name = dir.Name,
-                Url = $"/{(dir.HasSubitems ? "browse" : "upload/selecttonie")}?path={dir.Path.EncodeUrl()}",
-                ImageUrl = $"/cover?path={dir.Path.EncodeUrl()}",
-                SubImageUrl = dir.HasSubitems
-                    ? $"/cover?path=folder"
-                    : dir.MappedTonieId != null
-                        ? tonies.FirstOrDefault(t => dir.MappedTonieId == t.Id)?.ImageUrl
-                        : null,
-                SubImageClass = dir.MappedTonieId != null ? "tonie" : null,
-                Restricted = !dir.HasSubitems && !dir.HasBought
+                var restricted = !dir.HasSubitems && !dir.HasBought;
+                var pathEncoded = dir.Path.EncodeUrl();
+
+                return new GridItem
+                {
+                    Name = dir.Name,
+                    Url = dir.HasSubitems
+                        ? $"/browse?path={pathEncoded}"
+                        : restricted
+                            ? $"/user/buy/confirm?path={pathEncoded}"
+                            : $"/upload/selecttonie?path={pathEncoded}",
+                    ImageUrl = $"/cover?path={pathEncoded}",
+                    SubImageUrl = dir.HasSubitems
+                         ? $"/cover?path=folder"
+                         : dir.MappedTonieId != null
+                             ? tonies.FirstOrDefault(t => dir.MappedTonieId == t.Id)?.ImageUrl
+                             : null,
+                    SubImageClass = dir.MappedTonieId != null ? "tonie" : null,
+                    Restricted = restricted
+                };
             })
             .ToArray();
     }

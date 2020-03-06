@@ -1,0 +1,18 @@
+﻿@page "/user/selected/{id}"
+
+@inject IHttpContextAccessor Accessor
+
+@inject SessionService Session
+
+@code {
+
+    [Parameter] public string Id { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Session.UserId = Id;
+
+        Accessor.HttpContext.Response.Redirect("/browse");
+    }
+
+}

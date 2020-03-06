@@ -42,6 +42,8 @@ namespace TonieCreativeManager.Service
             return users;
         }
 
+        public async Task<User> GetUser(string id) => (await GetUsers()).FirstOrDefault(u => u.Id == id);
+
         public async Task RedeemVoucher(string code, string userId)
         {
             var users = await repositoryService.GetUsers();

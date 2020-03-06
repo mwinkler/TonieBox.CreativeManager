@@ -1,0 +1,27 @@
+﻿@page "/user/buy/confirm"
+
+@inject IHttpContextAccessor Accessor
+
+@inject SessionService Session
+
+@inject UserService UserService
+
+<div class="centered">
+
+    <img src="@user.ProfileUrl" />
+    <img src="/cover?path=@path.EncodeUrl()" />
+
+</div>
+
+@code {
+
+    User user;
+    string path;
+
+    protected override async Task OnInitializedAsync()
+    {
+        path = Accessor.HttpContext.Request.Query["path"].ToString();
+
+        user = await UserService.GetUser(Session.UserId);
+    }
+}
