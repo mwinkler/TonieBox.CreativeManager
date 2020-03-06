@@ -1,13 +1,14 @@
 ﻿@page "/"
 
-@inject Microsoft.AspNetCore.Http.IHttpContextAccessor Accessor
+@inject IHttpContextAccessor Accessor
 
-@inject TonieCreativeManager.Service.Model.Settings Settings
+@inject Settings Settings
 
 @code {
 
     protected override void OnInitialized()
     {
-        Accessor.HttpContext.Response.Redirect(Settings.UsersEnabled ? "/user/select" : "/browse");
+        //Accessor.HttpContext.Response.Redirect(Settings.UsersEnabled ? "/user/select" : "/browse");
+        Accessor.HttpContext.Response.Redirect("/browse");
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace TonieCreativeManager.Service.Model
 {
@@ -13,7 +9,7 @@ namespace TonieCreativeManager.Service.Model
         public string LibraryRoot { get; set; }
         public IEnumerable<string> IgnoreFolderNames { get; set; }
         public string PersistentDataFile { get; set; }
-        public bool UsersEnabled { get; set; }
+        public bool EnableShop { get; set; }
         public IEnumerable<string> KeyboardCharacters { get; set; }
     }
 }

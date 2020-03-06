@@ -80,7 +80,11 @@ namespace TonieCreativeManager.Service
             }
 
             // save mapping
-            await repositoryService.SetMapping(creativeTonieId, path);
+            await repositoryService.SetMapping(new PersistentData.TonieMapping
+            {
+                TonieId = creativeTonieId,
+                Path = path
+            });
 
             // reset creative tonies
             tonies = null;

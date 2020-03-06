@@ -21,32 +21,22 @@ namespace TonieCreativeManager.Service
             this.settings = settings;
         }
 
-        private async Task<PersistentData> GetData()
-        {
-            if (data == null)
-            {
-                data = File.Exists(PersistentDataFilePath)
-                    ? JsonConvert.DeserializeObject<PersistentData>(await File.ReadAllTextAsync(PersistentDataFilePath))
-                    : new PersistentData();
-            }
-
-            return data;
-        }
-
-        public async Task<IEnumerable<PersistentData.TonieMapping>> GetMappings() => (await GetData()).TonieMappings;
+        public Task<IEnumerable<PersistentData.TonieMapping>> GetMappings() => GetData(d => d.TonieMappings);
         
-        public async Task<IEnumerable<PersistentData.User>> GetUsers() => (await GetData()).Users;
+        public Task<IEnumerable<PersistentData.User>> GetUsers() => GetData(d => d.Users);
 
-        public async Task<IEnumerable<PersistentData.Voucher>> GetVouchers() => (await GetData()).Vouchers;
+        public Task<IEnumerable<PersistentData.Voucher>> GetVouchers() => GetData(d => d.Vouchers);
 
-        public Task<PersistentData.TonieMapping> SetMapping(string creativeTonieId, string path) => 
+        public Task<IEnumerable<PersistentData.BoughtItem>> GetBoughtItems() => GetData(d => d.BoughtItems);
+
+        public Task<PersistentData.TonieMapping> SetMapping(PersistentData.TonieMapping tonieMapping) => 
             SetValue(
                 data => data.TonieMappings,
-                mapping => mapping.TonieId == creativeTonieId,
+                mapping => mapping.TonieId == tonieMapping.TonieId,
                 mapping =>
                 {
-                    mapping.TonieId = creativeTonieId;
-                    mapping.Path = path;
+                    mapping.TonieId = tonieMapping.TonieId;
+                    mapping.Path = tonieMapping.Path;
                 }
             );
 
@@ -72,6 +62,20 @@ namespace TonieCreativeManager.Service
                     v.Credits = user.Credits;
                 }
             );
+
+        private async Task<PersistentData> GetData()
+        {
+            if (data == null)
+            {
+                data = File.Exists(PersistentDataFilePath)
+                    ? JsonConvert.DeserializeObject<PersistentData>(await File.ReadAllTextAsync(PersistentDataFilePath))
+                    : new PersistentData();
+            }
+
+            return data;
+        }
+
+        private async Task<IEnumerable<T>> GetData<T>(Func<PersistentData, IEnumerable<T>> select) => select.Invoke(await GetData());
 
         private async Task<T> SetValue<T>(Func<PersistentData, IList<T>> set, Func<T, bool> select, Action<T> update) where T : class
         {
