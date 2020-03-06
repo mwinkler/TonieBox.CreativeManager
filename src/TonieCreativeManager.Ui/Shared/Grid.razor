@@ -1,19 +1,18 @@
 ﻿
 @if (Items != null)
 {
-    <div class="grid">
+    <div class="grid @(RestrictItemWidth ? "restrict-item-width" : "")">
         @foreach (var item in Items)
         {
-            <a class="item @(RestrictWidth ? "restrict" : "")" href="@item.Url">
-                <div class="cover" style="background-image:url('@item.CoverUrl')">
-                    @if (!string.IsNullOrEmpty(item.SubCoverUrl))
+            <a class="item @(item.Restricted ? "restricted" : "")" href="@item.Url">
+                <div class="cover" style="background-image:url('@item.ImageUrl');">
+                    @if (!string.IsNullOrEmpty(item.SubImageUrl))
                     {
-                        <div class="subcover @item.SubCoverClass" style="background-image:url('@item.SubCoverUrl')"></div>
+                        <div class="subcover @item.SubImageClass" style="background-image:url('@item.SubImageUrl')"></div>
                     }
                 </div>
                 <span>@item.Name</span>
             </a>
-
         }
     </div>
 }
@@ -22,8 +21,6 @@
 
     [Parameter] public IEnumerable<GridItem> Items { get; set; }
 
-    [Parameter] public bool RestrictWidth { get; set; }
-
-
+    [Parameter] public bool RestrictItemWidth { get; set; }
 
 }

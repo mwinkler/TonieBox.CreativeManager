@@ -6,7 +6,7 @@
 
 <a class="back mb-3" href="@backUrl">Zurück</a>
 
-<Grid Items="items" RestrictWidth="true"></Grid>
+<Grid Items="items" RestrictItemWidth="true"></Grid>
 
 @code {
 
@@ -25,10 +25,10 @@
         items = tonies
             .Select(t => new GridItem
             {
-                CoverUrl = t.ImageUrl,
+                ImageUrl = t.ImageUrl,
                 Name = t.Name,
                 Url = $"/upload/start/{t.Id}?path={path.EncodeUrl()}",
-                SubCoverUrl = t.CurrentMediaPath != null ? $"/cover?path={t.CurrentMediaPath.EncodeUrl()}" : null
+                SubImageUrl = t.CurrentMediaPath != null ? $"/cover?path={t.CurrentMediaPath.EncodeUrl()}" : null
             })
             .ToArray();
     }

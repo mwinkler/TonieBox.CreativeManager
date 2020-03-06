@@ -16,7 +16,7 @@
             .Select(u => new GridItem
             {
                 Name = u.Name,
-                CoverUrl = u.ProfileUrl,
+                ImageUrl = u.ProfileUrl,
                 Url = $"/user/{u.Id}/voucher/enter"
             })
             .ToArray();

@@ -24,15 +24,8 @@ namespace TonieCreativeManager.Service.Model
             public DateTime? Used { get; set; }
         }
 
-        public class BoughtItem
-        {
-            public string Path { get; set; }
-            public int UserId { get; set; }
-        }
-
         public IList<TonieMapping> TonieMappings { get; set; } = new List<TonieMapping>();
         public IList<User> Users { get; set; } = new List<User>();
         public IList<Voucher> Vouchers { get; set; } = new List<Voucher>();
-        public IList<BoughtItem> BoughtItems { get; set; } = new List<BoughtItem>();
     }
 }

@@ -51,7 +51,7 @@ namespace TonieCreativeManager.Service
         public async Task<CreativeTonie> Upload(string path, string creativeTonieId)
         {
             var files = System.IO.Directory.GetFiles(settings.LibraryRoot + path)
-                .Where(p => settings.SupportedFileExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase))
+                .Where(p => settings.MediaFileExtensions.Contains(Path.GetExtension(p), StringComparer.OrdinalIgnoreCase))
                 .OrderBy(p => p)
                 .Select(p => new UploadFilesToCreateiveTonieRequest.Entry
                 {

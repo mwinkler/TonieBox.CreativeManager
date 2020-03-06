@@ -11,7 +11,7 @@
     <a class="back mb-3" href="@backPath">Zurück</a>
 }
 
-<Grid Items="items" RestrictWidth="true"></Grid>
+<Grid Items="items" RestrictItemWidth="true"></Grid>
 
 @code {
 
@@ -22,7 +22,7 @@
     protected override async Task OnInitializedAsync()
     {
         var path = HttpContext.HttpContext.Request.Query["path"].ToString();
-            
+
         var mediaItems = await MediaService.GetItems(path);
         var tonies = await CreativeTonieService.GetTonies();
 
@@ -35,13 +35,14 @@
             {
                 Name = dir.Name,
                 Url = $"/{(dir.HasSubitems ? "browse" : "upload/selecttonie")}?path={dir.Path.EncodeUrl()}",
-                CoverUrl = $"/cover?path={dir.Path.EncodeUrl()}",
-                SubCoverUrl = dir.HasSubitems
+                ImageUrl = $"/cover?path={dir.Path.EncodeUrl()}",
+                SubImageUrl = dir.HasSubitems
                     ? $"/cover?path=folder"
                     : dir.MappedTonieId != null
                         ? tonies.FirstOrDefault(t => dir.MappedTonieId == t.Id)?.ImageUrl
                         : null,
-                SubCoverClass = dir.MappedTonieId != null ? "tonie" : null
+                SubImageClass = dir.MappedTonieId != null ? "tonie" : null,
+                Restricted = !dir.HasSubitems && !dir.HasBought
             })
             .ToArray();
     }

@@ -31,16 +31,19 @@ namespace TonieCreativeManager.Service
 
             var directory = Directory.GetDirectories(fullPath)
                 .Where(isNotIgnoredFolder)
-                .Select(p => 
+                .Select(fullpath => 
                 {
-                    var subpath = path + "/" + Path.GetFileName(p);
+                    var subpath = path + "/" + Path.GetFileName(fullpath);
 
                     return new MediaItem
                     {
                         Path = subpath,
-                        Name = Path.GetFileName(p),
-                        HasSubitems = Directory.GetDirectories(p).Where(isNotIgnoredFolder).Any(),
-                        MappedTonieId = mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId
+                        Name = Path.GetFileName(fullpath),
+                        HasSubitems = Directory.GetDirectories(fullpath).Where(isNotIgnoredFolder).Any(),
+                        MappedTonieId = mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId,
+                        HasBought = settings.EnableShop 
+                            ? File.Exists(fullpath + "/" + settings.MarkAsBoughtFilename)
+                            : true
                     };
                 })
                 .OrderBy(p => p.Name)

@@ -12,7 +12,7 @@ namespace TonieCreativeManager.Service
     {
         private readonly Settings settings;
 
-        private string PersistentDataFilePath => Path.Combine(settings.LibraryRoot, settings.PersistentDataFile);
+        private string PersistentDataFilePath => Path.Combine(settings.LibraryRoot, settings.RepositoryDataFile);
 
         private PersistentData data;
 
@@ -26,8 +26,6 @@ namespace TonieCreativeManager.Service
         public Task<IEnumerable<PersistentData.User>> GetUsers() => GetData(d => d.Users);
 
         public Task<IEnumerable<PersistentData.Voucher>> GetVouchers() => GetData(d => d.Vouchers);
-
-        public Task<IEnumerable<PersistentData.BoughtItem>> GetBoughtItems() => GetData(d => d.BoughtItems);
 
         public Task<PersistentData.TonieMapping> SetMapping(PersistentData.TonieMapping tonieMapping) => 
             SetValue(
