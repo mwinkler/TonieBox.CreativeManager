@@ -11,14 +11,15 @@ namespace TonieCreativeManager.Service
         private readonly TonieCloudService tonieCloudService;
         private readonly RepositoryService repositoryService;
         private readonly VoucherService voucherService;
-
+        private readonly Settings settings;
         private IEnumerable<User> users;
 
-        public UserService(TonieCloudService tonieCloudService, RepositoryService repositoryService, VoucherService voucherService)
+        public UserService(TonieCloudService tonieCloudService, RepositoryService repositoryService, VoucherService voucherService, Settings settings)
         {
             this.tonieCloudService = tonieCloudService;
             this.repositoryService = repositoryService;
             this.voucherService = voucherService;
+            this.settings = settings;
         }
 
         public async Task<IEnumerable<User>> GetUsers()
@@ -43,6 +44,13 @@ namespace TonieCreativeManager.Service
         }
 
         public async Task<User> GetUser(string id) => (await GetUsers()).FirstOrDefault(u => u.Id == id);
+
+        public async Task<bool> CanBuyItem(string userId)
+        {
+            var user = await GetUser(userId);
+
+            return user.Credits >= settings.MediaItemCost;
+        }
 
         public async Task RedeemVoucher(string code, string userId)
         {

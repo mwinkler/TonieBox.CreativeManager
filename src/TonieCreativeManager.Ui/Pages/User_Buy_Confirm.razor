@@ -1,0 +1,40 @@
+﻿@page "/user/buy/confirm"
+
+@inject IHttpContextAccessor Accessor
+
+@inject SessionService Session
+
+@inject UserService UserService
+
+@inject Settings Settings
+
+@if (user != null)
+{
+    <div class="centered">
+
+        <div>
+            <img src="@user.ProfileUrl" /><br />
+            Credits: @user.Credits
+        </div>
+        <div>
+            <img src="/cover?path=@path.EncodeUrl()" />
+            Credits: @Settings.MediaItemCost
+        </div>
+
+    </div>
+}
+
+@code {
+
+    User user;
+    string path;
+    bool canBuy;
+
+    protected override async Task OnInitializedAsync()
+    {
+        path = Accessor.HttpContext.Request.Query["path"].ToString();
+
+        user = await UserService.GetUser(Session.UserId);
+        canBuy = await UserService.CanBuyItem(Session.UserId);
+    }
+}
