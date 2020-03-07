@@ -1,0 +1,30 @@
+﻿@inject Settings Settings
+
+@inject SessionService Session
+
+@inject UserService UserService 
+
+@if (user != null)
+{
+    <div id="headnav" class="mb-3">
+        <a href="/user/select">
+            <i class="fas fa-home fa-2x"></i>
+        </a>
+        <a href="/shop">
+            <i class="fas fa-shopping-cart fa-2x"></i>
+        </a>
+
+        <div class="profile" style="background-image:url('@user.ProfileImageUrl')"></div>
+    </div>
+}
+
+@code { 
+
+    PersistentData.User user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await UserService.GetUser(Session.UserId);
+    }
+
+}
