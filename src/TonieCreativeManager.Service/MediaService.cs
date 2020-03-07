@@ -34,15 +34,18 @@ namespace TonieCreativeManager.Service
                 .Select(fullpath => 
                 {
                     var subpath = path + "/" + Path.GetFileName(fullpath);
+                    var hasSubitems = Directory.GetDirectories(fullpath).Where(isNotIgnoredFolder).Any();
 
                     return new MediaItem
                     {
                         Path = subpath,
                         Name = Path.GetFileName(fullpath),
-                        HasSubitems = Directory.GetDirectories(fullpath).Where(isNotIgnoredFolder).Any(),
+                        HasSubitems = hasSubitems,
                         MappedTonieId = mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId,
                         HasBought = settings.EnableShop 
-                            ? File.Exists(fullpath + "/" + settings.MarkAsBoughtFilename)
+                            ? hasSubitems
+                                ? Directory.GetFiles(fullpath, settings.MarkAsBoughtFilename, SearchOption.AllDirectories).Any()
+                                : File.Exists(fullpath + "/" + settings.MarkAsBoughtFilename)
                             : true
                     };
                 })

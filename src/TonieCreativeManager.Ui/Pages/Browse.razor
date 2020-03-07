@@ -35,26 +35,27 @@
             : $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
         items = mediaItems
-            .Select(dir =>
+            .Where(item => item.HasBought)
+            .Select(item =>
             {
-                var restricted = !dir.HasSubitems && !dir.HasBought;
-                var pathEncoded = dir.Path.EncodeUrl();
+                var restricted = !item.HasSubitems && !item.HasBought;
+                var pathEncoded = item.Path.EncodeUrl();
 
                 return new GridItem
                 {
-                    Name = dir.Name,
-                    Url = dir.HasSubitems
+                    Name = item.Name,
+                    Url = item.HasSubitems
                         ? $"/browse?path={pathEncoded}"
                         : restricted
                             ? $"/user/buy/confirm?path={pathEncoded}"
                             : $"/upload/selecttonie?path={pathEncoded}",
                     ImageUrl = $"/cover?path={pathEncoded}",
-                    SubImageUrl = dir.HasSubitems
+                    SubImageUrl = item.HasSubitems
                          ? $"/cover?path=folder"
-                         : dir.MappedTonieId != null
-                             ? tonies.FirstOrDefault(t => dir.MappedTonieId == t.Id)?.ImageUrl
+                         : item.MappedTonieId != null
+                             ? tonies.FirstOrDefault(t => item.MappedTonieId == t.Id)?.ImageUrl
                              : null,
-                    SubImageClass = dir.MappedTonieId != null ? "tonie" : null,
+                    SubImageClass = item.MappedTonieId != null ? "tonie" : null,
                     Restricted = restricted
                 };
             })
