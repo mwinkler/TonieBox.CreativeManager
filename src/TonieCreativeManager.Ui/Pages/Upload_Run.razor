@@ -1,6 +1,8 @@
 ﻿@page "/upload/run/{tonieId}"
 
-@inject CreativeTonieService CreativeTonieService
+@inject UserService UserService
+
+@inject SessionService Session
 
 @inject IHttpContextAccessor Accessor
 
@@ -13,7 +15,7 @@
         var ctx = Accessor.HttpContext;
         var path = ctx.Request.Query["path"];
 
-        //await CreativeTonieService.Upload(path, TonieId);
+        //await UserService.UploadItem(Session.UserId, path, TonieId);
         await Task.Delay(3000);
 
         ctx.Response.Redirect("/browse");

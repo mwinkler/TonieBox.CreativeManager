@@ -1,12 +1,14 @@
 ﻿@page "/shop"
 
-@inject MediaService MediaService 
+@inject MediaService MediaService
 
 @inject CreativeTonieService CreativeTonieService
 
 @inject SessionService Session
 
-@inject IHttpContextAccessor Accessor 
+@inject UserService UserService
+
+@inject IHttpContextAccessor Accessor
 
 <Header></Header>
 
@@ -26,8 +28,8 @@
     protected override async Task OnInitializedAsync()
     {
         var path = Accessor.HttpContext.Request.Query["path"].ToString();
-
         var mediaItems = await MediaService.GetItems(path);
+        var canBuy = await UserService.CanBuyItem(Session.UserId);
 
         backPath = string.IsNullOrEmpty(path)
             ? null
@@ -37,7 +39,7 @@
             .Where(item => item.HasSubitems || !item.HasBought)
             .Select(item =>
             {
-                var restricted = !item.HasSubitems && !item.HasBought;
+                var restricted = !item.HasSubitems && !canBuy;
                 var pathEncoded = item.Path.EncodeUrl();
 
                 return new GridItem
@@ -45,11 +47,13 @@
                     Name = item.Name,
                     Url = item.HasSubitems
                         ? $"/shop?path={pathEncoded}"
-                        : $"/shop/buy/confirm?path={pathEncoded}",
+                        : restricted
+                            ? null
+                            : $"/shop/buy/confirm?path={pathEncoded}",
                     ImageUrl = $"/cover?path={pathEncoded}",
                     SubImageUrl = item.HasSubitems ? $"/cover?path=folder" : null,
-                    SubImageClass = item.MappedTonieId != null ? "tonie" : null
-                    //Restricted = restricted
+                    SubImageClass = item.MappedTonieId != null ? "tonie" : null,
+                    Restricted = restricted
                 };
             })
             .ToArray();

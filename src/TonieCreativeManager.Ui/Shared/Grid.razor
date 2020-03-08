@@ -5,10 +5,10 @@
         @foreach (var item in Items)
         {
             <a class="item @(item.Restricted ? "restricted" : "")" href="@item.Url">
-                <div class="cover" style="background-image:url('@item.ImageUrl');">
+                <div class="image" style="background-image:url('@item.ImageUrl');">
                     @if (!string.IsNullOrEmpty(item.SubImageUrl))
                     {
-                        <div class="subcover @item.SubImageClass" style="background-image:url('@item.SubImageUrl')"></div>
+                        <div class="subimage @item.SubImageClass" style="background-image:url('@item.SubImageUrl')"></div>
                     }
                 </div>
                 <span>@item.Name</span>

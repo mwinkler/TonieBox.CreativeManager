@@ -1,18 +1,18 @@
-﻿@page "/user/{userid}/voucher/redeem/{code}"
+﻿@page "/user/voucher/redeem/{code}"
 
 @inject UserService UserService
+
+@inject SessionService Session
 
 @inject IHttpContextAccessor Accessor
 
 @code {
 
-    [Parameter] public string UserId { get; set; }
-
     [Parameter] public string Code { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        await UserService.RedeemVoucher(Code, UserId);
+        var voucher = await UserService.RedeemVoucher(Code, Session.UserId);
 
     }
 }

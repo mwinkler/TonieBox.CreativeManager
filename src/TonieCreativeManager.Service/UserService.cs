@@ -8,15 +8,15 @@ namespace TonieCreativeManager.Service
 {
     public class UserService
     {
-        private readonly TonieCloudService tonieCloudService;
+        private readonly CreativeTonieService creativeTonieService;
         private readonly RepositoryService repositoryService;
         private readonly VoucherService voucherService;
         private readonly Settings settings;
         private readonly MediaService mediaService;
 
-        public UserService(TonieCloudService tonieCloudService, RepositoryService repositoryService, VoucherService voucherService, Settings settings, MediaService mediaService)
+        public UserService(CreativeTonieService creativeTonieService, RepositoryService repositoryService, VoucherService voucherService, Settings settings, MediaService mediaService)
         {
-            this.tonieCloudService = tonieCloudService;
+            this.creativeTonieService = creativeTonieService;
             this.repositoryService = repositoryService;
             this.voucherService = voucherService;
             this.settings = settings;
@@ -34,7 +34,14 @@ namespace TonieCreativeManager.Service
             return user.Credits >= settings.MediaItemBuyCost;
         }
 
-        public async Task RedeemVoucher(string code, string userId)
+        public async Task<bool> CanUploadItem(string userId)
+        {
+            var user = await GetUser(userId);
+
+            return user.Credits >= settings.MediaItemUploadCost;
+        }
+
+        public async Task<PersistentData.Voucher> RedeemVoucher(string code, string userId)
         {
             var user = await GetUser(userId);
 
@@ -46,6 +53,8 @@ namespace TonieCreativeManager.Service
 
             // save user
             await repositoryService.SetUser(user);
+
+            return voucher;
         }
 
         public async Task BuyItem(string userId, string path)
@@ -58,14 +67,34 @@ namespace TonieCreativeManager.Service
                 throw new Exception("Insufficient credits");
             }
 
-            // grab credit
+            // subtract credit
             user.Credits -= settings.MediaItemBuyCost;
 
-            // update user
+            // save user
             await repositoryService.SetUser(user);
 
             // mark path as bought
             await mediaService.MarkFolderAsBought(path);
+        }
+
+        public async Task UploadItem(string userId, string path, string creativeTonieId)
+        {
+            var user = await GetUser(userId);
+
+            // check credit
+            if (user.Credits < settings.MediaItemUploadCost)
+            {
+                throw new Exception("Insufficient credits");
+            }
+
+            // upload
+            await creativeTonieService.Upload(path, creativeTonieId);
+
+            // subtract credit
+            user.Credits -= settings.MediaItemBuyCost;
+
+            // save user
+            await repositoryService.SetUser(user);
         }
     }
 }

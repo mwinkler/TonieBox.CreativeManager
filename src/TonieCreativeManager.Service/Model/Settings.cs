@@ -13,6 +13,6 @@ namespace TonieCreativeManager.Service.Model
         public IEnumerable<string> KeyboardCharacters { get; set; }
         public string MarkAsBoughtFilename { get; set; }
         public int MediaItemBuyCost { get; set; }
-        public int MediaItemCopyCost { get; set; }
+        public int MediaItemUploadCost { get; set; }
     }
 }

@@ -7,17 +7,25 @@
 @if (user != null)
 {
     <div id="headnav" class="mb-3">
-        <a href="/user/select">
-            <i class="fas fa-home fa-2x"></i>
-        </a>
-        <a href="/browse">
+        
+        <a href="/browse" class="button mr-4">
             <i class="fas fa-compact-disc fa-2x"></i>
         </a>
-        <a href="/shop">
+
+        <a href="/shop" class="button mr-4">
             <i class="fas fa-shopping-cart fa-2x"></i>
         </a>
 
-        <div class="profile" style="background-image:url('@user.ProfileImageUrl')"></div>
+        <a href="/user/voucher/enter" class="button mr-4">
+            <span class="credits">
+                <i class="fas fa-coins"></i>
+                @user.Credits
+            </span>
+        </a>
+
+        <a href="/user/select">
+            <div class="profile" style="background-image:url('@user.ProfileImageUrl');"></div>
+        </a>
     </div>
 }
 

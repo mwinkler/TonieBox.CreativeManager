@@ -10,27 +10,24 @@
 
 @if (user != null)
 {
-    <a class="back mb-3" href="@backPath">Zurück</a>
+    <Header></Header>
 
     <div class="centered" style="flex-direction:column">
 
         <div style="display:flex">
             <div>
-                <img src="@user.ProfileImageUrl" style="width:40vw" />
-                <div>
-                    Credits: @user.Credits
-                </div>
-            </div>
-            <div>
                 <img src="/cover?path=@path.EncodeUrl()" style="width:40vw" />
-                <div>
-                    Credits: @Settings.MediaItemBuyCost
-                </div>
+            </div>
+            <div class="ml-4">
+                <span class="credits" style="font-size:10rem;">
+                    <i class="fas fa-coins"></i>
+                    @user.Credits
+                </span>
             </div>
         </div>
-        <div>
-            <a class="button" href="/user/buy/commit?path=@path.EncodeUrl()">
-                OK
+        <div class="mt-4">
+            <a class="button" href="/shop/buy/commit?path=@path.EncodeUrl()">
+                <i class="fas fa-check-circle fa-2x"></i>
             </a>
         </div>
 
@@ -41,16 +38,11 @@
 
     PersistentData.User user;
     string path;
-    bool canBuy;
-    string backPath;
 
     protected override async Task OnInitializedAsync()
     {
         path = Accessor.HttpContext.Request.Query["path"].ToString();
 
-        backPath = $"/shop?path={path.GetParentPath().EncodeUrl()}";
-
         user = await UserService.GetUser(Session.UserId);
-        canBuy = await UserService.CanBuyItem(Session.UserId);
     }
 }

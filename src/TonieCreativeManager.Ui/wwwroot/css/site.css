@@ -13,25 +13,24 @@ html, body, .main, .content { height:100%; }
 .content { padding-top: 1.1rem; }
 
 #headnav { display:flex; }
-#headnav a { background-color: rgb(179, 0, 13); color:white; padding:0.5rem;margin-right:2rem; }
-#headnav .profile { background-size: cover; background-position: center center; width:52px; height:52px; }
+
+a.button { background-color: rgb(179, 0, 13); color:white; padding:0.5rem; display:inline-block; }
+
+.profile { background-size: cover; background-position: center center; width:52px; height:52px; }
+.credits { font-size:1.5rem; }
 
 .centered { display: flex; align-items: center; justify-content: center; flex-direction:column; }
 .centered > div { flex: 1; }
 
-/* grid with css grid */
-/*.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }*/
-
-/* grid with flexbox */
 .grid { display: flex; flex-wrap:wrap; }
 .grid.restrict-item-width .item { max-width: 375px; }
 .grid .item { flex: 1 0 250px;  }
 .grid .item { border: 1px solid #eee; padding: 1rem; text-align: center; cursor: pointer; }
 .grid .item.restricted { opacity: 0.5; }
-.grid .cover { padding-bottom: 100%; margin-bottom: 0.5rem; background-size: cover; background-position: center center; position:relative; }
-.grid .item.restricted .cover { clip-path: circle(45% at center); }
-.grid .subcover { position: absolute; top: 60%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }
-.grid .subcover.tonie { top:75%;left:75%; }
+.grid .image { padding-bottom: 100%; margin-bottom: 0.5rem; background-size: cover; background-position: center center; position:relative; }
+.grid .item.restricted .image { clip-path: circle(45% at center); }
+.grid .subimage { position: absolute; top: 60%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }
+.grid .subimage.tonie { top: 75%; left: 75%; }
 
 a.back { padding: 1rem; border: 1px solid #eee; display:block; }
 

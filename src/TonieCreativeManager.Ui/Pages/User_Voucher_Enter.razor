@@ -1,11 +1,13 @@
-﻿@page "/user/{userid}/voucher/enter"
-@page "/user/{userid}/voucher/enter/{value}"
+﻿@page "/user/voucher/enter"
+@page "/user/voucher/enter/{value}"
 
 @inject Settings Settings
 
 @inject VoucherService VoucherService
 
 @inject IHttpContextAccessor Accessor
+
+<Header></Header>
 
 <div class="enterbox" style="margin-top:2rem;margin-bottom:4rem;">
     &nbsp;@Value&nbsp;
@@ -15,14 +17,12 @@
 
     @foreach (var key in Settings.KeyboardCharacters)
     {
-        <a href="/user/@UserId/voucher/enter/@(Value + key)">@key</a>
+        <a href="/user/voucher/enter/@(Value + key)">@key</a>
     }
 
 </div>
 
 @code {
-
-    [Parameter] public string UserId { get; set; }
 
     [Parameter] public string Value { get; set; }
 
@@ -30,7 +30,7 @@
     {
         if (await VoucherService.IsValid(Value))
         {
-            Accessor.HttpContext.Response.Redirect($"/user/{UserId}/voucher/redeem/{Value}");
+            Accessor.HttpContext.Response.Redirect($"/user/voucher/redeem/{Value}");
         }
     }
 
