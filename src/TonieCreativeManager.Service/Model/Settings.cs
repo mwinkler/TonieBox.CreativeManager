@@ -12,6 +12,7 @@ namespace TonieCreativeManager.Service.Model
         public bool EnableShop { get; set; }
         public IEnumerable<string> KeyboardCharacters { get; set; }
         public string MarkAsBoughtFilename { get; set; }
-        public int MediaItemCost { get; set; }
+        public int MediaItemBuyCost { get; set; }
+        public int MediaItemCopyCost { get; set; }
     }
 }

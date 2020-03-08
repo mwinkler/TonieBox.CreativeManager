@@ -8,13 +8,16 @@
 #blazor-error-ui .dismiss { cursor: pointer; position: absolute; right: 0.75rem; top: 0.5rem; }
 
 /* creative manager */
+html, body, .main, .content { height:100%; }
+
 .content { padding-top: 1.1rem; }
 
-#headnav { border:1px solid #eee; padding: 1rem; display:flex; }
-#headnav a { background-color: rgb(179, 0, 13); color:white; padding:0.5rem;margin-right:1rem; }
+#headnav { display:flex; }
+#headnav a { background-color: rgb(179, 0, 13); color:white; padding:0.5rem;margin-right:2rem; }
 #headnav .profile { background-size: cover; background-position: center center; width:52px; height:52px; }
 
-.centered { display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; align-items: center; justify-content: center; }
+.centered { display: flex; align-items: center; justify-content: center; flex-direction:column; }
+.centered > div { flex: 1; }
 
 /* grid with css grid */
 /*.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }*/

@@ -1,4 +1,4 @@
-﻿@page "/browse"
+﻿@page "/shop"
 
 @inject MediaService MediaService 
 
@@ -28,14 +28,13 @@
         var path = Accessor.HttpContext.Request.Query["path"].ToString();
 
         var mediaItems = await MediaService.GetItems(path);
-        var tonies = await CreativeTonieService.GetTonies();
 
         backPath = string.IsNullOrEmpty(path)
             ? null
-            : $"/browse?path={path.GetParentPath().EncodeUrl()}";
+            : $"/shop?path={path.GetParentPath().EncodeUrl()}";
 
         items = mediaItems
-            .Where(item => item.HasBought)
+            .Where(item => item.HasSubitems || !item.HasBought)
             .Select(item =>
             {
                 var restricted = !item.HasSubitems && !item.HasBought;
@@ -45,16 +44,10 @@
                 {
                     Name = item.Name,
                     Url = item.HasSubitems
-                        ? $"/browse?path={pathEncoded}"
-                        : restricted
-                            ? $"/user/buy/confirm?path={pathEncoded}"
-                            : $"/upload/selecttonie?path={pathEncoded}",
+                        ? $"/shop?path={pathEncoded}"
+                        : $"/shop/buy/confirm?path={pathEncoded}",
                     ImageUrl = $"/cover?path={pathEncoded}",
-                    SubImageUrl = item.HasSubitems
-                         ? $"/cover?path=folder"
-                         : item.MappedTonieId != null
-                             ? tonies.FirstOrDefault(t => item.MappedTonieId == t.Id)?.ImageUrl
-                             : null,
+                    SubImageUrl = item.HasSubitems ? $"/cover?path=folder" : null,
                     SubImageClass = item.MappedTonieId != null ? "tonie" : null
                     //Restricted = restricted
                 };

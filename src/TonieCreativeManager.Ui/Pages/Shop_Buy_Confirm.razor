@@ -1,4 +1,4 @@
-﻿@page "/user/buy/confirm"
+﻿@page "/shop/buy/confirm"
 
 @inject IHttpContextAccessor Accessor
 
@@ -10,6 +10,8 @@
 
 @if (user != null)
 {
+    <a class="back mb-3" href="@backPath">Zurück</a>
+
     <div class="centered" style="flex-direction:column">
 
         <div style="display:flex">
@@ -22,12 +24,12 @@
             <div>
                 <img src="/cover?path=@path.EncodeUrl()" style="width:40vw" />
                 <div>
-                    Credits: @Settings.MediaItemCost
+                    Credits: @Settings.MediaItemBuyCost
                 </div>
             </div>
         </div>
         <div>
-            <a href="/user/buy/commit?path=@path.EncodeUrl()">
+            <a class="button" href="/user/buy/commit?path=@path.EncodeUrl()">
                 OK
             </a>
         </div>
@@ -40,10 +42,13 @@
     PersistentData.User user;
     string path;
     bool canBuy;
+    string backPath;
 
     protected override async Task OnInitializedAsync()
     {
         path = Accessor.HttpContext.Request.Query["path"].ToString();
+
+        backPath = $"/shop?path={path.GetParentPath().EncodeUrl()}";
 
         user = await UserService.GetUser(Session.UserId);
         canBuy = await UserService.CanBuyItem(Session.UserId);

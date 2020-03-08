@@ -31,7 +31,7 @@ namespace TonieCreativeManager.Service
         {
             var user = await GetUser(userId);
 
-            return user.Credits >= settings.MediaItemCost;
+            return user.Credits >= settings.MediaItemBuyCost;
         }
 
         public async Task RedeemVoucher(string code, string userId)
@@ -53,13 +53,13 @@ namespace TonieCreativeManager.Service
             var user = await GetUser(userId);
 
             // check credit
-            if (user.Credits < settings.MediaItemCost)
+            if (user.Credits < settings.MediaItemBuyCost)
             {
                 throw new Exception("Insufficient credits");
             }
 
             // grab credit
-            user.Credits -= settings.MediaItemCost;
+            user.Credits -= settings.MediaItemBuyCost;
 
             // update user
             await repositoryService.SetUser(user);
