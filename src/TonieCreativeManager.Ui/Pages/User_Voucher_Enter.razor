@@ -10,14 +10,22 @@
 <Header></Header>
 
 <div class="enterbox" style="margin-top:2rem;margin-bottom:4rem;">
-    &nbsp;@Value&nbsp;
+    &nbsp;
+    @foreach (var c in Value.GetCharacters())
+    {
+        <span class="emoji">@c</span>
+    }
+
+    <a href="/user/voucher/enter" class="reset">
+        <i class="fas fa-times"></i>
+    </a>
 </div>
 
 <div class="keyboard">
 
     @foreach (var key in Settings.KeyboardCharacters)
     {
-        <a href="/user/voucher/enter/@(Value + key)">@key</a>
+        <a class="emoji" href="/user/voucher/enter/@(Value + key)">@key</a>
     }
 
 </div>

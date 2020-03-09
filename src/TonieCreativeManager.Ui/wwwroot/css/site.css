@@ -36,6 +36,11 @@ a.back { padding: 1rem; border: 1px solid #eee; display:block; }
 
 .upload { width:300px; }
 
-.enterbox { text-align: center; padding: 2rem; font-size: 5rem; background-color: #e2e2e2; }
-.keyboard { display: flex; flex-wrap: wrap; justify-content: center; }
-.keyboard > a { display: inline-block; padding: 3rem; font-size: 4rem; border: 1px solid #eee; }
+.enterbox { text-align: center; background-color: #e2e2e2;min-height:8rem; }
+.enterbox .emoji { margin:3rem; }
+.enterbox .reset { position: absolute; right: 3rem; font-size:3rem; }
+
+.keyboard { text-align: center; position:relative; }
+.keyboard > a { border: 1px solid #eee; }
+
+.emoji { display: inline-block; transform: scale(4); margin-right: 100px; margin-bottom: 100px; font-size:16px; }
