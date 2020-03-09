@@ -38,7 +38,7 @@
     {
         if (await VoucherService.IsValid(Value))
         {
-            Accessor.HttpContext.Response.Redirect($"/user/voucher/redeem/{Value}");
+            Accessor.HttpContext.Response.Redirect($"/user/voucher/redeem/{Value.EncodeUrl()}");
         }
     }
 

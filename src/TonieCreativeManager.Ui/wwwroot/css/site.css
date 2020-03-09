@@ -20,7 +20,7 @@ a.button { background-color: rgb(179, 0, 13); color:white; padding:0.5rem; displ
 .credits { font-size:1.5rem; }
 
 .centered { display: flex; align-items: center; justify-content: center; flex-direction:column; }
-.centered > div { flex: 1; }
+.centered.fullscreen { height:100vh; }
 
 .grid { display: flex; flex-wrap:wrap; }
 .grid.restrict-item-width .item { max-width: 375px; }

@@ -6,13 +6,27 @@
 
 @inject IHttpContextAccessor Accessor
 
+@if (voucher != null)
+{
+    <Header></Header>
+
+    <div class="centered fullscreen" style="margin-top:-5rem;">
+        <div>
+            <i class="fas fa-plus fa-2x mr-4"></i>
+            <i class="fas fa-coins fa-4x"></i>
+            <span style="font-size: 5rem;">@voucher.Value</span>
+        </div>
+    </div>
+}
+
 @code {
 
     [Parameter] public string Code { get; set; }
 
+    PersistentData.Voucher voucher;
+
     protected override async Task OnInitializedAsync()
     {
-        var voucher = await UserService.RedeemVoucher(Code, Session.UserId);
-
+        voucher = await UserService.RedeemVoucher(Code, Session.UserId);
     }
 }
