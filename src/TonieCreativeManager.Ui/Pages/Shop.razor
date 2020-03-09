@@ -39,21 +39,20 @@
             .Where(item => item.HasSubitems || !item.HasBought)
             .Select(item =>
             {
-                var restricted = !item.HasSubitems && !canBuy;
                 var pathEncoded = item.Path.EncodeUrl();
 
                 return new GridItem
                 {
                     Name = item.Name,
-                    Url = item.HasSubitems
-                        ? $"/shop?path={pathEncoded}"
-                        : restricted
-                            ? null
-                            : $"/shop/buy/confirm?path={pathEncoded}",
+                    Url = canBuy
+                        ? item.HasSubitems
+                            ? $"/shop?path={pathEncoded}"
+                            : $"/shop/buy/confirm?path={pathEncoded}"
+                        : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
                     SubImageUrl = item.HasSubitems ? $"/cover?path=folder" : null,
                     SubImageClass = item.MappedTonieId != null ? "tonie" : null,
-                    Restricted = restricted
+                    Restricted = !canBuy
                 };
             })
             .ToArray();

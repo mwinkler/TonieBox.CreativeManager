@@ -40,17 +40,16 @@
             .Where(item => item.HasBought)
             .Select(item =>
             {
-                var restricted = !item.HasSubitems && !canUpload;
                 var pathEncoded = item.Path.EncodeUrl();
 
                 return new GridItem
                 {
                     Name = item.Name,
-                    Url = item.HasSubitems
-                        ? $"/browse?path={pathEncoded}"
-                        : restricted
-                            ? null
-                            : $"/upload/selecttonie?path={pathEncoded}",
+                    Url = canUpload
+                        ? item.HasSubitems
+                            ? $"/browse?path={pathEncoded}"
+                            : $"/upload/selecttonie?path={pathEncoded}"
+                        : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
                     SubImageUrl = item.HasSubitems
                          ? $"/cover?path=folder"
@@ -58,7 +57,7 @@
                              ? tonies.FirstOrDefault(t => item.MappedTonieId == t.Id)?.ImageUrl
                              : null,
                     SubImageClass = item.MappedTonieId != null ? "tonie" : null,
-                    Restricted = restricted
+                    Restricted = !canUpload
                 };
             })
             .ToArray();
