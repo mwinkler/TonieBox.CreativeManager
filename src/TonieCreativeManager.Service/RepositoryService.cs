@@ -15,6 +15,7 @@ namespace TonieCreativeManager.Service
         private string PersistentDataFilePath => Path.Combine(settings.LibraryRoot, settings.RepositoryDataFile);
 
         private PersistentData data;
+        private DateTime dataTimestamp;
 
         public RepositoryService(Settings settings)
         {
@@ -63,11 +64,15 @@ namespace TonieCreativeManager.Service
 
         private async Task<PersistentData> GetData()
         {
-            if (data == null)
+            var dataFileInfo = new FileInfo(PersistentDataFilePath);
+
+            if (data == null || dataFileInfo.LastWriteTime != dataTimestamp)
             {
                 data = File.Exists(PersistentDataFilePath)
                     ? JsonConvert.DeserializeObject<PersistentData>(await File.ReadAllTextAsync(PersistentDataFilePath))
                     : new PersistentData();
+
+                dataTimestamp = dataFileInfo.LastWriteTime;
             }
 
             return data;
