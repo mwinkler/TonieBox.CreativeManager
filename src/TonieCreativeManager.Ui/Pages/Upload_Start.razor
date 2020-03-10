@@ -4,15 +4,15 @@
 
 @inject IHttpContextAccessor HttpContext
 
+<meta http-equiv="refresh" content="1; url=@redirectUrl">
+
 <div class="centered">
     <div>
-        <img class="upload" src="@coverUrl" onload="setTimeout('document.forms[0].submit()', 1000)" />
+        <img class="upload" src="@coverUrl" />
         <img src="/loader.gif" style="margin:5rem; vertical-align:middle" />
         <img class="upload" src="@tonieUrl" />
     </div>
 </div>
-
-<form method="get" action="@postUrl"></form>
 
 @code {
 
@@ -22,17 +22,17 @@
 
     string tonieUrl;
 
-    string postUrl;
+    string redirectUrl;
 
     protected override async Task OnInitializedAsync()
     {
         var path = HttpContext.HttpContext.Request.Query["path"].ToString();
-            
+
         var tonie = await CreativeTonieService.GetTonie(TonieId);
 
         coverUrl = $"/cover?path={path.EncodeUrl()}";
         tonieUrl = tonie.ImageUrl;
-        postUrl = $"/upload/run/{TonieId}?path={path.EncodeUrl()}";
+        redirectUrl = $"/upload/run/{TonieId}?path={path.EncodeUrl()}";
     }
 
 }

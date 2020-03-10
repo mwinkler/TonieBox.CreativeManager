@@ -23,7 +23,7 @@ a.button { background-color: rgb(179, 0, 13); color:white; padding:0.5rem; displ
 .centered.fullscreen { height:100vh; }
 
 .grid { display: flex; flex-wrap:wrap; }
-.grid.restrict-item-width .item { max-width: 375px; }
+.grid.restrict-item-width .item { max-width: 325px; }
 .grid .item { flex: 1 0 250px;  }
 .grid .item { border: 1px solid #eee; padding: 1rem; text-align: center; cursor: pointer; }
 .grid .item.restricted { opacity: 0.5; }

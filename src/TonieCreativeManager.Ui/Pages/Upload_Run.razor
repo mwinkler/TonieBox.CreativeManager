@@ -15,8 +15,8 @@
         var ctx = Accessor.HttpContext;
         var path = ctx.Request.Query["path"];
 
-        //await UserService.UploadItem(Session.UserId, path, TonieId);
-        await Task.Delay(3000);
+        await UserService.UploadItem(Session.UserId, path, TonieId);
+        //await Task.Delay(3000);
 
         ctx.Response.Redirect("/browse");
     }

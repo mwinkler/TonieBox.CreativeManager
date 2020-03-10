@@ -70,6 +70,9 @@ namespace TonieCreativeManager.Service
             // subtract credit
             user.Credits -= settings.MediaItemBuyCost;
 
+            // reward back one credit to allow upload
+            user.Credits++;
+
             // save user
             await repositoryService.SetUser(user);
 
@@ -91,7 +94,7 @@ namespace TonieCreativeManager.Service
             await creativeTonieService.Upload(path, creativeTonieId);
 
             // subtract credit
-            user.Credits -= settings.MediaItemBuyCost;
+            user.Credits -= settings.MediaItemUploadCost;
 
             // save user
             await repositoryService.SetUser(user);
