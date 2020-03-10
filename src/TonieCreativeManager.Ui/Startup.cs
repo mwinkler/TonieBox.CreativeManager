@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TonieCreativeManager.Service;
-using TonieCreativeManager.Ui.Delegates;
 using TonieCloud;
 using TonieCreativeManager.Service.Model;
 using TonieCreativeManager.Ui.Service;
@@ -41,7 +40,6 @@ namespace TonieCreativeManager.Ui
             services.AddSingleton<RepositoryService>();
             services.AddSingleton<UserService>();
             services.AddSingleton<VoucherService>();
-            services.AddScoped<CoverHandler>();
             services.AddSingleton<SessionService>();
 
             services.AddRazorPages();
@@ -68,7 +66,6 @@ namespace TonieCreativeManager.Ui
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/cover", ctx => ctx.RequestServices.GetRequiredService<CoverHandler>().InvokeAsync(ctx));
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
