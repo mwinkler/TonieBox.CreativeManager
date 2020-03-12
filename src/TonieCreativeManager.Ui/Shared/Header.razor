@@ -8,6 +8,10 @@
 {
     <div id="headnav" class="mb-3">
         
+        <a href="@BackUrl" class="button mr-4">
+            <i class="fas fa-chevron-circle-left fa-2x"></i>
+        </a>
+
         <a href="/browse" class="button mr-4">
             <i class="fas fa-compact-disc fa-2x"></i>
         </a>
@@ -30,6 +34,8 @@
 }
 
 @code { 
+
+    [Parameter] public string BackUrl { get; set; }
 
     PersistentData.User user;
 

@@ -14,9 +14,10 @@ html, body, .main, .content { height:100%; }
 
 #headnav { display:flex; }
 
-a.button { background-color: rgb(179, 0, 13); color:white; padding:0.5rem; display:inline-block; }
+a.button { background-color: rgb(179, 0, 13); color:white !important; display:inline-block; width:4rem; height:4rem; display:flex; justify-content:center;align-items:center; }
+a.button:not([href]) { background-color: lightgray; }
 
-.profile { background-size: cover; background-position: center center; width:52px; height:52px; }
+.profile { background-size: cover; background-position: center center; width: 4rem; height: 4rem; }
 .credits { font-size:1.5rem; }
 
 .centered { display: flex; align-items: center; justify-content: center; flex-direction:column; }

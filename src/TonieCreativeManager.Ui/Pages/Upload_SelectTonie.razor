@@ -4,7 +4,7 @@
 
 @inject IHttpContextAccessor HttpContext
 
-<a class="back mb-3" href="@backUrl">Zurück</a>
+<Header BackUrl="javascript:history.back()"></Header>
 
 <Grid Items="items" RestrictItemWidth="true"></Grid>
 
@@ -12,13 +12,9 @@
 
     IEnumerable<GridItem> items;
 
-    string backUrl;
-
     protected override async Task OnInitializedAsync()
     {
         var path = HttpContext.HttpContext.Request.Query["path"].ToString();
-
-        backUrl = $"/browse?path={path.GetParentPath().EncodeUrl()}";
 
         var tonies = await CreativeTonieService.GetTonies();
 

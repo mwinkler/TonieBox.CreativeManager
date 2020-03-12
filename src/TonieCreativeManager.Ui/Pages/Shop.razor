@@ -10,12 +10,7 @@
 
 @inject IHttpContextAccessor Accessor
 
-<Header></Header>
-
-@if (backPath != null)
-{
-    <a class="back mb-3" href="javascript:history.back()">Zurück</a>
-}
+<Header BackUrl="@backPath"></Header>
 
 <Grid Items="items" RestrictItemWidth="true"></Grid>
 
@@ -33,7 +28,7 @@
 
         backPath = string.IsNullOrEmpty(path)
             ? null
-            : $"/shop?path={path.GetParentPath().EncodeUrl()}";
+            : "javascript:history.back()";
 
         items = mediaItems
             .Where(item => item.HasSubitems || !item.HasBought)
