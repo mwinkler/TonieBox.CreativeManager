@@ -36,11 +36,12 @@
             .Select(item =>
             {
                 var pathEncoded = item.Path.EncodeUrl();
+                var enabled = canUpload && item.MappedTonieId == null;
 
                 return new GridItem
                 {
                     Name = item.Name,
-                    Url = canUpload
+                    Url = enabled
                         ? item.HasSubitems
                             ? $"/browse?path={pathEncoded}"
                             : $"/upload/selecttonie?path={pathEncoded}"
@@ -52,7 +53,7 @@
                              ? tonies.FirstOrDefault(t => item.MappedTonieId == t.Id)?.ImageUrl
                              : null,
                     SubImageClass = item.MappedTonieId != null ? "tonie" : null,
-                    Restricted = !canUpload
+                    Restricted = !enabled
                 };
             })
             .ToArray();

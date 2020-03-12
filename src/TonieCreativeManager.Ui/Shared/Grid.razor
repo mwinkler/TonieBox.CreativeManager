@@ -6,12 +6,12 @@
         {
             <a class="item @(item.Restricted ? "restricted" : "")" href="@item.Url">
                 <div class="image" style="background-image:url('@item.ImageUrl');">
+                </div>
                     @if (!string.IsNullOrEmpty(item.SubImageUrl))
                     {
                         <div class="subimage @item.SubImageClass" style="background-image:url('@item.SubImageUrl')"></div>
                     }
-                </div>
-                <span>@item.Name</span>
+                @*<span>@item.Name</span>*@
             </a>
         }
     </div>

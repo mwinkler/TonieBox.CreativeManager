@@ -10,18 +10,20 @@
 
 @if (user != null)
 {
-    <Header></Header>
+    <Header BackUrl="javascript:history.back()"></Header>
 
-    <div class="centered" style="flex-direction:column">
+    <div class="centered mt-5">
 
         <div style="display:flex">
             <div>
                 <img src="/cover?path=@path.EncodeUrl()" style="width:40vw" />
             </div>
-            <div class="ml-4">
-                <i class="fas fa-minus fa-2x mr-4"></i>
-                <i class="fas fa-coins fa-4x"></i>
-                <span style="font-size: 5rem;">@Settings.MediaItemBuyCost</span>
+            <div class="ml-4 centered">
+                @*<i class="fas fa-minus fa-2x mr-4"></i>*@
+                <div class="coin">
+                    <i class="fas fa-coins fa-4x"></i>
+                    <span style="font-size: 5rem;">@Settings.MediaItemBuyCost</span>
+                </div>
             </div>
         </div>
         <div class="mt-4">
