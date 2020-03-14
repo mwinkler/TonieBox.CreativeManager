@@ -1,6 +1,8 @@
 ﻿@page "/upload/selecttonie"
 
-@inject CreativeTonieService CreativeTonieService
+@inject UserService UserService
+
+@inject SessionService Session
 
 @inject IHttpContextAccessor HttpContext
 
@@ -16,7 +18,7 @@
     {
         var path = HttpContext.HttpContext.Request.Query["path"].ToString();
 
-        var tonies = await CreativeTonieService.GetTonies();
+        var tonies = await UserService.GetCreativeTonies(Session.UserId);
 
         items = tonies
             .Select(t => new GridItem

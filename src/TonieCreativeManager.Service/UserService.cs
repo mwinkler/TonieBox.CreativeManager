@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TonieCloud;
 using TonieCreativeManager.Service.Model;
 
 namespace TonieCreativeManager.Service
@@ -98,6 +99,14 @@ namespace TonieCreativeManager.Service
 
             // save user
             await repositoryService.SetUser(user);
+        }
+
+        public async Task<IEnumerable<Tonie>> GetCreativeTonies(string userId)
+        {
+            var creativeTonies = await creativeTonieService.GetTonies();
+            var user = await GetUser(userId);
+
+            return creativeTonies.Where(ct => user.Tonies.Contains(ct.Id)).ToArray();
         }
     }
 }

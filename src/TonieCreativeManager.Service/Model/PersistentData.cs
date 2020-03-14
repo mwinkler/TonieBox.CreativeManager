@@ -17,6 +17,7 @@ namespace TonieCreativeManager.Service.Model
             public string Name { get; set; }
             public int Credits { get; set; }
             public string ProfileImageUrl { get; set; }
+            public IList<string> Tonies { get; set; } = new List<string>();
         }
 
         public class Voucher
