@@ -27,9 +27,7 @@
             </div>
         </div>
         <div class="mt-4">
-            <a class="button" href="/shop/buy/commit?path=@path.EncodeUrl()">
-                <i class="fas fa-check-circle fa-2x"></i>
-            </a>
+            <Button Href="@commitBuyUrl" IconClass="fa-check-circle" />
         </div>
 
     </div>
@@ -38,12 +36,17 @@
 @code {
 
     PersistentData.User user;
+
     string path;
+
+    string commitBuyUrl;
 
     protected override async Task OnInitializedAsync()
     {
         path = Accessor.HttpContext.Request.Query["path"].ToString();
 
         user = await UserService.GetUser(Session.UserId);
+
+        commitBuyUrl = $"/shop/buy/commit?path={path.EncodeUrl()}";
     }
 }

@@ -27,9 +27,7 @@
             </div>
         </div>
         <div class="mt-4">
-            <a class="button" href="/upload/start/@TonieId?path=@path.EncodeUrl()">
-                <i class="fas fa-check-circle fa-2x"></i>
-            </a>
+            <Button Href="@startUploadUrl" IconClass="fa-check-circle" />
         </div>
 
     </div>
@@ -45,6 +43,8 @@
 
     string path;
 
+    string startUploadUrl;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,6 +54,8 @@
         tonie = await CreativeTonieService.GetTonie(TonieId);
 
         mediaItemUrl = $"/cover?path={path.EncodeUrl()}";
+
+        startUploadUrl = $"upload/start/{TonieId}?path={path.EncodeUrl()}";
 
     }
 

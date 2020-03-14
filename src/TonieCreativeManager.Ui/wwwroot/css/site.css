@@ -7,17 +7,30 @@
 #blazor-error-ui { background: lightyellow; bottom: 0; box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2); display: none; left: 0; padding: 0.6rem 1.25rem 0.7rem 1.25rem; position: fixed; width: 100%; z-index: 1000; }
 #blazor-error-ui .dismiss { cursor: pointer; position: absolute; right: 0.75rem; top: 0.5rem; }
 
+/* components */
+
+.component-grid { display: flex; flex-wrap: wrap; }
+.component-grid .component-item__a { flex: 1 0 250px; margin: 1rem; }
+
+.component-item__a { position: relative; display: block; }
+.component-item__image { padding-bottom: 100%; background-size: cover; background-position: center center; border-radius: 1rem; box-shadow: lightgrey 0.2rem 0.2rem 0rem; }
+.component-item__image.component-item--restricted { opacity: 0.5; }
+.component-item__subimage { position: absolute; top: 63%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }
+.component-item__subimage.component-item--tonie { top: 65%; left: 75%; }
+
+.component-button { background-color: rgb(179, 0, 13); color: white !important; display: flex; justify-content: center; align-items: center; border-radius: 0.5rem; background-size: cover; background-position: center center; padding: 1rem; }
+.component-button:not([href]) { background-color: lightgray; }
+
+
+
 /* creative manager */
 html, body, .main, .content { height:100%; }
 
 .content { padding-top: 1.1rem; }
 
 #headnav { display:flex; }
+#headnav .component-button { width: 4rem; height: 4rem; margin-right:1.5rem;padding:0; }
 
-a.button { background-color: rgb(179, 0, 13); color:white !important; display:inline-block; width:4rem; height:4rem; display:flex; justify-content:center;align-items:center; border-radius:0.5rem; }
-a.button:not([href]) { background-color: lightgray; }
-
-.profile { background-size: cover; background-position: center center; width: 4rem; height: 4rem; border-radius: 0.5rem; }
 .credits { font-size:1.5rem; }
 
 .centered { display: flex; align-items: center; justify-content: center; flex-direction:column; }
@@ -38,13 +51,3 @@ a.back { padding: 1rem; border: 1px solid #eee; display:block; }
 
 .coin { background-color: lightgray; padding: 0 1rem; border-radius:1rem; }
 
-/* components */
-
-.component-grid { display: flex; flex-wrap: wrap; }
-.component-grid .component-item__a { flex: 1 0 250px; margin: 1rem; }
-
-.component-item__a { position: relative; display: block; }
-.component-item__image { padding-bottom: 100%; background-size: cover; background-position: center center; border-radius: 1rem; box-shadow: lightgrey 0.2rem 0.2rem 0rem; }
-.component-item__image.component-item--restricted { opacity: 0.5; }
-.component-item__subimage { position: absolute; top: 63%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }
-.component-item__subimage.component-item--tonie { top: 65%; left: 75%; }
