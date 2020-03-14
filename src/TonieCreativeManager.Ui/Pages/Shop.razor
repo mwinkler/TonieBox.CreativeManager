@@ -46,7 +46,7 @@
                         : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
                     SubImageUrl = item.HasSubitems ? $"/cover?path=folder" : null,
-                    SubImageClass = item.MappedTonieId != null ? "tonie" : null,
+                    IsTonieSubImage = item.MappedTonieId != null,
                     Restricted = !canBuy
                 };
             })

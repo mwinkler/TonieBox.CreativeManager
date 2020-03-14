@@ -52,7 +52,7 @@
                          : item.MappedTonieId != null
                              ? tonies.FirstOrDefault(t => item.MappedTonieId == t.Id)?.ImageUrl
                              : null,
-                    SubImageClass = item.MappedTonieId != null ? "tonie" : null,
+                    IsTonieSubImage = item.MappedTonieId != null,
                     Restricted = !enabled
                 };
             })

@@ -1,22 +1,23 @@
-﻿<a class="component-item__a" href="@Url" style="@Style">
-    <div class="component-item__image" style="background-image:url('@ImageUrl');">
-    </div>
+﻿<a class="component-item__a" href="@Href" style="@Style">
+    <div class="component-item__image @(Restricted ? "component-item--restricted" : "")" style="background-image:url('@ImageUrl');" />
     @if (!string.IsNullOrEmpty(SubImageUrl))
     {
-        <div class="component-item__subimage @SubImageClass" style="background-image:url('@SubImageUrl')"></div>
+        <div class="component-item__subimage @(IsTonieSubImage ? "component-item--tonie" : "")" style="background-image:url('@SubImageUrl')"></div>
     }
 </a>
 
 @code {
 
-    [Parameter] public string Url { get; set; }
+    [Parameter] public string Href { get; set; }
 
     [Parameter] public string ImageUrl { get; set; }
 
     [Parameter] public string SubImageUrl { get; set; }
 
-    [Parameter] public string SubImageClass { get; set; }
+    [Parameter] public bool IsTonieSubImage { get; set; }
 
     [Parameter] public string Style { get; set; }
+
+    [Parameter] public bool Restricted { get; set; }
 
 }

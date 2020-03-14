@@ -1,18 +1,16 @@
 ﻿
 @if (Items != null)
 {
-    <div class="grid @(RestrictItemWidth ? "restrict-item-width" : "")">
+    <div class="component-grid">
         @foreach (var item in Items)
         {
-            <a class="item @(item.Restricted ? "restricted" : "")" href="@item.Url">
-                <div class="image" style="background-image:url('@item.ImageUrl');">
-                </div>
-                    @if (!string.IsNullOrEmpty(item.SubImageUrl))
-                    {
-                        <div class="subimage @item.SubImageClass" style="background-image:url('@item.SubImageUrl')"></div>
-                    }
-                @*<span>@item.Name</span>*@
-            </a>
+            <Item 
+                  Href="@item.Url"
+                  ImageUrl="@item.ImageUrl" 
+                  SubImageUrl="@item.SubImageUrl"
+                  IsTonieSubImage="@item.IsTonieSubImage"
+                  Restricted="item.Restricted"
+                  Style="@(RestrictItemWidth ? "max-width: 325px;" : "")" />
         }
     </div>
 }
