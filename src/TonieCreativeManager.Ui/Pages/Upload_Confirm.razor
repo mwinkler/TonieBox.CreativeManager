@@ -1,0 +1,60 @@
+﻿@page "/upload/confirm/{tonieid}"
+
+@inject CreativeTonieService CreativeTonieService
+
+@inject Settings Settings
+
+@inject IHttpContextAccessor Accessor
+
+@if (tonie != null)
+{
+    <Header BackUrl="javascript:history.back()"></Header>
+
+    <div class="centered mt-5">
+
+        <div style="display:flex">
+
+            <Item ImageUrl="@mediaItemUrl" Style="width:35vw" />
+
+            <Item ImageUrl="@tonie.ImageUrl" Style="width:35vw" />
+                
+            <div class="ml-4 centered">
+                @*<i class="fas fa-minus fa-2x mr-4"></i>*@
+                <div class="coin">
+                    <i class="fas fa-coins fa-4x"></i>
+                    <span style="font-size: 5rem;">@Settings.MediaItemUploadCost</span>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a class="button" href="/upload/start/@TonieId?path=@path.EncodeUrl()">
+                <i class="fas fa-check-circle fa-2x"></i>
+            </a>
+        </div>
+
+    </div>
+}
+
+@code {
+
+    [Parameter] public string TonieId { get; set; }
+
+    Tonie tonie;
+
+    string mediaItemUrl;
+
+    string path;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var ctx = Accessor.HttpContext;
+        path = ctx.Request.Query["path"];
+
+        tonie = await CreativeTonieService.GetTonie(TonieId);
+
+        mediaItemUrl = $"/cover?path={path.EncodeUrl()}";
+
+    }
+
+}

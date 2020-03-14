@@ -27,8 +27,8 @@ a.button:not([href]) { background-color: lightgray; }
 .grid.restrict-item-width .item { max-width: 325px; }
 .grid .item { flex: 1 0 250px; position: relative; margin: 1rem; text-align: center; }
 .grid .item.restricted .image { opacity: 0.5; }
-.grid .item .image { padding-bottom: 100%; margin-bottom: 0.5rem; background-size: cover; background-position: center center; border-radius: 1rem; box-shadow: lightgrey 0.2rem 0.2rem 0rem; }
-.grid .item .subimage { position: absolute; top: 60%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }
+.grid .item .image { padding-bottom: 100%; background-size: cover; background-position: center center; border-radius: 1rem; box-shadow: lightgrey 0.2rem 0.2rem 0rem; }
+.grid .item .subimage { position: absolute; top: 63%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }
 .grid .item .subimage.tonie { top: 65%; left: 75%; }
 
 a.back { padding: 1rem; border: 1px solid #eee; display:block; }
@@ -45,3 +45,7 @@ a.back { padding: 1rem; border: 1px solid #eee; display:block; }
 .emoji { display: inline-block; transform: scale(4); margin-right: 100px; margin-bottom: 100px; font-size:16px; }
 
 .coin { background-color: lightgray; padding: 0 1rem; border-radius:1rem; }
+
+.component-item__a { position: relative; display:block; }
+.component-item__image { padding-bottom: 100%; background-size: cover; background-position: center center; border-radius: 1rem; box-shadow: lightgrey 0.2rem 0.2rem 0rem; }
+.component-item__subimage { position: absolute; top: 63%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }

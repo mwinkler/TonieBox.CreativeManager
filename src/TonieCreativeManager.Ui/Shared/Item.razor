@@ -1,0 +1,22 @@
+﻿<a class="component-item__a" href="@Url" style="@Style">
+    <div class="component-item__image" style="background-image:url('@ImageUrl');">
+    </div>
+    @if (!string.IsNullOrEmpty(SubImageUrl))
+    {
+        <div class="component-item__subimage @SubImageClass" style="background-image:url('@SubImageUrl')"></div>
+    }
+</a>
+
+@code {
+
+    [Parameter] public string Url { get; set; }
+
+    [Parameter] public string ImageUrl { get; set; }
+
+    [Parameter] public string SubImageUrl { get; set; }
+
+    [Parameter] public string SubImageClass { get; set; }
+
+    [Parameter] public string Style { get; set; }
+
+}

@@ -25,7 +25,7 @@
             {
                 ImageUrl = t.ImageUrl,
                 Name = t.Name,
-                Url = $"/upload/start/{t.Id}?path={path.EncodeUrl()}",
+                Url = $"/upload/confirm/{t.Id}?path={path.EncodeUrl()}",
                 SubImageUrl = t.CurrentMediaPath != null ? $"/cover?path={t.CurrentMediaPath.EncodeUrl()}" : null
             })
             .ToArray();
