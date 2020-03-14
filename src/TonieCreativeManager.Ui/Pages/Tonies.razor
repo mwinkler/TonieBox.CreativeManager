@@ -1,0 +1,30 @@
+﻿@page "/tonies"
+
+@inject CreativeTonieService CreativeTonieService
+
+@if (items != null)
+{
+    <Header />
+
+    <Grid Items="items" RestrictItemWidth="true" />
+}
+
+@code { 
+
+    IEnumerable<GridItem> items;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var tonies = await CreativeTonieService.GetTonies();
+
+        items = tonies
+            .Where(t => !string.IsNullOrEmpty(t.CurrentMediaPath))
+            .Select(t => new GridItem
+            {
+                ImageUrl = $"/cover?path={t.CurrentMediaPath.EncodeUrl()}",
+                SubImageUrl = t.ImageUrl,
+                IsTonieSubImage = true
+            })
+            .ToArray();
+    }
+}
