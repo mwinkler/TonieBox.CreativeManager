@@ -14,20 +14,16 @@
 
     <div class="centered mt-5">
 
-        <div style="display:flex">
-            <div>
-                <img src="/cover?path=@path.EncodeUrl()" style="width:40vw" />
-            </div>
-            <div class="ml-4 centered">
-                @*<i class="fas fa-minus fa-2x mr-4"></i>*@
-                <div class="coin">
-                    <i class="fas fa-coins fa-4x"></i>
-                    <span style="font-size: 5rem;">@Settings.MediaItemBuyCost</span>
-                </div>
-            </div>
-        </div>
-        <div class="mt-4">
-            <Button Href="@commitBuyUrl" IconClass="fa-check-circle" />
+        <Item ImageUrl="@coverUrl" Style="width:40vw" />
+
+        <div class="mt-5">
+            <Button Href="@commitBuyUrl" Style="font-size:2rem;">
+                <span>
+                    <i class="fas fa-coins"></i>
+                    @Settings.MediaItemBuyCost
+                    <i class="fas fa-check-circle ml-3"></i>
+                </span>
+            </Button>
         </div>
 
     </div>
@@ -37,15 +33,17 @@
 
     PersistentData.User user;
 
-    string path;
+    string coverUrl;
 
     string commitBuyUrl;
 
     protected override async Task OnInitializedAsync()
     {
-        path = Accessor.HttpContext.Request.Query["path"].ToString();
+        var path = Accessor.HttpContext.Request.Query["path"].ToString();
 
         user = await UserService.GetUser(Session.UserId);
+
+        coverUrl = $"/cover?path={path.EncodeUrl()}";
 
         commitBuyUrl = $"/shop/buy/commit?path={path.EncodeUrl()}";
     }

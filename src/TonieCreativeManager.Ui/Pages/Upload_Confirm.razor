@@ -12,22 +12,22 @@
 
     <div class="centered mt-5">
 
-        <div style="display:flex">
-
+        <div style="display:flex; align-items:center;">
             <Item ImageUrl="@mediaItemUrl" Style="width:35vw" />
 
-            <Item ImageUrl="@tonie.ImageUrl" Style="width:35vw" />
-                
-            <div class="ml-4 centered">
-                @*<i class="fas fa-minus fa-2x mr-4"></i>*@
-                <div class="coin">
-                    <i class="fas fa-coins fa-4x"></i>
-                    <span style="font-size: 5rem;">@Settings.MediaItemUploadCost</span>
-                </div>
-            </div>
+            <i class="fas fa-arrow-right fa-4x m-2"></i>
+
+            <Item ImageUrl="@tonie.ImageUrl" SubImageUrl="@tonieMediaUrl" Style="width:35vw" />
         </div>
-        <div class="mt-4">
-            <Button Href="@startUploadUrl" IconClass="fa-check-circle" />
+        
+        <div class="mt-5">
+            <Button Href="@startUploadUrl" Style="font-size:2rem;">
+                <span>
+                    <i class="fas fa-coins"></i>
+                    @Settings.MediaItemUploadCost
+                    <i class="fas fa-check-circle ml-3"></i>
+                </span>
+            </Button>
         </div>
 
     </div>
@@ -45,6 +45,8 @@
 
     string startUploadUrl;
 
+    string tonieMediaUrl;
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -57,6 +59,9 @@
 
         startUploadUrl = $"upload/start/{TonieId}?path={path.EncodeUrl()}";
 
+        tonieMediaUrl = string.IsNullOrEmpty(tonie.CurrentMediaPath)
+            ? null
+            : $"/cover?path={tonie.CurrentMediaPath.EncodeUrl()}";
     }
 
 }
