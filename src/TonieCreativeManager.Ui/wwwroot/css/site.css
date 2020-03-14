@@ -31,12 +31,8 @@ html, body, .main, .content { height:100%; }
 #headnav { display:flex; }
 #headnav .component-button { width: 4rem; height: 4rem; margin-right:1.5rem;padding:0; }
 
-.credits { font-size:1.5rem; }
-
 .centered { display: flex; align-items: center; justify-content: center; flex-direction:column; }
 .centered.fullscreen { height:100vh; }
-
-a.back { padding: 1rem; border: 1px solid #eee; display:block; }
 
 .upload { width:300px; }
 

@@ -1,5 +1,5 @@
 ﻿
-<a href="@Href" class="component-button @Class" style="@(ImageUrl != null ? $"background-image:url('{ImageUrl}');" : "")">
+<a href="@Href" class="component-button @Class" style="@(ImageUrl != null ? $"background-image:url('{ImageUrl}');" : "") @Style">
     @if (ChildContent != null)
     {
         @ChildContent
@@ -17,6 +17,8 @@
     [Parameter] public string IconClass { get; set; }
 
     [Parameter] public string Class { get; set; }
+
+    [Parameter] public string Style { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
 
