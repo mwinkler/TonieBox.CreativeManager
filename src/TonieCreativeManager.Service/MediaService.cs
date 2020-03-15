@@ -27,17 +27,14 @@ namespace TonieCreativeManager.Service
             var fullpath = settings.LibraryRoot + path;
             var mappings = await repositoryService.GetMappings();
 
-            bool isNotIgnoredFolder(string p) => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase);
-
             var directoryTasks = Directory.GetDirectories(fullpath)
-                .Where(isNotIgnoredFolder)
+                .Where(p => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase))
+                .Where(p => !File.Exists(Path.Combine(p, settings.MarkFolderAsHiddenFile)))
                 .Select(async subfullpath =>
                 {
                     var subpath = path + "/" + Path.GetFileName(subfullpath);
-                    var hasSubitems = Directory.GetDirectories(subfullpath).Where(isNotIgnoredFolder).Any();
-                    var subitems = hasSubitems
-                        ? await GetItems(subpath)
-                        : Enumerable.Empty<MediaItem>();
+                    var subitems = await GetItems(subpath);
+                    var hasSubitems = subitems.Any();
 
                     return new MediaItem
                     {
@@ -50,7 +47,7 @@ namespace TonieCreativeManager.Service
                         HasBought = settings.EnableShop
                             ? hasSubitems
                                 ? subitems.Any(sub => sub.HasBought)
-                                : File.Exists(subfullpath + "/" + settings.MarkAsBoughtFilename)
+                                : File.Exists(subfullpath + "/" + settings.MarkFolderAsBoughtFile)
                             : true,
                         HasUnmappedSubitems = hasSubitems
                             ? subitems.Any(sub => sub.HasBought && sub.MappedTonieId == null)
@@ -102,7 +99,7 @@ namespace TonieCreativeManager.Service
 
         public Task MarkFolderAsBought(string path)
         {
-            var full = settings.LibraryRoot + path + "/" + settings.MarkAsBoughtFilename;
+            var full = settings.LibraryRoot + path + "/" + settings.MarkFolderAsBoughtFile;
 
             return File.WriteAllTextAsync(full, "");
         }

@@ -10,8 +10,9 @@ namespace TonieCreativeManager.Service.Model
         public IEnumerable<string> IgnoreFolderNames { get; set; }
         public string RepositoryDataFile { get; set; }
         public bool EnableShop { get; set; }
+        public string MarkFolderAsHiddenFile { get; set; }
         public IEnumerable<string> KeyboardCharacters { get; set; }
-        public string MarkAsBoughtFilename { get; set; }
+        public string MarkFolderAsBoughtFile { get; set; }
         public int MediaItemBuyCost { get; set; }
         public int MediaItemUploadCost { get; set; }
     }
