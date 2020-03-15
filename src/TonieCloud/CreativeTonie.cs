@@ -13,7 +13,7 @@ namespace TonieCloud
         public class Deletedchapter
         {
             public string Title { get; set; }
-            public float Seconds { get; set; }
+            public float? Seconds { get; set; }
         }
 
         public string Id { get; set; }
