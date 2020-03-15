@@ -24,31 +24,41 @@ namespace TonieCreativeManager.Service
 
         public async Task<IEnumerable<MediaItem>> GetItems(string path)
         {
-            var fullPath = settings.LibraryRoot + path;
+            var fullpath = settings.LibraryRoot + path;
             var mappings = await repositoryService.GetMappings();
 
             bool isNotIgnoredFolder(string p) => !settings.IgnoreFolderNames.Contains(Path.GetFileName(p), StringComparer.OrdinalIgnoreCase);
 
-            var directory = Directory.GetDirectories(fullPath)
+            var directoryTasks = Directory.GetDirectories(fullpath)
                 .Where(isNotIgnoredFolder)
-                .Select(fullpath => 
+                .Select(async subfullpath =>
                 {
-                    var subpath = path + "/" + Path.GetFileName(fullpath);
-                    var hasSubitems = Directory.GetDirectories(fullpath).Where(isNotIgnoredFolder).Any();
+                    var subpath = path + "/" + Path.GetFileName(subfullpath);
+                    var hasSubitems = Directory.GetDirectories(subfullpath).Where(isNotIgnoredFolder).Any();
+                    var subitems = hasSubitems
+                        ? await GetItems(subpath)
+                        : Enumerable.Empty<MediaItem>();
 
                     return new MediaItem
                     {
                         Path = subpath,
-                        Name = Path.GetFileName(fullpath),
+                        Name = Path.GetFileName(subfullpath),
                         HasSubitems = hasSubitems,
-                        MappedTonieId = mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId,
-                        HasBought = settings.EnableShop 
+                        MappedTonieId = hasSubitems
+                            ? null
+                            : mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId,
+                        HasBought = settings.EnableShop
                             ? hasSubitems
-                                ? Directory.GetFiles(fullpath, settings.MarkAsBoughtFilename, SearchOption.AllDirectories).Any()
-                                : File.Exists(fullpath + "/" + settings.MarkAsBoughtFilename)
-                            : true
+                                ? subitems.Any(sub => sub.HasBought)
+                                : File.Exists(subfullpath + "/" + settings.MarkAsBoughtFilename)
+                            : true,
+                        HasUnmappedSubitems = hasSubitems
+                            ? subitems.Any(sub => sub.HasBought && sub.MappedTonieId == null)
+                            : false
                     };
-                })
+                });
+
+            var directory = (await Task.WhenAll(directoryTasks))
                 .OrderBy(p => p.Name)
                 .ToArray();
 

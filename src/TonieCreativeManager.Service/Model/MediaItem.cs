@@ -8,5 +8,6 @@ namespace TonieCreativeManager.Service.Model
         public bool HasSubitems { get; set; }
         public string MappedTonieId { get; set; }
         public bool HasBought { get; set; }
+        public bool HasUnmappedSubitems { get; set; }
     }
 }

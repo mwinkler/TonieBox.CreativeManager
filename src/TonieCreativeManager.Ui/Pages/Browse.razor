@@ -24,7 +24,7 @@
     {
         var path = Accessor.HttpContext.Request.Query["path"].ToString();
         var mediaItems = await MediaService.GetItems(path);
-        var tonies = await CreativeTonieService.GetTonies();
+        //var tonies = await CreativeTonieService.GetTonies();
         var canUpload = await UserService.CanUploadItem(Session.UserId);
 
         backPath = string.IsNullOrEmpty(path)
@@ -32,7 +32,12 @@
             : "javascript:history.back()";
 
         items = mediaItems
-            .Where(item => item.HasBought)
+            .Where(item => 
+                item.HasBought && 
+                (
+                    (item.HasSubitems && item.HasUnmappedSubitems) || 
+                    (!item.HasSubitems && item.MappedTonieId == null)
+                ))
             .Select(item =>
             {
                 var pathEncoded = item.Path.EncodeUrl();
@@ -49,9 +54,7 @@
                     ImageUrl = $"/cover?path={pathEncoded}",
                     SubImageUrl = item.HasSubitems
                          ? $"/cover?path=folder"
-                         : item.MappedTonieId != null
-                             ? tonies.FirstOrDefault(t => item.MappedTonieId == t.Id)?.ImageUrl
-                             : null,
+                         : null,
                     IsTonieSubImage = item.MappedTonieId != null,
                     Restricted = !enabled
                 };
