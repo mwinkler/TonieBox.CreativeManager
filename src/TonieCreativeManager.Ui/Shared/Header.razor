@@ -6,7 +6,7 @@
 
 @if (user != null)
 {
-    <div id="headnav" class="mb-3">
+    <nav>
 
         <Button Href="@BackUrl" IconClass="fas fa-chevron-circle-left" />
 
@@ -25,7 +25,8 @@
 
         <Button Href="/user/select" ImageUrl="@user.ProfileImageUrl" />
 
-    </div>
+    </nav>
+    <div style="height:6rem;display:block;"></div>
 }
 
 @code { 
