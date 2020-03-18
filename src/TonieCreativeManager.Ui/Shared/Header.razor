@@ -10,9 +10,9 @@
 
         <Button Href="@BackUrl" IconClass="fas fa-chevron-circle-left" />
 
-        <Button Href="/browse" IconClass="fas fa-compact-disc" />
+        <Button Href="/browse" IconClass="fas fa-compact-disc" Disabled="browseDisabled" />
 
-        <Button Href="/shop" IconClass="fas fa-shopping-cart" />
+        <Button Href="/shop" IconClass="fas fa-shopping-cart" Disabled="shopDisabled" />
 
         <Button Href="/tonies" IconClass="fab fa-github-alt" />
 
@@ -35,9 +35,17 @@
 
     PersistentData.User user;
 
+    bool browseDisabled;
+
+    bool shopDisabled;
+
     protected override async Task OnInitializedAsync()
     {
         user = await UserService.GetUser(Session.UserId);
+
+        browseDisabled = !(await UserService.CanUploadItem(Session.UserId));
+
+        shopDisabled = !(await UserService.CanBuyItem(Session.UserId));
     }
 
 }
