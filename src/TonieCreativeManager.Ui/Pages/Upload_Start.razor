@@ -6,12 +6,18 @@
 
 <meta http-equiv="refresh" content="1; url=@redirectUrl">
 
-<div class="centered">
-    <div>
-        <img class="upload" src="@coverUrl" />
-        <img src="/loader.gif" style="margin:5rem; vertical-align:middle" />
-        <img class="upload" src="@tonieUrl" />
+<div class="centered fullscreen">
+
+    <div style="display:flex; align-items:center">
+
+        <Item ImageUrl="@coverUrl" Style="width: 30vw" />
+        
+        <img src="/loader.gif" style="margin:2rem;" />
+
+        <Item ImageUrl="@tonieUrl" Style="width: 30vw" />
+
     </div>
+
 </div>
 
 @code {
