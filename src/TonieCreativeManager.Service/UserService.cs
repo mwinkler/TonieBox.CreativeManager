@@ -104,9 +104,30 @@ namespace TonieCreativeManager.Service
         public async Task<IEnumerable<Tonie>> GetCreativeTonies(string userId)
         {
             var creativeTonies = await creativeTonieService.GetTonies();
+
             var user = await GetUser(userId);
 
             return creativeTonies.Where(ct => user.Tonies.Contains(ct.Id)).ToArray();
+        }
+
+        public async Task<IEnumerable<Tonie>> GetCreativeTonies()
+        {
+            var creativeTonies = await creativeTonieService.GetTonies();
+
+            var users = await GetUsers();
+
+            foreach (var tonie in creativeTonies)
+            {
+                var user = users.FirstOrDefault(u => u.Tonies.Contains(tonie.Id));
+
+                if (user != null)
+                {
+                    tonie.UserId = user.Id;
+                    tonie.UserProfileImageUrl = user.ProfileImageUrl;
+                }
+            }
+
+            return creativeTonies;
         }
     }
 }

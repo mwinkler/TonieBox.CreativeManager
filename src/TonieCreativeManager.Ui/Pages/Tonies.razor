@@ -1,6 +1,6 @@
 ﻿@page "/tonies"
 
-@inject CreativeTonieService CreativeTonieService
+@inject UserService UserService
 
 @if (items != null)
 {
@@ -15,7 +15,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var tonies = await CreativeTonieService.GetTonies();
+        var tonies = await UserService.GetCreativeTonies();
 
         items = tonies
             .Where(t => !string.IsNullOrEmpty(t.CurrentMediaPath))
@@ -23,7 +23,8 @@
             {
                 ImageUrl = $"/cover?path={t.CurrentMediaPath.EncodeUrl()}",
                 SubImageUrl = t.ImageUrl,
-                IsTonieSubImage = true
+                IsTonieSubImage = true,
+                SubLeftImageUrl = t.UserProfileImageUrl
             })
             .ToArray();
     }

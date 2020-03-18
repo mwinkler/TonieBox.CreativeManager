@@ -18,6 +18,8 @@
 .component-item__image.component-item--restricted { opacity: 0.5; }
 .component-item__subimage { position: absolute; top: 63%; left: 60%; height: 40%; width: 40%; background-size: cover; background-position: center center; }
 .component-item__subimage.component-item--tonie { top: 65%; left: 75%; }
+.component-item__subleftimage { position: absolute; top: 70%; left: 5%; height: 25%; width: 25%; background-size: cover; background-position: center center; border-radius: 0.5rem; box-shadow: 0 0 5px 0px black; }
+
 
 .component-button { background-color: rgb(179, 0, 13); color: white !important; display: flex; justify-content: center; align-items: center; border-radius: 0.5rem; background-size: cover; background-position: center center; padding: 1rem; }
 .component-button:not([href]) { background-color: lightgray; }
