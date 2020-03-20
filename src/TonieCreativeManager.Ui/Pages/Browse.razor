@@ -1,9 +1,5 @@
 ﻿@page "/browse"
 
-@inject MediaService MediaService 
-
-@inject CreativeTonieService CreativeTonieService
-
 @inject SessionService Session
 
 @inject UserService UserService 
@@ -23,8 +19,7 @@
     protected override async Task OnInitializedAsync()
     {
         var path = Accessor.HttpContext.Request.Query["path"].ToString();
-        var mediaItems = await MediaService.GetItems(path);
-        //var tonies = await CreativeTonieService.GetTonies();
+        var mediaItems = await UserService.GetUploadableItems(Session.UserId, path);
         var canUpload = await UserService.CanUploadItem(Session.UserId);
 
         backPath = string.IsNullOrEmpty(path)
@@ -32,16 +27,10 @@
             : "javascript:history.back()";
 
         items = mediaItems
-            .Where(item => 
-                item.HasBought && 
-                (
-                    (item.HasSubitems && item.HasUnmappedSubitems) || 
-                    (!item.HasSubitems && item.MappedTonieId == null)
-                ))
             .Select(item =>
             {
                 var pathEncoded = item.Path.EncodeUrl();
-                var enabled = canUpload && item.MappedTonieId == null;
+                var enabled = canUpload;
 
                 return new GridItem
                 {
@@ -55,7 +44,7 @@
                     SubImageUrl = item.HasSubitems
                          ? $"/cover?path=folder"
                          : null,
-                    IsTonieSubImage = item.MappedTonieId != null,
+                    //IsTonieSubImage = item.MappedTonieId != null,
                     Restricted = !enabled
                 };
             })
