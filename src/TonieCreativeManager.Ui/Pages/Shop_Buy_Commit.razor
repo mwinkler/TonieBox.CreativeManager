@@ -14,7 +14,7 @@
 
         await UserService.BuyItem(Session.UserId, path);
 
-        Accessor.HttpContext.Response.Redirect($"/browse?path={path.GetParentPath().EncodeUrl()}");
+        Accessor.HttpContext.Response.Redirect($"/upload?path={path.GetParentPath().EncodeUrl()}");
     }
 
 }

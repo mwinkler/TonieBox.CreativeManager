@@ -41,16 +41,16 @@ namespace TonieCreativeManager.Service
                         Path = subpath,
                         Name = Path.GetFileName(subfullpath),
                         HasSubitems = hasSubitems,
-                        MappedTonieId = hasSubitems
-                            ? null
-                            : mappings.FirstOrDefault(m => m.Path == subpath)?.TonieId,
+                        MappedTonieIds = hasSubitems
+                            ? Enumerable.Empty<string>()
+                            : mappings.Where(m => m.Path == subpath).Select(m => m.TonieId).ToArray(),
                         HasBought = settings.EnableShop
                             ? hasSubitems
                                 ? subitems.Any(sub => sub.HasBought)
                                 : File.Exists(subfullpath + "/" + settings.MarkFolderAsBoughtFile)
                             : true,
                         HasUnmappedSubitems = hasSubitems
-                            ? subitems.Any(sub => sub.HasBought && sub.MappedTonieId == null)
+                            ? subitems.Any(sub => sub.HasBought && sub.MappedTonieIds == null)
                             : false
                     };
                 });

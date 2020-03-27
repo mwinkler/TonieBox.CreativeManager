@@ -129,5 +129,20 @@ namespace TonieCreativeManager.Service
 
             return creativeTonies;
         }
+
+        public async Task<IEnumerable<MediaItem>> GetUploadableItems(string path, string userId)
+        {
+            var mediaItems = await mediaService.GetItems(path);
+            var creativeTonies = await GetCreativeTonies(userId);
+
+            return mediaItems
+                .Where(item =>
+                    item.HasBought &&
+                    (
+                        (item.HasSubitems /*&& item.HasUnmappedSubitems*/) ||
+                        (!item.HasSubitems && item.MappedTonieIds.All(id => creativeTonies.All(ct => ct.Id != id)))
+                    ))
+                .ToArray();
+        }
     }
 }

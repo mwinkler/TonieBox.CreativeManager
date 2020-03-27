@@ -10,7 +10,7 @@
 
         <Button Href="@BackUrl" IconClass="fas fa-chevron-circle-left" />
 
-        <Button Href="/browse" IconClass="fas fa-compact-disc" Disabled="browseDisabled" />
+        <Button Href="/upload" IconClass="fas fa-compact-disc" Disabled="uploadDisabled" />
 
         <Button Href="/shop" IconClass="fas fa-shopping-cart" Disabled="shopDisabled" />
 
@@ -35,7 +35,7 @@
 
     PersistentData.User user;
 
-    bool browseDisabled;
+    bool uploadDisabled;
 
     bool shopDisabled;
 
@@ -43,7 +43,7 @@
     {
         user = await UserService.GetUser(Session.UserId);
 
-        browseDisabled = !(await UserService.CanUploadItem(Session.UserId));
+        uploadDisabled = !(await UserService.CanUploadItem(Session.UserId));
 
         shopDisabled = !(await UserService.CanBuyItem(Session.UserId));
     }

@@ -1,8 +1,4 @@
-﻿@page "/browse"
-
-@inject MediaService MediaService 
-
-@inject CreativeTonieService CreativeTonieService
+﻿@page "/upload"
 
 @inject SessionService Session
 
@@ -23,8 +19,7 @@
     protected override async Task OnInitializedAsync()
     {
         var path = Accessor.HttpContext.Request.Query["path"].ToString();
-        var mediaItems = await MediaService.GetItems(path);
-        //var tonies = await CreativeTonieService.GetTonies();
+        var mediaItems = await UserService.GetUploadableItems(path, Session.UserId);
         var canUpload = await UserService.CanUploadItem(Session.UserId);
 
         backPath = string.IsNullOrEmpty(path)
@@ -32,31 +27,24 @@
             : "javascript:history.back()";
 
         items = mediaItems
-            .Where(item => 
-                item.HasBought && 
-                (
-                    (item.HasSubitems && item.HasUnmappedSubitems) || 
-                    (!item.HasSubitems && item.MappedTonieId == null)
-                ))
             .Select(item =>
             {
                 var pathEncoded = item.Path.EncodeUrl();
-                var enabled = canUpload && item.MappedTonieId == null;
 
                 return new GridItem
                 {
                     Name = item.Name,
-                    Url = enabled
+                    Url = canUpload
                         ? item.HasSubitems
-                            ? $"/browse?path={pathEncoded}"
+                            ? $"/upload?path={pathEncoded}"
                             : $"/upload/selecttonie?path={pathEncoded}"
                         : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
                     SubImageUrl = item.HasSubitems
                          ? $"/cover?path=folder"
                          : null,
-                    IsTonieSubImage = item.MappedTonieId != null,
-                    Restricted = !enabled
+                    //IsTonieSubImage = item.MappedTonieId != null,
+                    Restricted = !canUpload
                 };
             })
             .ToArray();
