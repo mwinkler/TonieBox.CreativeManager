@@ -40,7 +40,6 @@ namespace TonieCreativeManager.Service
                     {
                         Path = subpath,
                         Name = Path.GetFileName(subfullpath),
-                        HasChilds = hasChilds,
                         MappedTonieIds = hasChilds
                             ? Enumerable.Empty<string>()
                             : mappings.Where(m => m.Path == subpath).Select(m => m.TonieId).ToArray(),

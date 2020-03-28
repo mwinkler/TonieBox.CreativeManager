@@ -35,15 +35,14 @@
                 {
                     Name = item.Name,
                     Url = canUpload
-                        ? item.HasChilds
+                        ? item.Childs.Any()
                             ? $"/upload?path={pathEncoded}"
                             : $"/upload/selecttonie?path={pathEncoded}"
                         : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
-                    SubImageUrl = item.HasChilds
+                    SubImageUrl = item.Childs.Any()
                          ? $"/cover?path=folder"
                          : null,
-                    //IsTonieSubImage = item.MappedTonieId != null,
                     Restricted = !canUpload
                 };
             })

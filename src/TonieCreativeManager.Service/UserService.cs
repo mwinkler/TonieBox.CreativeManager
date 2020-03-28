@@ -142,8 +142,8 @@ namespace TonieCreativeManager.Service
                 .Where(item =>
                     item.HasBought &&
                     (
-                        item.HasChilds && item.Childs.Any(child => child.HasBought && IsUnmappedItem(child)) ||
-                        (!item.HasChilds && IsUnmappedItem(item))
+                        item.Childs.Any(child => child.HasBought && IsUnmappedItem(child)) ||
+                        !item.Childs.Any() && IsUnmappedItem(item)
                     ))
                 .ToArray();
         }
