@@ -132,15 +132,18 @@ namespace TonieCreativeManager.Service
 
         public async Task<IEnumerable<MediaItem>> GetUploadableItems(string path, string userId)
         {
-            var mediaItems = await mediaService.GetItems(path);
             var creativeTonies = await GetCreativeTonies(userId);
+            
+            var mediaItems = await mediaService.GetItems(path);
+
+            bool IsUnmappedItem(MediaItem item) => !creativeTonies.Any(tonie => item.MappedTonieIds.Contains(tonie.Id));
 
             return mediaItems
                 .Where(item =>
                     item.HasBought &&
                     (
-                        (item.HasSubitems /*&& item.HasUnmappedSubitems*/) ||
-                        (!item.HasSubitems && item.MappedTonieIds.All(id => creativeTonies.All(ct => ct.Id != id)))
+                        item.HasChilds && item.Childs.Any(child => child.HasBought && IsUnmappedItem(child)) ||
+                        (!item.HasChilds && IsUnmappedItem(item))
                     ))
                 .ToArray();
         }

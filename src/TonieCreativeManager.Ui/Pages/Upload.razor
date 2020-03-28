@@ -35,12 +35,12 @@
                 {
                     Name = item.Name,
                     Url = canUpload
-                        ? item.HasSubitems
+                        ? item.HasChilds
                             ? $"/upload?path={pathEncoded}"
                             : $"/upload/selecttonie?path={pathEncoded}"
                         : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
-                    SubImageUrl = item.HasSubitems
+                    SubImageUrl = item.HasChilds
                          ? $"/cover?path=folder"
                          : null,
                     //IsTonieSubImage = item.MappedTonieId != null,

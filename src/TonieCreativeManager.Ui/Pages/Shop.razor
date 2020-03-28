@@ -31,7 +31,7 @@
             : "javascript:history.back()";
 
         items = mediaItems
-            .Where(item => item.HasSubitems || !item.HasBought)
+            .Where(item => item.HasChilds || !item.HasBought)
             .Select(item =>
             {
                 var pathEncoded = item.Path.EncodeUrl();
@@ -40,12 +40,12 @@
                 {
                     Name = item.Name,
                     Url = canBuy
-                        ? item.HasSubitems
+                        ? item.HasChilds
                             ? $"/shop?path={pathEncoded}"
                             : $"/shop/buy/confirm?path={pathEncoded}"
                         : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
-                    SubImageUrl = item.HasSubitems ? $"/cover?path=folder" : null,
+                    SubImageUrl = item.HasChilds ? $"/cover?path=folder" : null,
                     //IsTonieSubImage = item.MappedTonieId != null,
                     Restricted = !canBuy
                 };

@@ -33,25 +33,23 @@ namespace TonieCreativeManager.Service
                 .Select(async subfullpath =>
                 {
                     var subpath = path + "/" + Path.GetFileName(subfullpath);
-                    var subitems = await GetItems(subpath);
-                    var hasSubitems = subitems.Any();
+                    var childs = await GetItems(subpath);
+                    var hasChilds = childs.Any();
 
                     return new MediaItem
                     {
                         Path = subpath,
                         Name = Path.GetFileName(subfullpath),
-                        HasSubitems = hasSubitems,
-                        MappedTonieIds = hasSubitems
+                        HasChilds = hasChilds,
+                        MappedTonieIds = hasChilds
                             ? Enumerable.Empty<string>()
                             : mappings.Where(m => m.Path == subpath).Select(m => m.TonieId).ToArray(),
                         HasBought = settings.EnableShop
-                            ? hasSubitems
-                                ? subitems.Any(sub => sub.HasBought)
+                            ? hasChilds
+                                ? childs.Any(sub => sub.HasBought)
                                 : File.Exists(subfullpath + "/" + settings.MarkFolderAsBoughtFile)
                             : true,
-                        HasUnmappedSubitems = hasSubitems
-                            ? subitems.Any(sub => sub.HasBought && sub.MappedTonieIds == null)
-                            : false
+                        Childs = childs
                     };
                 });
 
