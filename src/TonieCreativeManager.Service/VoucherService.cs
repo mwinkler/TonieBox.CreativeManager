@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TonieCreativeManager.Service.Model;
 
@@ -38,6 +37,20 @@ namespace TonieCreativeManager.Service
             await repositoryService.SetVoucher(voucher);
 
             return voucher;
+        }
+
+        public Task<IEnumerable<PersistentData.Voucher>> GetVouchers() => repositoryService.GetVouchers();
+        
+        public async Task ResetVouchers()
+        {
+            var vouchers = await repositoryService.GetVouchers();
+
+            foreach (var voucher in vouchers)
+            {
+                voucher.Used = null;
+
+                await repositoryService.SetVoucher(voucher);
+            }
         }
     }
 }

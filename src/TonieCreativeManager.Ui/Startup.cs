@@ -66,6 +66,7 @@ namespace TonieCreativeManager.Ui
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

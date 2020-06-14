@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "_Root";
+}
+@section Scripts {
+
+    <script>
+        [].forEach.call(document.links, function (link) { link.addEventListener("click", function (event) { event.preventDefault(); window.location = this.href; }) });
+    </script>
+}
+@RenderBody()

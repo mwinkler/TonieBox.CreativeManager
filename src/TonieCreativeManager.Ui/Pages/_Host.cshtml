@@ -1,43 +1,4 @@
 ﻿@page "/"
-@namespace TonieCreativeManager.Ui.Pages
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
-    Layout = null;
+    Layout = "_RootWithoutBlazor";
 }
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" type="image/png" sizes="64x64" href="https://meine.tonies.de/images/icons/64x64.png">
-    <title>Tonie Creative Manager</title>
-    <base href="~/" />
-    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/site.css" rel="stylesheet" />
-    <link href="fontawesome/css/all.min.css" rel="stylesheet" />
-</head>
-<body>
-    <app>
-        <component type="typeof(App)" render-mode="ServerPrerendered" />
-    </app>
-
-    <div id="blazor-error-ui">
-        <environment include="Staging,Production">
-            An error has occurred. This application may no longer respond until reloaded.
-        </environment>
-        <environment include="Development">
-            An unhandled exception has occurred. See browser dev tools for details.
-        </environment>
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
-    </div>
-
-    @*<script src="_framework/blazor.server.js"></script>*@
-    @*<script src="https://kit.fontawesome.com/b5a08d65ec.js" crossorigin="anonymous"></script>*@
-    <script>
-        [].forEach.call(document.links, function (link) { link.addEventListener("click", function (event) { event.preventDefault(); window.location = this.href; }) });
-    </script>
-</body>
-</html>

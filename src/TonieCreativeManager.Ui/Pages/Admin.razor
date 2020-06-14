@@ -1,0 +1,37 @@
+﻿@page "/admin"
+
+@inject VoucherService VoucherService
+
+<div>
+
+    Vouchers: @availableVouchers von @totalVoucers verfügbar
+
+    <button @onclick="ResetVoucher">Reset</button>
+
+</div>
+
+@code { 
+
+    int totalVoucers;
+    int availableVouchers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadVouchers();
+    }
+
+    async Task LoadVouchers()
+    {
+        var vouchers = await VoucherService.GetVouchers();
+
+        totalVoucers = vouchers.Count();
+        availableVouchers = vouchers.Count(v => v.Used == null);
+    }
+
+    async Task ResetVoucher()
+    {
+        await VoucherService.ResetVouchers();
+
+        await LoadVouchers();
+    }
+}
