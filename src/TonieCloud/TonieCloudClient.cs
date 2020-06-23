@@ -138,12 +138,14 @@ namespace TonieCloud
                 response = await action.Invoke();
             }
 
+            var content = await response.Content.ReadAsStringAsync();
+
             if (!response.IsSuccessStatusCode)
             {
-                throw new Exception($"Request failed with {response.StatusCode}");
+                throw new Exception($"Request failed with {response.StatusCode}: {content}");
             }
 
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+            return JsonConvert.DeserializeObject<T>(content);
         }
     }
 }
