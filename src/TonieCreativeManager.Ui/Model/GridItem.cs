@@ -10,5 +10,6 @@ namespace TonieCreativeManager.Ui.Model
         public string SubLeftImageUrl { get; set; }
         public bool IsTonieSubImage { get; set; }
         public bool Restricted { get; set; }
+        public string RibbonText { get; set; }
     }
 }

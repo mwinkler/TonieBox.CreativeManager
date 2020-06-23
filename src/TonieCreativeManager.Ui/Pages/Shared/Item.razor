@@ -9,6 +9,10 @@
     {
         <div class="component-item__subleftimage" style="background-image:url('@SubLeftImageUrl')"></div>
     }
+    @if (!string.IsNullOrEmpty(RibbonText))
+    {
+        <div class="ribbon ribbon-top-right"><span>@RibbonText</span></div>
+    }
 </a>
 
 @code {
@@ -26,4 +30,6 @@
     [Parameter] public bool Restricted { get; set; }
 
     [Parameter] public string SubLeftImageUrl { get; set; }
+
+    [Parameter] public string RibbonText { get; set; }
 }

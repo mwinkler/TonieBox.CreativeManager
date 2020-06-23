@@ -48,7 +48,8 @@ namespace TonieCreativeManager.Service
                                 ? childs.Any(sub => sub.HasBought)
                                 : File.Exists(subfullpath + "/" + settings.MarkFolderAsBoughtFile)
                             : true,
-                        Childs = childs
+                        Childs = childs,
+                        Added = Directory.GetLastWriteTime(subpath)
                     };
                 });
 

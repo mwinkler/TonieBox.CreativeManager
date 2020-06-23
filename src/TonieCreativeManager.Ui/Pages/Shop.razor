@@ -25,6 +25,7 @@
         var path = Accessor.HttpContext.Request.Query["path"].ToString();
         var mediaItems = await MediaService.GetItems(path);
         var canBuy = await UserService.CanBuyItem(Session.UserId);
+        var newDeadline = DateTime.Now.AddMonths(-1);
 
         backPath = string.IsNullOrEmpty(path)
             ? null
@@ -46,7 +47,8 @@
                         : null,
                     ImageUrl = $"/cover?path={pathEncoded}",
                     SubImageUrl = item.Childs.Any() ? $"/cover?path=folder" : null,
-                    Restricted = !canBuy
+                    Restricted = !canBuy,
+                    RibbonText = item.Added > newDeadline ? "Neu" : ""
                 };
             })
             .ToArray();
