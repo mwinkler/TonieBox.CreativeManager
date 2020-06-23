@@ -64,7 +64,7 @@ namespace TonieCreativeManager.Service
             {
                 CreativeTonieId = creativeTonieId,
                 HouseholdId = (await tonieCloudService.GetHousehold()).Id,
-                TonieName = path,
+                TonieName = path.Length > 100 ? path[..100] : path,
                 Entries = files
             };
 
