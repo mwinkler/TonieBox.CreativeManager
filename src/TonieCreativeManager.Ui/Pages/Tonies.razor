@@ -2,6 +2,8 @@
 
 @inject UserService UserService
 
+@inject SessionService Session
+
 @if (items != null)
 {
     <Header />
@@ -9,13 +11,13 @@
     <Grid Items="items" RestrictItemWidth="true" />
 }
 
-@code { 
+@code {
 
     IEnumerable<GridItem> items;
 
     protected override async Task OnInitializedAsync()
     {
-        var tonies = await UserService.GetCreativeTonies();
+        var tonies = await UserService.GetCreativeTonies(Session.UserId);
 
         items = tonies
             .Where(t => !string.IsNullOrEmpty(t.CurrentMediaPath))
@@ -23,8 +25,7 @@
             {
                 ImageUrl = $"/cover?path={t.CurrentMediaPath.EncodeUrl()}",
                 SubImageUrl = t.ImageUrl,
-                IsTonieSubImage = true,
-                SubLeftImageUrl = t.UserProfileImageUrl
+                IsTonieSubImage = true
             })
             .ToArray();
     }
