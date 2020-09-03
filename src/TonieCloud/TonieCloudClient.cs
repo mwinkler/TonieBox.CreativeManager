@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using HtmlAgilityPack;
+using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace TonieCloud
 {
@@ -16,6 +19,7 @@ namespace TonieCloud
     {
         private const string TONIE_API_URL = "https://api.tonie.cloud";
         private const string AMAZON_UPLOAD_URL = "https://bxn-toniecloud-prod-upload.s3.amazonaws.com";
+        private const string TONIE_AUTH_URL = "https://login.tonies.com";
         private readonly Login login;
         private readonly HttpClient client;
         private readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
@@ -103,11 +107,47 @@ namespace TonieCloud
 
         private async Task UpdateJwtToken()
         {
-            var response = await client.PostAsync("/v2/sessions", new StringContent(JsonConvert.SerializeObject(login, jsonSettings) , Encoding.UTF8, "application/json"));
+            var authClient = new HttpClient()
+            {
+                BaseAddress = new Uri(TONIE_AUTH_URL)
+            };
 
-            var token = JsonConvert.DeserializeObject<JwtToken>(await response.Content.ReadAsStringAsync());
+            // get login url
+            var response = await authClient.GetAsync("/auth/realms/tonies/protocol/openid-connect/auth?client_id=my-tonies&redirect_uri=https://my.tonies.com/login&response_type=code&scope=openid");
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Jwt);
+            // grab login url from content
+            var pageDocument = new HtmlDocument();
+            pageDocument.LoadHtml(await response.Content.ReadAsStringAsync());
+
+            var loginUrl = new Uri(HttpUtility.HtmlDecode(pageDocument.GetElementbyId("root").Attributes["data-action-url"].Value));
+
+            // login
+            var loginRequestData = new Dictionary<string, string>() {
+                { "grant_type", "password" },
+                { "client_id", "my-tonies" },
+                { "username", login.Email },
+                { "password", login.Password }
+            };
+
+            var loginResponse = await authClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, loginUrl) { Content = new FormUrlEncodedContent(loginRequestData) });
+
+            // extract auth code from redirect url
+            var auth = QueryHelpers.ParseQuery(loginResponse.RequestMessage.RequestUri.Query);
+
+            // get access token
+            var tokenRequestData = new Dictionary<string, string>() {
+                { "code", auth["code"].ToString() },
+                { "grant_type", "authorization_code" },
+                { "client_id", "my-tonies" },
+                { "redirect_uri", "https://my.tonies.com/login" }
+            };
+            
+            var tokenResponse = await authClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, "/auth/realms/tonies/protocol/openid-connect/token") { Content = new FormUrlEncodedContent(tokenRequestData) });
+
+            var token = JsonConvert.DeserializeObject<Token>(await tokenResponse.Content.ReadAsStringAsync());
+
+            // set authorization
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
         }
 
         private Task<T> Get<T>(string path) => ExecuteRequest<T>(() => client.GetAsync(path));
