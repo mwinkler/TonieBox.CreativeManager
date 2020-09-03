@@ -3,6 +3,8 @@
 - C# Api to access tonie cloud
 - Web frontend to manage content of your creative tonies
 
+![alt](assets/overview.jpg)
+
 ## Setup
 
 Create `.env` file
