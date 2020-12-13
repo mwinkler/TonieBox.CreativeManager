@@ -147,5 +147,14 @@ namespace TonieCreativeManager.Service
                     ))
                 .ToArray();
         }
+
+        public async Task SetCredits(string userId, int credits)
+        {
+            var user = await GetUser(userId);
+
+            user.Credits = credits;
+
+            await repositoryService.SetUser(user);
+        }
     }
 }

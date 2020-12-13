@@ -1,6 +1,7 @@
 ﻿@page "/admin"
 
 @inject VoucherService VoucherService
+@inject UserService UserService
 
 <div>
 
@@ -10,14 +11,31 @@
 
 </div>
 
+<div>
+
+    @foreach (var user in users)
+    {
+        <div>
+            @user.Name
+            <button @onclick="() => UpdateCredit(user, -1)">-</button>
+            @user.Credits
+            <button @onclick="() => UpdateCredit(user, 1)">+</button>
+        </div>
+    }
+
+</div>
+
 @code { 
 
     int totalVoucers;
     int availableVouchers;
+    IEnumerable<PersistentData.User> users;
 
     protected override async Task OnInitializedAsync()
     {
         await LoadVouchers();
+
+        users = await UserService.GetUsers();
     }
 
     async Task LoadVouchers()
@@ -33,5 +51,10 @@
         await VoucherService.ResetVouchers();
 
         await LoadVouchers();
+    }
+
+    async Task UpdateCredit(PersistentData.User user, int delta)
+    {
+        await UserService.SetCredits(user.Id, user.Credits + delta);
     }
 }
