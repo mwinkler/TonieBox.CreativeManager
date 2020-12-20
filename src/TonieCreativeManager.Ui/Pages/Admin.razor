@@ -55,6 +55,8 @@
 
     async Task UpdateCredit(PersistentData.User user, int delta)
     {
-        await UserService.SetCredits(user.Id, user.Credits + delta);
+        user.Credits += delta;
+
+        await UserService.SetCredits(user.Id, user.Credits);
     }
 }
