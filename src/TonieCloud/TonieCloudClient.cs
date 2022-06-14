@@ -55,6 +55,7 @@ namespace TonieCloud
             payload.AddFormContent("x-amz-date", amazonFile.Request.Fields.AmazonDate);
             payload.AddFormContent("policy", amazonFile.Request.Fields.Policy);
             payload.AddFormContent("x-amz-signature", amazonFile.Request.Fields.AmazonSignature);
+            payload.AddFormContent("x-amz-security-token", amazonFile.Request.Fields.AmazonSecurityToken);
             payload.AddStreamContent("file", amazonFile.FileId, file, "application/octet-stream");
 
             // upload to S3
