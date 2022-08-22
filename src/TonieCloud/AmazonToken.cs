@@ -30,6 +30,9 @@ namespace TonieCloud
             
             [JsonProperty("x-amz-date")]
             public string AmazonDate { get; set; }
+
+            [JsonProperty("x-amz-security-token")]
+            public string AmazonSecurityToken { get; set; }
             
             public string Policy { get; set; }
         }
